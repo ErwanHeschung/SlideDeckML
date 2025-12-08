@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npx serve .",
-    "build": "rm -rf dist && mkdir dist && cp *.html dist/"
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +14,9 @@
   "type": "commonjs",
   "dependencies": {
     "reveal.js": "^5.2.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vite": "^7.2.7"
   }
 }

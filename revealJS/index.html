@@ -3,10 +3,12 @@
 <head>
   <meta charset="utf-8">
   <title>Minimal Reveal.js</title>
-
-  <!-- Minimal CSS -->
-  <link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css">
-  <link rel="stylesheet" href="node_modules/reveal.js/dist/theme/white.css">
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+    }
+  </style>
 </head>
 <body>
 
@@ -18,14 +20,7 @@
     </div>
   </div>
 
-  <script src="node_modules/reveal.js/dist/reveal.js"></script>
-  <script>
-    Reveal.initialize({
-      hash: true,   // optional: enables URL hash for slides
-      slideNumber: true, // optional: show slide numbers
-      width: "100%",
-      height: "100%"
-    });
-  </script>
+  <script type="module" src="/main.ts"></script>
+
 </body>
 </html>

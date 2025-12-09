@@ -1,0 +1,11 @@
+{
+  "projectName": "slideDeckMl",
+  "languages": [
+    {
+      "id": "slidedeck",
+      "grammar": "src/language-server/slidedeck.langium",
+      "fileExtensions": [".sld"]
+    }
+  ],
+  "out": "src/generated"
+}

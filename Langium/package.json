@@ -1,0 +1,23 @@
+{
+  "name": "langium",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "generate": "langium generate",
+    "build": "npm run generate && tsc -p tsconfig.json",
+    "watch": "langium generate --watch & tsc -p tsconfig.json -w"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "langium": "^4.1.2",
+    "langium-cli": "^4.1.0",
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.2"
+  }
+}

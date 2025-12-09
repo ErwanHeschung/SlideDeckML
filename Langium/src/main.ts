@@ -1,0 +1,1 @@
+console.log("Langium project initialized");

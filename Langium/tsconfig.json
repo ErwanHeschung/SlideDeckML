@@ -2,13 +2,27 @@
   "compilerOptions": {
     "target": "ES2020",
     "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "nodenext",
+    "lib": [
+        "ES2020"
+    ],
+    "sourceMap": true,
     "strict": true,
-    "esModuleInterop": true,
+    "noUnusedLocals": true,
+    "noImplicitReturns": true,
+    "noImplicitOverride": true,
     "skipLibCheck": true,
-    "outDir": "dist",
-    "rootDir": "src",
-    "types": ["node"]
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "composite": true
   },
-  "include": ["src"]
+  "include": [
+     "**/src/**/*",
+     "**/test/**/*"
+  ],
+  "exclude": [
+     "**/lib/**/*",
+     "**/out/**/*",
+     "**/node_modules/**/*"
+  ]
 }

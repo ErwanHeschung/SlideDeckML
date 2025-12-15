@@ -6,10 +6,10 @@
   "scripts": {
     "watch:langium": "cd Langium && npm run watch",
     "build:langium": "cd Langium && npm run build",
+    "code-generator:langium": "cd Langium && npm run code-generator",
     "reveal:dev": "cd Reveal && npm run dev",
     "reveal:build": "cd Reveal && npm run build",
-    "dev": "npm-run-all --parallel watch:langium reveal:dev",
-    "build": "npm run build:langium && npm run reveal:build"
+    "dev": "npm-run-all --parallel code-generator:langium reveal:dev"
   },
   "repository": {
     "type": "git",

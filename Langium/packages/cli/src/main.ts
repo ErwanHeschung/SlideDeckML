@@ -44,24 +44,27 @@ export default function(): void {
         .action(generateAction);
     
     program
-        .command('watch')
-        .description('Watch Presentations folder for changes')
-        .action(() => {
-            const watcher = chokidar.watch(srcFolder, {
-                ignored: /(^|[\/\\])\../,
-                ignoreInitial: false,
-                persistent: true
+        .command('watch <filename>')
+        .description('Watch a single .slg file in Presentations for changes')
+        .action((filename: string) => {
+            const fileToWatch = path.join(srcFolder, filename);
+
+            const watcher = chokidar.watch(fileToWatch, {
+                persistent: true,
+                ignoreInitial: false
             });
 
             watcher.on('add', async (p) => {
-                if (p.endsWith('.slg')) await generateAction(p);
+                if (p === fileToWatch) await generateAction(p);
             });
 
             watcher.on('change', async (p) => {
-                if (p.endsWith('.slg')) await generateAction(p);
+                if (p === fileToWatch) await generateAction(p);
             });
-            console.log(chalk.blue('Watching for changes in Presentations/...'));
+
+            console.log(chalk.blue(`Watching Presentations/${filename} for changes...`));
         });
+
 
     program.parse(process.argv);
 }

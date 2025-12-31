@@ -9,7 +9,7 @@
         "watch": "tsc -b tsconfig.build.json --watch",
         "build": "tsc -b tsconfig.build.json && npm run build --workspaces",
         "build:clean": "npm run clean && npm run build",
-        "code-generator": "node ./packages/cli/bin/cli watch",
+        "watch-presentation": "node ./packages/cli/bin/cli watch",
         "langium:generate": "npm run --workspace packages/language langium:generate",
         "langium:watch": "npm run --workspace packages/language langium:watch"
     },

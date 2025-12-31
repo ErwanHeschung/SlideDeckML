@@ -38,7 +38,8 @@ npm install
 ### Generate grammar
 
 ```bash
-npm run build:langium
+npm run langium:generate
+npm run langium:build
 ```
 
 ### Watch mode (Dev)
@@ -46,12 +47,12 @@ npm run build:langium
 It allows you to run write a presentation file and have a live rendering 
 
 ```bash
-npm run dev
+npm run dev <Filename>
 ```
 
 ### Build for production
 
-Once the presentation looks good, you can build the reveal project and use it on your website 💋
+Once the presentation looks good, you can build the reveal project and use it on your website
 
 ```bash
 npm run reveal:build

@@ -1,7 +1,8 @@
-import { type Module, inject } from 'langium';
+import { type Module, inject, IndentationAwareLexer, IndentationAwareTokenBuilder } from 'langium';
 import { createDefaultModule, createDefaultSharedModule, type DefaultSharedModuleContext, type LangiumServices, type LangiumSharedServices, type PartialLangiumServices } from 'langium/lsp';
 import { SlideDeckMlGeneratedModule, SlideDeckMlGeneratedSharedModule } from './generated/module.js';
 import { SlideDeckMlValidator, registerValidationChecks } from './slide-deck-ml-validator.js';
+
 
 /**
  * Declaration of custom services - add your own service classes here.
@@ -26,7 +27,12 @@ export type SlideDeckMlServices = LangiumServices & SlideDeckMlAddedServices
 export const SlideDeckMlModule: Module<SlideDeckMlServices, PartialLangiumServices & SlideDeckMlAddedServices> = {
     validation: {
         SlideDeckMlValidator: () => new SlideDeckMlValidator()
-    }
+    },
+    parser: {
+        TokenBuilder: () => new IndentationAwareTokenBuilder(),
+        Lexer: (services) => new IndentationAwareLexer(services),
+
+    },
 };
 
 /**

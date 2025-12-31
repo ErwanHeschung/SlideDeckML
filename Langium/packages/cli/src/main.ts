@@ -20,15 +20,18 @@ const destination = path.join(repoRoot, 'Reveal');
 
 
 export const generateAction = async (source: string): Promise<void> => {
-    const absSource = path.join(srcFolder, path.basename(source));
-    const services = createSlideDeckMlServices(NodeFileSystem).SlideDeckMl;
-    const model = await extractAstNode<App>(absSource, services);
+    try {
+        const absSource = path.join(srcFolder, path.basename(source));
+        const services = createSlideDeckMlServices(NodeFileSystem).SlideDeckMl;
 
-    const fileName = path.basename(absSource, path.extname(absSource)) + '.html';
-    const outFile = path.join(destination, fileName);
+        const model = await extractAstNode<App>(absSource, services);
 
-    const generatedFilePath = generateOutput(model, absSource, outFile);
-    console.log(chalk.green(`Code generated succesfully: ${generatedFilePath}`));
+        generateOutput(model, destination);
+        console.log(chalk.green(`Code generated successfully`));
+    } catch (error: any) {
+        console.error(error.message || error);
+        console.log(chalk.yellow('Waiting for fixes...'));
+    }
 };
 
 export default function(): void {

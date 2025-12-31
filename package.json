@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch:langium": "cd Langium && npm run watch",
-    "build:langium": "cd Langium && npm run build",
-    "watch-presentation:langium": "cd Langium && npm run watch-presentation",
+    "langium:watch": "cd Langium && npm run watch",
+    "langium:build": "cd Langium && npm run build",
+    "langium:generate": "cd Langium && npm run langium:generate",
+    "langium:watch-presentation": "cd Langium && npm run watch-presentation",
     "reveal:dev": "cd Reveal && npm run dev",
     "reveal:build": "cd Reveal && npm run build",
-    "dev": "npm-run-all --parallel watch-presentation:langium reveal:dev"
+    "dev": "npm-run-all --parallel \"langium:watch-presentation -- {1}\" reveal:dev --"
   },
   "repository": {
     "type": "git",

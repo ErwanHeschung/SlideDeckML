@@ -1,3 +1,28 @@
-slide "test slide";
-slide "Another Slide";
-slide "Test";
+presentation MyAwesomePres
+    slide "Intro"
+        text "Welcome to my presentation!"
+        image "banner.png"
+        video "intro.mp4"
+
+    slide "Features"
+        text 
+        ```
+        Check out these features
+        Incredible and awesome!
+        What do you think?
+        ```
+
+        ul
+        - "Feature 1"
+        - "Feature 2"
+
+    slide "CodeExample"
+        text "Here's some code"
+        code python 
+        ```
+        print("Hello World")
+        print("Another line")
+        ```
+
+    slide "Conclusion"
+        text "Thank you for watching!"

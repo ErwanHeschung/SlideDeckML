@@ -21,13 +21,13 @@ export async function extractDocument(fileName: string, services: LangiumCoreSer
 
     const validationErrors = (document.diagnostics ?? []).filter(e => e.severity === 1);
     if (validationErrors.length > 0) {
-        console.error(chalk.red('There are validation errors:'));
+        let errorMessage = chalk.red('There are validation errors:\n');
         for (const validationError of validationErrors) {
-            console.error(chalk.red(
-                `line ${validationError.range.start.line + 1}: ${validationError.message} [${document.textDocument.getText(validationError.range)}]`
-            ));
+            errorMessage += chalk.red(
+                `line ${validationError.range.start.line + 1}: ${validationError.message} [${document.textDocument.getText(validationError.range)}]\n`
+            );
         }
-        process.exit(1);
+        throw new Error(errorMessage);
     }
 
     return document;
@@ -35,16 +35,4 @@ export async function extractDocument(fileName: string, services: LangiumCoreSer
 
 export async function extractAstNode<T extends AstNode>(fileName: string, services: LangiumCoreServices): Promise<T> {
     return (await extractDocument(fileName, services)).parseResult?.value as T;
-}
-
-interface FilePathData {
-    destination: string,
-    name: string
-}
-
-export function extractDestinationAndName(destination: string): FilePathData {
-    return {
-        destination: path.dirname(destination),
-        name: path.basename(destination)
-    };
 }

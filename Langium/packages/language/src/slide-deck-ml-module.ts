@@ -1,4 +1,4 @@
-import { type Module, inject, IndentationAwareLexer, IndentationAwareTokenBuilder } from 'langium';
+import { type Module, inject, IndentationAwareLexer, IndentationAwareTokenBuilder, DefaultValueConverter, GrammarAST, CstNode, ValueType } from 'langium';
 import { createDefaultModule, createDefaultSharedModule, type DefaultSharedModuleContext, type LangiumServices, type LangiumSharedServices, type PartialLangiumServices } from 'langium/lsp';
 import { SlideDeckMlGeneratedModule, SlideDeckMlGeneratedSharedModule } from './generated/module.js';
 import { SlideDeckMlValidator, registerValidationChecks } from './slide-deck-ml-validator.js';
@@ -31,6 +31,7 @@ export const SlideDeckMlModule: Module<SlideDeckMlServices, PartialLangiumServic
     parser: {
         TokenBuilder: () => new IndentationAwareTokenBuilder(),
         Lexer: (services) => new IndentationAwareLexer(services),
+        ValueConverter: () => new SlideDeckMlValueConverter()
 
     },
 };
@@ -71,4 +72,13 @@ export function createSlideDeckMlServices(context: DefaultSharedModuleContext): 
         shared.workspace.ConfigurationProvider.initialized({});
     }
     return { shared, SlideDeckMl };
+}
+
+export class SlideDeckMlValueConverter extends DefaultValueConverter {
+    protected override runConverter(rule: GrammarAST.AbstractRule, input: string, cstNode: CstNode): ValueType {
+        if (rule.name === 'TEXT_BLOCK') {
+            return input.substring(4, input.length - 4);
+        }
+        return super.runConverter(rule, input, cstNode);
+    }
 }

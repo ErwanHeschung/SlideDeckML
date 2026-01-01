@@ -13,7 +13,7 @@ Presentation:
     DEDENT;
 
 Slide:
-    'slide' name=TEXT
+    'slide' name=STRING
     INDENT
         contents+=Content*
     DEDENT;
@@ -25,10 +25,10 @@ MediaBlock:
     Video | Image;
 
 Video:
-    'video' url=TEXT;
+    'video' url=STRING;
 
 Image:
-    'image' url=TEXT;
+    'image' url=STRING;
 
 TextBlock:
     List | FreeText;
@@ -46,11 +46,11 @@ OrderedList:
     items+=ListItem+;
 
 ListItem:
-    '-' text=TEXT;
+    '-' text=STRING;
 
 //allow both inline and block text for flexibility
 FreeText:
-    'text' (inline=TEXT | block=TEXT_BLOCK);
+    'text' (inline=STRING | block=TEXT_BLOCK);
 
 CodeBlock:
     'code' language=ID
@@ -62,14 +62,14 @@ LayoutBlock:
         elements+=Content*
     DEDENT;
 
+terminal TEXT_BLOCK: /```\s+[\s\S]*?\s+```/;
+
 terminal INDENT: 'synthetic:indent';
 terminal DEDENT: 'synthetic:dedent';
 
 terminal ID: /[_a-zA-Z][\w_]*/;
 terminal INT returns number: /[0-9]+/;
-terminal TEXT: /"(\\.|[^"\\])*"|'(\\.|[^'\\])*'/;
-
-terminal TEXT_BLOCK: /```[\s\S]*?```/;
+terminal STRING: /"(\\.|[^"\\])*"|'(\\.|[^'\\])*'/;
 
 hidden terminal WS: /[\t ]+/;
 hidden terminal NL: /[\r\n]+/;

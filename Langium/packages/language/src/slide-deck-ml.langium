@@ -57,10 +57,14 @@ CodeBlock:
     codeContent+=TEXT_BLOCK;
 
 LayoutBlock:
-    'layout' layoutType=ID
+    'layout' layoutType=Layout
     INDENT
         elements+=Content*
     DEDENT;
+
+Layout returns string: 'Vertical' | 'Horizontal';
+
+Alignment returns string: 'Start' | 'End' | 'Center';
 
 terminal TEXT_BLOCK: /```\s+[\s\S]*?\s+```/;
 

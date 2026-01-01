@@ -1,6 +1,5 @@
 export function generateCss(): string {
     return `
-
 html, body {
   margin: 0;
   height: 100vh;
@@ -16,5 +15,14 @@ section{
   justify-content: center;
 }
 
+.vertical {
+  display: flex;
+  flex-direction: column;
+}
+
+.horizontal {
+  display: flex;
+  flex-direction: row;
+}
   `;
 }

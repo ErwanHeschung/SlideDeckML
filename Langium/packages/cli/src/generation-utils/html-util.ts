@@ -1,4 +1,5 @@
 import { Content, FreeText, Image, Presentation, Slide, Video } from "slide-deck-ml-language";
+import { mediaSrc, renderVideo } from "./media-util.js";
 
 export function generateHtml(presentation: Presentation): string {
     const slidesHtml = presentation.slides.map(slide => generateSlideHtml(slide, 3)).join('\n');
@@ -27,12 +28,14 @@ function generateSlideHtml(slide: Slide, level: number): string {
 
 function generateContentHtml(content: Content, level: number): string {
     switch (content.$type) {
-        case 'Video':
-            return `${pad(level)}<video src="${(content as Video).url}" controls></video>`;
-
-        case 'Image':
-            return `${pad(level)}<img src="${(content as Image).url}" alt="" />`;
-
+        case 'Video': {
+            const src = mediaSrc(content as Video);
+            return `${pad(level)}${renderVideo(src)}`;
+        }
+        case 'Image': {
+            const src = mediaSrc(content as Image);
+            return `${pad(level)}<img src="${src}" alt="" />`;
+        }
         case 'FreeText': {
             const text = (content as FreeText).inline ?? (content as FreeText).block ?? '';
             const lines = text.split('\n').map(line => pad(level + 1) + line).join('\n');
@@ -47,7 +50,7 @@ function generateContentHtml(content: Content, level: number): string {
 
         case 'LayoutBlock': {
             const children = content.elements.map(e => generateContentHtml(e, level + 1)).join('\n');
-            return `${pad(level)}<div class="${content.layoutType}">\n${children}\n${pad(level)}</div>`;
+            return `${pad(level)}<div class="${content.layoutType.toLowerCase()}">\n${children}\n${pad(level)}</div>`;
         }
 
         case 'UnorderedList': {

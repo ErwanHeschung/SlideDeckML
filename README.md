@@ -28,7 +28,7 @@ Clone the repo and install dependencies:
 ```bash
 git clone https://github.com/ErwanHeschung/SlideDeckML.git
 cd SlideDeckML
-npm install
+npm install:all
 ```
 
 ---

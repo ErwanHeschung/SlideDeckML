@@ -10,7 +10,8 @@
     "langium:watch-presentation": "cd Langium && npm run watch-presentation",
     "reveal:dev": "cd Reveal && npm run dev",
     "reveal:build": "cd Reveal && npm run build",
-    "dev": "npm-run-all --parallel \"langium:watch-presentation -- {1}\" reveal:dev --"
+    "dev": "npm-run-all --parallel \"langium:watch-presentation -- {1}\" reveal:dev --",
+    "install:all": "npm install && cd Langium && npm install && cd ../Reveal && npm install"
   },
   "repository": {
     "type": "git",

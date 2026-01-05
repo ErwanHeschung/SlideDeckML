@@ -75,10 +75,38 @@ export function createSlideDeckMlServices(context: DefaultSharedModuleContext): 
 }
 
 export class SlideDeckMlValueConverter extends DefaultValueConverter {
-    protected override runConverter(rule: GrammarAST.AbstractRule, input: string, cstNode: CstNode): ValueType {
+
+    protected override runConverter(
+        rule: GrammarAST.AbstractRule,
+        input: string,
+        cstNode: CstNode
+    ): ValueType {
+
         if (rule.name === 'TEXT_BLOCK') {
-            return input.substring(4, input.length - 4);
+            return this.normalizeTextBlock(input);
         }
+
         return super.runConverter(rule, input, cstNode);
+    }
+
+    private normalizeTextBlock(input: string): string {
+        // remove ``` fences
+        const content = input.slice(3, -3);
+
+        const lines = content.split('\n');
+
+        // trim empty lines at start/end
+        while (lines.length && lines[0].trim() === '') lines.shift();
+        while (lines.length && lines[lines.length - 1].trim() === '') {
+            lines.pop();
+        }
+
+        // compute minimal indentation
+        const minIndent = Math.min(
+            ...lines
+                .filter(l => l.trim().length > 0)
+                .map(l => l.match(/^\s*/)?.[0].length ?? 0)
+        );
+        return lines.map(l => l.slice(minIndent)).join('\n');
     }
 }

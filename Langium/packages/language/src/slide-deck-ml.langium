@@ -88,7 +88,7 @@ LayoutBlock:
 CssBlock:
     'css' 
     INDENT
-        css=TEXT_BLOCK
+        content=TEXT_BLOCK
     DEDENT;
 
 Layout returns string: 'Vertical' | 'Horizontal';

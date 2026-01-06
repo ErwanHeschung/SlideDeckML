@@ -13,7 +13,7 @@ export function generateOutput(model: App, destinationFolder: string): void {
   const html = generateHtml(presentation);
   writeFileSync(join(destinationFolder, `index.html`), html);
 
-  const css = generateCss();
+  const css = generateCss(presentation);
   writeFileSync(join(destinationFolder, `style.css`), css);
 
   const ts = generateTs(presentation);

@@ -21,7 +21,7 @@ function copyAssetToReveal(url: string, sourceDir: string, revealDir: string): v
     fs.copyFileSync(srcPath, destPath);
 }
 
-export function renderVideo(url: string): string {
+export function renderVideo(url: string, className:string): string {
     if (url.includes('youtube.com/watch') || url.includes('youtu.be')) {
         let videoId: string;
         if (url.includes('youtu.be')) {
@@ -31,7 +31,7 @@ export function renderVideo(url: string): string {
             videoId = params.get('v')!;
         }
         const embedUrl = `https://www.youtube.com/embed/${videoId}`;
-        return `<iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>`;
+        return `<iframe src="${embedUrl}" class=${className} frameborder="0" allowfullscreen></iframe>`;
     }
-    return `<video src="${url}" controls></video>`;
+    return `<video src="${url}" class=${className} controls></video>`;
 }

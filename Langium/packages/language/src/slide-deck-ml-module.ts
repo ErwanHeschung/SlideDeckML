@@ -1,10 +1,12 @@
-    import { type Module, inject, IndentationAwareLexer, IndentationAwareTokenBuilder, DefaultValueConverter, GrammarAST, CstNode, ValueType, LangiumDocument } from 'langium';
+    import { type Module, inject, IndentationAwareLexer, IndentationAwareTokenBuilder, DefaultValueConverter, GrammarAST, CstNode, ValueType, LangiumDocument, CstUtils, LeafCstNode } from 'langium';
     import { createDefaultModule, createDefaultSharedModule, DefaultCompletionProvider, type DefaultSharedModuleContext, type LangiumServices, type LangiumSharedServices, type PartialLangiumServices } from 'langium/lsp';
     import { SlideDeckMlGeneratedModule, SlideDeckMlGeneratedSharedModule } from './generated/module.js';
     import { SlideDeckMlValidator, registerValidationChecks } from './slide-deck-ml-validator.js';
     import { CompletionList, getCSSLanguageService, TextDocument } from 'vscode-css-languageservice';
     import { CancellationToken } from 'vscode-jsonrpc';
     import { CompletionItemKind, CompletionParams } from 'vscode-languageserver-protocol';
+import { CssBlock } from './generated/ast.js';
+    
 
     /**
      * Declaration of custom services - add your own service classes here.
@@ -137,19 +139,11 @@
         ): Promise<CompletionList | undefined> {
 
             const offset = document.textDocument.offsetAt(params.position);
+            const nodeInfo = this.getCssNodeAtOffset(document, offset);
 
-            const root: any = document.parseResult.value;
-            const presentation = root.declaration;
-            if (!presentation || !presentation.slides) return;
-            const node = presentation.slides.find((s: any) =>
-                s.css &&
-                offset >= s.css.$cstNode.offset &&
-                offset <= s.css.$cstNode.offset + s.css.$cstNode.length
-            )?.css;
+            if (!nodeInfo) return;
 
-            if (!node) return;
-            const cssText = node.css;
-            const cssOffset = offset - (node.$cstNode.offset + 3);
+            const { cssText, cssOffset } = nodeInfo;
 
             const cssDoc = this.createVirtualCssDocument(cssText);
             const pos = cssDoc.positionAt(cssOffset);
@@ -167,5 +161,26 @@
                     documentation: item.documentation?.toString()
                 }))
             };
+        }
+
+        private getCssNodeAtOffset(document: LangiumDocument, offset: number) {
+            const rootNode = document.parseResult.value;
+            const rootCst = rootNode.$cstNode;
+            if (!rootCst) return;
+
+            const leaf: LeafCstNode | undefined = CstUtils.findLeafNodeAtOffset(rootCst, offset);
+            if (!leaf) return;
+
+            if (leaf.astNode.$type === 'CssBlock') {
+                const container: CssBlock = leaf.astNode as CssBlock;
+
+                if (container.content) {
+                    return {
+                        cssText: container.content,
+                        cssOffset: offset - (leaf.offset)
+                    };
+                }
+            }
+            return;
         }
     }

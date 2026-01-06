@@ -14,17 +14,17 @@
     "main": "./out/index.js",
     "module": "./out/index.js",
     "exports": {
-      ".": {
-        "types": "./out/index.d.ts",
-        "default": "./out/index.js"
-      }
+        ".": {
+            "types": "./out/index.d.ts",
+            "default": "./out/index.js"
+        }
     },
     "typesVersions": {
-      "*": {
-        ".": [
-          "out/index"
-        ]
-      }
+        "*": {
+            ".": [
+                "out/index"
+            ]
+        }
     },
     "scripts": {
         "clean": "shx rm -fr *.tsbuildinfo out",
@@ -34,7 +34,8 @@
         "langium:watch": "langium generate --watch"
     },
     "dependencies": {
-        "langium": "~4.1.0"
+        "langium": "~4.1.0",
+        "vscode-css-languageservice": "^6.3.9"
     },
     "devDependencies": {
         "langium-cli": "~4.1.0"

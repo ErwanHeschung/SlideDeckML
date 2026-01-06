@@ -15,6 +15,7 @@ Presentation:
 Slide:
     'slide' name=STRING
     INDENT
+        (css=CssBlock)?
         contents+=Content*
     DEDENT;
 
@@ -25,10 +26,18 @@ MediaBlock:
     Video | Image;
 
 Video:
-    'video' url=STRING;
+    'video'
+    INDENT
+        (css=CssBlock)?
+        url=STRING
+    DEDENT;
 
 Image:
-    'image' url=STRING;
+    'image'
+    INDENT
+        (css=CssBlock)?
+        url=STRING
+    DEDENT;
 
 TextBlock:
     List | FreeText;
@@ -38,28 +47,48 @@ List:
 
 UnorderedList:
     'ul'
-    items+=ListItem+;
+    INDENT
+        (css=CssBlock)?
+        items+=ListItem+
+    DEDENT;
     
 
 OrderedList:
     'ol'
-    items+=ListItem+;
+    INDENT
+        (css=CssBlock)?
+        items+=ListItem+
+    DEDENT;
 
 ListItem:
     '-' text=STRING;
 
 //allow both inline and block text for flexibility
 FreeText:
-    'text' (inline=STRING | block=TEXT_BLOCK);
+    'text'
+    INDENT
+        (css=CssBlock)?
+        (inline=STRING | block=TEXT_BLOCK)
+    DEDENT;
 
 CodeBlock:
     'code' language=ID
-    codeContent+=TEXT_BLOCK;
+    INDENT
+        (css=CssBlock)?
+        codeContent+=TEXT_BLOCK
+    DEDENT;
 
 LayoutBlock:
     'layout' layoutType=Layout
     INDENT
+        (css=CssBlock)?
         elements+=Content*
+    DEDENT;
+
+CssBlock:
+    'css' 
+    INDENT
+        css=TEXT_BLOCK
     DEDENT;
 
 Layout returns string: 'Vertical' | 'Horizontal';

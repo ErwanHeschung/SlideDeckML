@@ -5,8 +5,8 @@
 ```
 SlideDeckML/
 ├── Langium/            → DSL grammar + parser logic for slide definitions
-├── Presentations/      → Example/working slide content & definitions
-├── Reveal/             → Reveal.js export/templates
+├── Presentations/      → Slides creation
+├── Reveal/             → Reveal.js that render generated presentations
 ├── package.json        → Node project config & dependencies
 ├── package-lock.json   → Lockfile
 └── .gitignore
@@ -38,8 +38,7 @@ npm install:all
 ### Generate grammar
 
 ```bash
-npm run langium:generate
-npm run langium:build
+npm run langium:generate && npm run langium:build
 ```
 
 ### Watch mode (Dev)
@@ -49,6 +48,8 @@ It allows you to run write a presentation file and have a live rendering
 ```bash
 npm run dev <Filename>
 ```
+
+Note that filename should be present in `Presentations/` folder and its assets in the nested `assets/` folder
 
 ### Build for production
 
@@ -62,10 +63,4 @@ npm run reveal:build
 
 ## Examples
 
-Examples live in the `Presentations/` folder — edit or extend them to test the system.
-
-Reveal‑based slide exports are under `Reveal/`.
-
-
-
-If you want, I can tailor this further with actual commands you use (build scripts, ML integrations, how slide definitions look, etc.).
+Examples live in the `Presentations/` folder edit or extend them to test the system.

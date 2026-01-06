@@ -7,6 +7,7 @@ import { CancellationToken } from 'vscode-jsonrpc';
 import { CompletionItemKind, CompletionParams } from 'vscode-languageserver-protocol';
 import { CssBlock } from './generated/ast.js';
 import { createVirtualCssDocument } from './css-util.js';
+import { TemplateScopeProvider } from './scope-provider.js';
     
 
     /**
@@ -37,7 +38,9 @@ import { createVirtualCssDocument } from './css-util.js';
             TokenBuilder: () => new IndentationAwareTokenBuilder(),
             Lexer: (services) => new IndentationAwareLexer(services),
             ValueConverter: () => new SlideDeckMlValueConverter(),
-
+        },
+        references: {
+            ScopeProvider: (services) => new TemplateScopeProvider(services)
         },
         lsp: {
             CompletionProvider: (services) => new CSSCompletionProvider(services)

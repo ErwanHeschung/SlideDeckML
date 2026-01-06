@@ -2,7 +2,7 @@ import { Content, Presentation, Slide } from "slide-deck-ml-language";
 import { Prefixes } from "./prefix-registry-util.js";
 
 export function generateCss(presentation: Presentation): string {
-  const slidesCSS = presentation.slides.map(slide => generateSlideCSS(slide)).join('\n');
+  const slidesCSS = presentation.slides.map(slide => generateSlideCSS(slide)).join('');
     return `
 html, body {
   margin: 0;
@@ -34,19 +34,17 @@ ${slidesCSS}
 }
 
 function generateSlideCSS(slide: Slide): string {
-  const contentCSS = slide.contents.map(c => generateContentCSS(c)).join('\n');
+  const contentCSS = slide.contents.map(c => generateContentCSS(c)).join('');
   const css = getCSSFromBlock(slide);
   return `
-${css}\n\n
+${css}
 ${contentCSS}
 `;
 }
 
 function generateContentCSS(content: Content): string {
   const css = getCSSFromBlock(content);
-  return `
-${css}\n\n
-`;
+  return css;
 }
 
 function getCSSFromBlock(content: Slide | Content):string {

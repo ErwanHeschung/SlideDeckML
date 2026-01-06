@@ -28,10 +28,12 @@ function generateSlideHtml(slide: Slide, level: number): string {
 
 function generateContentHtml(content: Content, level: number): string {
     switch (content.$type) {
-        case 'MediaBlock':
+        case 'Video':
+        case 'Image':
             return generateMedia(content as MediaBlock, level);
-        
-        case 'TextBlock':
+        case 'UnorderedList':
+        case 'OrderedList':
+        case 'FreeText':
             return generateText(content as TextBlock, level);
         case 'CodeBlock': {
             const code = (content as CodeBlock).codeContent.join('\n');

@@ -1,6 +1,10 @@
-import { CodeBlock, Content, LayoutBlock, MediaBlock, Presentation, Slide, TextBlock } from "slide-deck-ml-language";
+import { CodeBlock, Content, LayoutBlock, LayoutStyle, MediaBlock, Presentation, Slide, TextBlock } from "slide-deck-ml-language";
 import { mediaSrc, renderVideo } from "./media-util.js";
 import { Prefixes } from "./prefix-registry-util.js";
+
+const DEFAULT_V_ALIGNMENT = 'center';
+const DEFAULT_H_ALIGNMENT = 'center';
+const DEFAULT_LAYOUT = 'vertical';
 
 export function generateHtml(presentation: Presentation): string {
     const slidesHtml = presentation.slides.map(slide => generateSlideHtml(slide, 3)).join('\n');
@@ -24,7 +28,7 @@ ${slidesHtml}
 
 function generateSlideHtml(slide: Slide, level: number): string {
     const contentHtml = slide.contents.map(c => generateContentHtml(c, level + 1)).join('\n');
-    return `${pad(level)}<section class=${Prefixes.getPrefix(slide)}>\n${contentHtml}\n${pad(level)}</section>`;
+    return `${pad(level)}<section class="${getClassesFromLayout(slide.layout as LayoutStyle)} ${Prefixes.getPrefix(slide)}">\n${contentHtml}\n${pad(level)}</section>`;
 }
 
 function generateContentHtml(content: Content, level: number): string {
@@ -43,7 +47,8 @@ function generateContentHtml(content: Content, level: number): string {
         }
         case 'LayoutBlock': {
             const children = (content as LayoutBlock).elements.map(e => generateContentHtml(e, level + 1)).join('\n');
-            return `${pad(level)}<div class="${(content as LayoutBlock).layoutType.toLowerCase()} ${Prefixes.getPrefix(content)}">\n${children}\n${pad(level)}</div>`;
+            
+            return `${pad(level)}<div class="${getClassesFromLayout(content.layout as LayoutStyle)} ${Prefixes.getPrefix(content)}">\n${children}\n${pad(level)}</div>`;
         }
         default:
             return '';
@@ -58,7 +63,7 @@ function generateMedia(content: MediaBlock, level: number): string  {
         }
         case 'Image': {
             const src = mediaSrc(content);
-            return `${pad(level)}<img class=${Prefixes.getPrefix(content)} src="${src}" alt="" />`;
+            return `${pad(level)}<img class="${Prefixes.getPrefix(content)}" src="${src}" alt="" />`;
         }
     }
 }
@@ -68,15 +73,15 @@ function generateText(content: TextBlock, level: number): string  {
         case 'FreeText': {
             const text = content.inline ?? content.block ?? '';
             const lines = text.split('\n').map(line => pad(level + 1) + line).join('\n');
-            return `${pad(level)}<p class=${Prefixes.getPrefix(content)}>\n${lines}\n${pad(level)}</p>`;
+            return `${pad(level)}<p class="${Prefixes.getPrefix(content)}">\n${lines}\n${pad(level)}</p>`;
         }
         case 'UnorderedList': {
             const items = content.items.map(i => pad(level + 1) + `<li>${i.text}</li>`).join('\n');
-            return `${pad(level)}<ul class=${Prefixes.getPrefix(content)}>\n${items}\n${pad(level)}</ul>`;
+            return `${pad(level)}<ul class="${Prefixes.getPrefix(content)}">\n${items}\n${pad(level)}</ul>`;
         }
         case 'OrderedList': {
             const items = content.items.map(i => pad(level + 1) + `<li>${i.text}</li>`).join('\n');
-            return `${pad(level)}<ol class=${Prefixes.getPrefix(content)}>\n${items}\n${pad(level)}</ol>`;
+            return `${pad(level)}<ol class="${Prefixes.getPrefix(content)}">\n${items}\n${pad(level)}</ol>`;
         }
     }
 }
@@ -84,4 +89,22 @@ function generateText(content: TextBlock, level: number): string  {
 
 function pad(level: number) {
     return '\t'.repeat(level);
+}
+
+function getClassesFromLayout(layout: LayoutStyle) {
+    if (!layout) {
+        return `${DEFAULT_LAYOUT} v-align-${DEFAULT_V_ALIGNMENT} h-align-${DEFAULT_H_ALIGNMENT}`;
+    }
+
+    const layoutType = layout.layoutType ?? DEFAULT_LAYOUT;
+
+    let vertical = layout.verticalAlignment ?? DEFAULT_V_ALIGNMENT;
+    let horizontal = layout.horizontalAlignment ?? DEFAULT_H_ALIGNMENT;
+
+    //need to be swapped due to flexbox properties
+    if (layoutType === 'vertical') {
+        [vertical, horizontal] = [horizontal, vertical];
+    }
+
+    return `${layoutType} v-align-${vertical} h-align-${horizontal}`;
 }

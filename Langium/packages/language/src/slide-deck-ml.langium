@@ -13,7 +13,7 @@ Presentation:
     DEDENT;
 
 Slide:
-    'slide' name=STRING
+    'slide' name=STRING (layout=LayoutStyle)?
     INDENT
         (css=CssBlock)?
         contents+=Content*
@@ -79,7 +79,7 @@ CodeBlock:
     DEDENT;
 
 LayoutBlock:
-    'layout' layoutType=Layout
+    'layoutBlock' (layout=LayoutStyle)?
     INDENT
         (css=CssBlock)?
         elements+=Content*
@@ -91,9 +91,12 @@ CssBlock:
         content=TEXT_BLOCK
     DEDENT;
 
-Layout returns string: 'Vertical' | 'Horizontal';
+LayoutStyle:
+    'layout' (layoutType=Layout)? ('v-align' verticalAlignment=Alignment)? ('h-align' horizontalAlignment=Alignment)?;
 
-Alignment returns string: 'Start' | 'End' | 'Center';
+Layout returns string: 'vertical' | 'horizontal';
+
+Alignment returns string: 'start' | 'end' | 'center';
 
 terminal TEXT_BLOCK: /```\s+[\s\S]*?\s+```/;
 

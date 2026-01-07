@@ -29,6 +29,30 @@ section{
   flex-direction: row;
 }
 
+.v-align-start {
+  align-items: flex-start;
+}
+
+.v-align-center {
+  align-items: center;
+}
+
+.v-align-end {
+  align-items: flex-end;
+}
+
+.h-align-start {
+  justify-content: flex-start;
+}
+
+.h-align-center {
+  justify-content: center;
+}
+
+.h-align-end {
+  justify-content: flex-end;
+}
+
 ${slidesCSS}
   `;
 }

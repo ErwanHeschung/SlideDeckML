@@ -2,10 +2,11 @@
     import { createDefaultModule, createDefaultSharedModule, DefaultCompletionProvider, type DefaultSharedModuleContext, type LangiumServices, type LangiumSharedServices, type PartialLangiumServices } from 'langium/lsp';
     import { SlideDeckMlGeneratedModule, SlideDeckMlGeneratedSharedModule } from './generated/module.js';
     import { SlideDeckMlValidator, registerValidationChecks } from './slide-deck-ml-validator.js';
-    import { CompletionList, getCSSLanguageService, TextDocument } from 'vscode-css-languageservice';
+    import { CompletionList, getCSSLanguageService } from 'vscode-css-languageservice';
+    import { TextDocument } from 'vscode-languageserver-textdocument';
     import { CancellationToken } from 'vscode-jsonrpc';
     import { CompletionItemKind, CompletionParams } from 'vscode-languageserver-protocol';
-import { CssBlock } from './generated/ast.js';
+    import { CssBlock } from './generated/ast.js';
     
 
     /**
@@ -140,8 +141,8 @@ import { CssBlock } from './generated/ast.js';
 
             const offset = document.textDocument.offsetAt(params.position);
             const nodeInfo = this.getCssNodeAtOffset(document, offset);
-
-            if (!nodeInfo) return;
+            
+            if (!nodeInfo) return super.getCompletion(document,params,_cancelToken);
 
             const { cssText, cssOffset } = nodeInfo;
 

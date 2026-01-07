@@ -7,7 +7,7 @@ Declaration:
     Presentation;
 
 Presentation:
-    'presentation' name=ID
+    'presentation' name=ID (options=SlideOptions)?
     INDENT
         slides+=Slide+
     DEDENT;
@@ -91,8 +91,29 @@ CssBlock:
         content=TEXT_BLOCK
     DEDENT;
 
+SlideOptions:
+    'with' options+=SlideOption+;
+
+
+SlideOption returns string: 
+    'slideNumbers' | 'progressBar';
+
 LayoutStyle:
-    'layout' (layoutType=Layout)? ('v-align' verticalAlignment=Alignment)? ('h-align' horizontalAlignment=Alignment)?;
+    'layout' options+=LayoutOption+;
+
+LayoutOption:
+      LayoutTypeOption
+    | VAlignOption
+    | HAlignOption;
+
+LayoutTypeOption:
+    layoutType=Layout;
+
+VAlignOption:
+    'v-align' verticalAlignment=Alignment;
+
+HAlignOption:
+    'h-align' horizontalAlignment=Alignment;
 
 Layout returns string: 'vertical' | 'horizontal';
 

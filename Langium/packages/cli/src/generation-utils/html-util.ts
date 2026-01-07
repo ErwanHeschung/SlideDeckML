@@ -1,4 +1,4 @@
-import { CodeBlock, Content, LayoutBlock, LayoutStyle, MediaBlock, Presentation, Slide, TextBlock } from "slide-deck-ml-language";
+import { CodeBlock, Content, isHAlignOption, isLayoutTypeOption, isVAlignOption, LayoutBlock, LayoutStyle, MediaBlock, Presentation, Slide, TextBlock } from "slide-deck-ml-language";
 import { mediaSrc, renderVideo } from "./media-util.js";
 import { Prefixes } from "./prefix-registry-util.js";
 
@@ -92,14 +92,25 @@ function pad(level: number) {
 }
 
 function getClassesFromLayout(layout: LayoutStyle) {
-    if (!layout) {
+    if (!layout || !layout.options || layout.options.length === 0) {
         return `${DEFAULT_LAYOUT} v-align-${DEFAULT_V_ALIGNMENT} h-align-${DEFAULT_H_ALIGNMENT}`;
     }
 
-    const layoutType = layout.layoutType ?? DEFAULT_LAYOUT;
+    let layoutType = DEFAULT_LAYOUT;
+    let vertical = DEFAULT_V_ALIGNMENT;
+    let horizontal = DEFAULT_H_ALIGNMENT;
 
-    let vertical = layout.verticalAlignment ?? DEFAULT_V_ALIGNMENT;
-    let horizontal = layout.horizontalAlignment ?? DEFAULT_H_ALIGNMENT;
+    for (const option of layout.options) {
+        if (isLayoutTypeOption(option)) {
+            layoutType = option.layoutType;
+        }
+        if (isVAlignOption(option)) {
+            vertical = option.verticalAlignment;
+        }
+        if (isHAlignOption(option)) {
+            horizontal = option.horizontalAlignment;
+        }
+    }
 
     //need to be swapped due to flexbox properties
     if (layoutType === 'vertical') {

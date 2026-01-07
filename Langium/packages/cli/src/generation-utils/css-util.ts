@@ -11,7 +11,7 @@ html, body {
 }
 
 /*remove base margin/padding */
-p{
+*{
   margin:0 !important;
   padding: 0 !important;
   line-height: 1 !important;

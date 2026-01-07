@@ -91,12 +91,19 @@ CssBlock:
         content=TEXT_BLOCK
     DEDENT;
 
+//Slide Options
+
 SlideOptions:
     'with' options+=SlideOption+;
 
+SlideOption:
+    value=SlideOptionValue;
 
-SlideOption returns string: 
+
+SlideOptionValue returns string: 
     'slideNumbers' | 'progressBar';
+
+//Layout Style
 
 LayoutStyle:
     'layout' options+=LayoutOption+;
@@ -118,6 +125,8 @@ HAlignOption:
 Layout returns string: 'vertical' | 'horizontal';
 
 Alignment returns string: 'start' | 'end' | 'center';
+
+//Terminal
 
 terminal TEXT_BLOCK: /```\s+[\s\S]*?\s+```/;
 

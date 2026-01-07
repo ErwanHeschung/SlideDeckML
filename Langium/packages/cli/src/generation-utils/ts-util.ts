@@ -1,4 +1,4 @@
-import { Presentation } from "slide-deck-ml-language";
+import { isCodeBlock, Presentation, SlideOptions } from "slide-deck-ml-language";
 
 interface PluginConfig {
   name: string;
@@ -8,35 +8,31 @@ interface PluginConfig {
   defaultExport?: boolean;
 }
 
+interface SlideFlags {
+  slideNumber: boolean;
+  progress: boolean;
+}
+
+const plugins: PluginConfig[] = [
+  {
+    name: "RevealHighlight",
+    importPath: "reveal.js/plugin/highlight/highlight.js",
+    css: ["reveal.js/plugin/highlight/monokai.css"],
+    check: pres => pres.slides.some(slide =>
+      slide.contents.some(c => isCodeBlock(c))
+    ),
+    defaultExport: true
+  },
+];
+
 export function generateTs(presentation: Presentation): string {
-  const plugins: PluginConfig[] = [
-    {
-      name: "RevealHighlight",
-      importPath: "reveal.js/plugin/highlight/highlight.js",
-      css: ["reveal.js/plugin/highlight/monokai.css"],
-      check: pres => pres.slides.some(slide =>
-        slide.contents.some(c => c.$type === "CodeBlock")
-      ),
-      defaultExport:true
-    },
-  ];
+  const activePlugins = getActivePlugins(presentation);
+  presentation.options?.options.forEach
+  const imports = getPluginsImports(activePlugins);
 
+  const pluginNames = getPluginsNames(activePlugins);
 
-  const imports = plugins
-    .filter(p => p.check(presentation))
-    .map(p => [
-      ...(p.css ?? []).map(css => `import "${css}";`),
-      p.defaultExport
-        ? `import ${p.name} from "${p.importPath}";`
-        : `import "${p.importPath}";`
-    ].join("\n"))
-    .join("\n");
-
-  const activePlugins = plugins
-    .filter(p => p.check(presentation))
-    .map(p => p.name)
-    .filter(Boolean)
-    .join(", ");
+  const flags = getSlideFlags(presentation.options);
 
   return `
 import Reveal from "reveal.js";
@@ -46,13 +42,58 @@ ${imports}
 
 Reveal.initialize({
     hash: true,
-    slideNumber: true,
+    slideNumber: ${flags.slideNumber},
+    progress:${flags.progress},
     width: "100%",
     height: "100%",
     //layout disabled to make our own
     disableLayout: true,
     display: "flex",
-    ${activePlugins ? `plugins: [${activePlugins}],` : ""}
+    ${pluginNames ? `plugins: [${pluginNames}],` : ""}
 });
 `;
+}
+
+function getActivePlugins(presentation: Presentation): PluginConfig[] {
+  return plugins.filter(p => p.check(presentation));
+}
+
+function getPluginsImports(plugins: PluginConfig[]): string {
+  return plugins
+    .map(p => [
+      ...(p.css ?? []).map(css => `import "${css}";`),
+      p.defaultExport
+        ? `import ${p.name} from "${p.importPath}";`
+        : `import "${p.importPath}";`
+    ].join("\n"))
+    .join("\n");
+}
+
+function getPluginsNames(plugins: PluginConfig[]): string {
+  return plugins
+    .map(p => p.name)
+    .filter(Boolean)
+    .join(", ");
+}
+
+function getSlideFlags(slideOptions: SlideOptions | undefined): SlideFlags {
+  const flags: SlideFlags = {
+    slideNumber: false,
+    progress: false
+  };
+
+  if (!slideOptions) return flags;
+
+  for (const opt of slideOptions.options) {
+    switch (opt.value) {
+      case 'slideNumbers':
+        flags.slideNumber = true;
+        break;
+      case 'progressBar':
+        flags.progress = true;
+        break;
+    }
+  }
+
+  return flags;
 }

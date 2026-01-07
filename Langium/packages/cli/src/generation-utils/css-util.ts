@@ -1,4 +1,4 @@
-import { Content, Presentation, Slide } from "slide-deck-ml-language";
+import { Content, isLayoutBlock, Presentation, Slide } from "slide-deck-ml-language";
 import { Prefixes } from "./prefix-registry-util.js";
 
 export function generateCss(presentation: Presentation): string {
@@ -10,13 +10,20 @@ html, body {
   width: 100vw;
 }
 
+/*remove base margin/padding */
+p{
+  margin:0 !important;
+  padding: 0 !important;
+  line-height: 1 !important;
+}
+
 section{
   width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
+}
+
+section, .layout{
+  gap:1rem;
 }
 
 .vertical {
@@ -68,6 +75,11 @@ ${contentCSS}
 
 function generateContentCSS(content: Content): string {
   const css = getCSSFromBlock(content);
+  if (isLayoutBlock(content)) {
+    const children = content.elements.map(elem => generateContentCSS(elem)).join('\n');
+    return `${children}
+    ${css}`
+  }
   return css;
 }
 

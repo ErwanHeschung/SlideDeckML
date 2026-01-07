@@ -48,7 +48,7 @@ function generateContentHtml(content: Content, level: number): string {
         case 'LayoutBlock': {
             const children = (content as LayoutBlock).elements.map(e => generateContentHtml(e, level + 1)).join('\n');
             
-            return `${pad(level)}<div class="${getClassesFromLayout(content.layout as LayoutStyle)} ${Prefixes.getPrefix(content)}">\n${children}\n${pad(level)}</div>`;
+            return `${pad(level)}<div class="layout ${getClassesFromLayout(content.layout as LayoutStyle)} ${Prefixes.getPrefix(content)}">\n${children}\n${pad(level)}</div>`;
         }
         default:
             return '';

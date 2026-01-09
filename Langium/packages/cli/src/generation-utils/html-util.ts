@@ -1,4 +1,4 @@
-import { CodeBlock, Content, isHAlignOption, isLayoutTypeOption, isVAlignOption, LayoutBlock, LayoutStyle, MediaBlock, Presentation, Slide, TextBlock } from "slide-deck-ml-language";
+import { CodeBlock, Content, isHAlignOption, isLayoutTypeOption, isVAlignOption, LayoutBlock, LayoutStyle, MathBlock, MediaBlock, Presentation, Slide, TextBlock } from "slide-deck-ml-language";
 import { mediaSrc, renderVideo } from "./media-util.js";
 import { Prefixes } from "./prefix-registry-util.js";
 
@@ -49,6 +49,11 @@ function generateContentHtml(content: Content, level: number): string {
             const children = (content as LayoutBlock).elements.map(e => generateContentHtml(e, level + 1)).join('\n');
             
             return `${pad(level)}<div class="layout ${getClassesFromLayout(content.layout as LayoutStyle)} ${Prefixes.getPrefix(content)}">\n${children}\n${pad(level)}</div>`;
+        }
+        case 'MathBlock': {
+            const formula = (content as MathBlock).content;
+            const lines = formula.split('\n').map(line => pad(level + 1) + line).join('\n');
+            return `${pad(level)}<div class="math ${Prefixes.getPrefix(content)}">\n${pad(level + 1)}$$\n${lines}\n${pad(level + 1)}$$\n${pad(level)}</div>`;
         }
         default:
             return '';

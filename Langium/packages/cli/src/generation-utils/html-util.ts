@@ -1,4 +1,4 @@
-import { CodeBlock, Content, isCodeBlock, isFreeText, isHAlignOption, isImage, isLayoutBlock, isLayoutTypeOption, isMathBlock, isMediaBlock, isOrderedList, isRangeLineHighlight, isSimpleLineHighlight, isTextBlock, isUnorderedList, isVAlignOption, isVideo, LayoutStyle, MediaBlock, Presentation, Slide, TextBlock } from "slide-deck-ml-language";
+import { CodeBlock, Content, isCodeBlock, isFreeText, isHAlignOption, isImage, isLayoutBlock, isLayoutTypeOption, isMathBlock, isMediaBlock, isModel3D, isOrderedList, isRangeLineHighlight, isSimpleLineHighlight, isTextBlock, isUnorderedList, isVAlignOption, isVideo, LayoutStyle, MediaBlock, Presentation, Slide, TextBlock } from "slide-deck-ml-language";
 import { mediaSrc, renderVideo } from "./media-util.js";
 import { Prefixes } from "./prefix-registry-util.js";
 
@@ -56,14 +56,17 @@ function generateContentHtml(content: Content, level: number): string {
 }
 
 function generateMedia(content: MediaBlock, level: number): string  {
+    const src = mediaSrc(content);
     if(isVideo(content)) {
-        const src = mediaSrc(content);
         return `${pad(level)}${renderVideo(src,Prefixes.getPrefix(content))}`;
     }
     if(isImage(content)) {
-        const src = mediaSrc(content);
         return `${pad(level)}<img class="${Prefixes.getPrefix(content)}" src="${src}" alt="" />`;
     }
+    if(isModel3D(content)) {
+        return `${pad(level)}<model-viewer class="${Prefixes.getPrefix(content)}" src="${src}" alt="" camera-controls></model-viewer>`;
+    }
+
     return '';
 }
 

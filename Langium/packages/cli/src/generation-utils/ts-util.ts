@@ -49,11 +49,13 @@ export function generateTs(presentation: Presentation): string {
   const katexConfig = mathEnabled
     ? `katex: {\n      version: "latest",\n      delimiters: [\n        { left: "$$", right: "$$", display: true },\n        { left: "$", right: "$", display: false },\n        { left: "\\\\(", right: "\\\\)", display: false },\n        { left: "\\\\[", right: "\\\\]", display: true },\n      ],\n      ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"],\n    },`
     : "";
+  
 
   return `
 import Reveal from "reveal.js";
 import "reveal.js/dist/reveal.css";
 import "reveal.js/dist/theme/white.css";
+import '@google/model-viewer';
 ${imports}
 
 Reveal.initialize({

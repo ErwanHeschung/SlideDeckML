@@ -23,10 +23,17 @@ Content:
     MediaBlock | TextBlock | CodeBlock | LayoutBlock | MathBlock;
 
 MediaBlock:
-    Video | Image;
+    Video | Image | Model3D;
 
 Video:
     'video'
+    INDENT
+        (css=CssBlock)?
+        url=STRING
+    DEDENT;
+
+Model3D:
+    'model3d'
     INDENT
         (css=CssBlock)?
         url=STRING

@@ -1,8 +1,10 @@
 import type { ValidationAcceptor, ValidationChecks } from 'langium';
 import { CssBlock, isHAlignOption, isLayoutTypeOption, isVAlignOption, LayoutStyle, type SlideDeckMlAstType, type SlideOptions } from './generated/ast.js';
 import type { SlideDeckMlServices } from './slide-deck-ml-module.js';
-import { DiagnosticSeverity, getCSSLanguageService } from 'vscode-css-languageservice';
+import cssLanguageService from 'vscode-css-languageservice';
 import { createVirtualCssDocument } from './css-util.js';
+
+const { getCSSLanguageService, DiagnosticSeverity } = cssLanguageService;
 
 /**
  * Register custom validation checks.

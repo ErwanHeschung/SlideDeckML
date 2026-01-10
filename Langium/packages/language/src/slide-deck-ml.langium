@@ -71,12 +71,33 @@ FreeText:
         (inline=STRING | block=TEXT_BLOCK)
     DEDENT;
 
+//Code Block
+
 CodeBlock:
     'code' language=ID
     INDENT
         (css=CssBlock)?
-        codeContent+=TEXT_BLOCK
+        (highlight=LinesHighlight)?
+        codeContent=TEXT_BLOCK
     DEDENT;
+
+LinesHighlight:
+    'highlight'
+    INDENT
+        lines+= LineHighlight+
+    DEDENT;
+
+LineHighlight:
+    '-' (SimpleLineHighlight
+    | RangeLineHighlight);
+
+SimpleLineHighlight:
+    line=INT;
+
+RangeLineHighlight:
+    startLine=INT '..' endLine=INT;
+
+//Math Block
 
 MathBlock:
     'math'
@@ -85,12 +106,16 @@ MathBlock:
         content=TEXT_BLOCK
     DEDENT;
 
+//Layout Block
+
 LayoutBlock:
     'layoutBlock' (layout=LayoutStyle)?
     INDENT
         (css=CssBlock)?
         elements+=Content*
     DEDENT;
+
+//CSS Block
 
 CssBlock:
     'css' 

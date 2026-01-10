@@ -20,7 +20,7 @@ Slide:
     DEDENT;
 
 Content:
-    MediaBlock | TextBlock | CodeBlock | LayoutBlock;
+    MediaBlock | TextBlock | CodeBlock | LayoutBlock | MathBlock;
 
 MediaBlock:
     Video | Image;
@@ -76,6 +76,13 @@ CodeBlock:
     INDENT
         (css=CssBlock)?
         codeContent+=TEXT_BLOCK
+    DEDENT;
+
+MathBlock:
+    'math'
+    INDENT
+        (css=CssBlock)?
+        content=TEXT_BLOCK
     DEDENT;
 
 LayoutBlock:

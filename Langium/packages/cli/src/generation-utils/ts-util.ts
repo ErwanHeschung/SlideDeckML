@@ -1,4 +1,4 @@
-import { isCodeBlock, Presentation, SlideOptions } from "slide-deck-ml-language";
+import { isCodeBlock, isMathBlock, Presentation, SlideOptions } from "slide-deck-ml-language";
 
 interface PluginConfig {
   name: string;
@@ -6,6 +6,7 @@ interface PluginConfig {
   css?: string[];
   check: (pres: Presentation) => boolean;
   defaultExport?: boolean;
+  pluginExpr?: string;
 }
 
 interface SlideFlags {
@@ -23,6 +24,15 @@ const plugins: PluginConfig[] = [
     ),
     defaultExport: true
   },
+  {
+    name: "RevealMath",
+    importPath: "reveal.js/plugin/math/math.js",
+    check: pres => pres.slides.some(slide =>
+      slide.contents.some(c => isMathBlock(c))
+    ),
+    defaultExport: true,
+    pluginExpr: "RevealMath.KaTeX"
+  },
 ];
 
 export function generateTs(presentation: Presentation): string {
@@ -33,6 +43,12 @@ export function generateTs(presentation: Presentation): string {
   const pluginNames = getPluginsNames(activePlugins);
 
   const flags = getSlideFlags(presentation.options);
+
+  const mathEnabled = activePlugins.some(p => p.name === 'RevealMath');
+
+  const katexConfig = mathEnabled
+    ? `katex: {\n      version: "latest",\n      delimiters: [\n        { left: "$$", right: "$$", display: true },\n        { left: "$", right: "$", display: false },\n        { left: "\\\\(", right: "\\\\)", display: false },\n        { left: "\\\\[", right: "\\\\]", display: true },\n      ],\n      ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"],\n    },`
+    : "";
 
   return `
 import Reveal from "reveal.js";
@@ -49,6 +65,7 @@ Reveal.initialize({
     //layout disabled to make our own
     disableLayout: true,
     display: "flex",
+    ${katexConfig}
     ${pluginNames ? `plugins: [${pluginNames}],` : ""}
 });
 `;
@@ -71,7 +88,7 @@ function getPluginsImports(plugins: PluginConfig[]): string {
 
 function getPluginsNames(plugins: PluginConfig[]): string {
   return plugins
-    .map(p => p.name)
+    .map(p => p.pluginExpr ?? p.name)
     .filter(Boolean)
     .join(", ");
 }

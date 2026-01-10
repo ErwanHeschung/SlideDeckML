@@ -1,12 +1,12 @@
-    import { type Module, inject, IndentationAwareLexer, IndentationAwareTokenBuilder, DefaultValueConverter, GrammarAST, CstNode, ValueType, LangiumDocument, CstUtils, LeafCstNode } from 'langium';
-    import { createDefaultModule, createDefaultSharedModule, DefaultCompletionProvider, type DefaultSharedModuleContext, type LangiumServices, type LangiumSharedServices, type PartialLangiumServices } from 'langium/lsp';
-    import { SlideDeckMlGeneratedModule, SlideDeckMlGeneratedSharedModule } from './generated/module.js';
-    import { SlideDeckMlValidator, registerValidationChecks } from './slide-deck-ml-validator.js';
-    import { CompletionList, getCSSLanguageService } from 'vscode-css-languageservice';
-    import { TextDocument } from 'vscode-languageserver-textdocument';
-    import { CancellationToken } from 'vscode-jsonrpc';
-    import { CompletionItemKind, CompletionParams } from 'vscode-languageserver-protocol';
-    import { CssBlock } from './generated/ast.js';
+import { type Module, inject, IndentationAwareLexer, IndentationAwareTokenBuilder, DefaultValueConverter, GrammarAST, CstNode, ValueType, LangiumDocument, CstUtils, LeafCstNode } from 'langium';
+import { createDefaultModule, createDefaultSharedModule, DefaultCompletionProvider, type DefaultSharedModuleContext, type LangiumServices, type LangiumSharedServices, type PartialLangiumServices } from 'langium/lsp';
+import { SlideDeckMlGeneratedModule, SlideDeckMlGeneratedSharedModule } from './generated/module.js';
+import { SlideDeckMlValidator, registerValidationChecks } from './slide-deck-ml-validator.js';
+import { CompletionList, getCSSLanguageService } from 'vscode-css-languageservice';
+import { CancellationToken } from 'vscode-jsonrpc';
+import { CompletionItemKind, CompletionParams } from 'vscode-languageserver-protocol';
+import { CssBlock } from './generated/ast.js';
+import { createVirtualCssDocument } from './css-util.js';
     
 
     /**
@@ -124,14 +124,6 @@
         private cssService = getCSSLanguageService();
 
         //creates a in memory css file, text file is contained in a div to show css property completion
-        private createVirtualCssDocument(cssText: string) {
-            return TextDocument.create(
-                'file:///virtual.css',
-                'css',
-                0,
-                `div { \n${cssText}\n }`
-            );
-        }
 
         override async getCompletion(
             document: LangiumDocument,
@@ -146,7 +138,7 @@
 
             const { cssText, cssOffset } = nodeInfo;
 
-            const cssDoc = this.createVirtualCssDocument(cssText);
+            const cssDoc = createVirtualCssDocument(cssText);
             const pos = cssDoc.positionAt(cssOffset);
 
             const stylesheet = this.cssService.parseStylesheet(cssDoc);

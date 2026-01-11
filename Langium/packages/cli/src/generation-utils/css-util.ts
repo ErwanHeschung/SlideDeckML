@@ -26,11 +26,16 @@ section{
   height: 100%;
 }
 
-.layout{
-  width: calc(100% - 2rem);
-  height: calc(100% - 2rem);
-  padding:1rem;
-  gap:1rem; 
+* {
+  /* include padding in size (avoid calc) */
+  box-sizing: border-box;
+}
+
+.layout {
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  gap: 1rem;
 }
 
 .vertical {

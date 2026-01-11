@@ -27,6 +27,7 @@ MediaBlock:
 
 Video:
     'video'
+    (size=Size)?
     INDENT
         (css=CssBlock)?
         url=STRING
@@ -34,6 +35,7 @@ Video:
 
 Model3D:
     'model3d'
+    (size=Size)?
     INDENT
         (css=CssBlock)?
         url=STRING
@@ -41,6 +43,7 @@ Model3D:
 
 Image:
     'image'
+    (size=Size)?
     INDENT
         (css=CssBlock)?
         url=STRING
@@ -54,6 +57,7 @@ List:
 
 UnorderedList:
     'ul'
+    (size=Size)?
     INDENT
         (css=CssBlock)?
         items+=ListItem+
@@ -62,7 +66,8 @@ UnorderedList:
 
 OrderedList:
     'ol'
-    INDENT
+    (size=Size)?
+    INDENT*
         (css=CssBlock)?
         items+=ListItem+
     DEDENT;
@@ -73,6 +78,7 @@ ListItem:
 //allow both inline and block text for flexibility
 FreeText:
     'text'
+    (size=Size)?
     INDENT
         (css=CssBlock)?
         (inline=STRING | block=TEXT_BLOCK)
@@ -82,6 +88,7 @@ FreeText:
 
 CodeBlock:
     'code' language=ID
+    (size=Size)?
     INDENT
         (css=CssBlock)?
         (highlight=LinesHighlight)?
@@ -108,6 +115,7 @@ RangeLineHighlight:
 
 MathBlock:
     'math'
+    (size=Size)?
     INDENT
         (css=CssBlock)?
         content=TEXT_BLOCK
@@ -117,6 +125,7 @@ MathBlock:
 
 LayoutBlock:
     'layoutBlock' (layout=LayoutStyle)?
+    (size=Size)?
     INDENT
         (css=CssBlock)?
         elements+=Content*
@@ -129,6 +138,22 @@ CssBlock:
     INDENT
         content=TEXT_BLOCK
     DEDENT;
+
+//Size
+
+Size:
+    'size' properties+=SizeProp+;
+
+SizeProp:
+    Width
+  | Height;
+
+Width :
+    'w' width=PERCENT;
+
+Height :
+    'h' height=PERCENT;
+
 
 //Slide Options
 
@@ -172,6 +197,7 @@ terminal TEXT_BLOCK: /```\s+[\s\S]*?\s+```/;
 terminal INDENT: 'synthetic:indent';
 terminal DEDENT: 'synthetic:dedent';
 
+terminal PERCENT: /[0-9]+%/;
 terminal ID: /[_a-zA-Z][\w_]*/;
 terminal INT returns number: /[0-9]+/;
 terminal STRING: /"(\\.|[^"\\])*"|'(\\.|[^'\\])*'/;

@@ -1,5 +1,5 @@
 import type { ValidationAcceptor, ValidationChecks } from 'langium';
-import { CssBlock, isHAlignOption, isLayoutTypeOption, isVAlignOption, LayoutStyle, type SlideDeckMlAstType, type SlideOptions } from './generated/ast.js';
+import { CssBlock, LayoutStyle, Size, type SlideDeckMlAstType, type SlideOptions } from './generated/ast.js';
 import type { SlideDeckMlServices } from './slide-deck-ml-module.js';
 import cssLanguageService from 'vscode-css-languageservice';
 import { createVirtualCssDocument } from './css-util.js';
@@ -14,6 +14,7 @@ export function registerValidationChecks(services: SlideDeckMlServices) {
     const validator = services.validation.SlideDeckMlValidator;
     const checks: ValidationChecks<SlideDeckMlAstType> = {
         SlideOptions: validator.checkNoDuplicateSlideOptions,
+        Size: validator.checkNoDuplicateSize,
         LayoutStyle: validator.checkNoDuplicateLayoutOptions,
         CssBlock: validator.checkCssBlock,
     };
@@ -40,20 +41,21 @@ export class SlideDeckMlValidator {
         const seen = new Set<string>();
 
         for (const option of layoutStyle.options) {
-            let key: string;
-
-            if (isLayoutTypeOption(option)) {
-                key = `${option.layoutType}`;
-            } else if (isVAlignOption(option)) {
-                key = `v-align`;
-            } else if (isHAlignOption(option)) {
-                key = `h-align`;
-            } else {
-                continue;
-            }
-
+            const key = option.$type;
             if (seen.has(key)) {
                 accept('error', `Duplicate layout option '${key}'`, { node: option });
+            } else {
+                seen.add(key);
+            }
+        }
+    }
+    
+    checkNoDuplicateSize(size: Size, accept: ValidationAcceptor): void {
+        const seen = new Set<string>();
+        for (const prop of size.properties) {
+            const key = prop.$type;
+            if (seen.has(key)) {
+                accept('error', `Duplicate size property '${key}'`, { node: prop });
             } else {
                 seen.add(key);
             }

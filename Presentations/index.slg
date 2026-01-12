@@ -33,7 +33,7 @@ presentation MyAwesomePres with slideNumbers
             video 
                 "https://youtu.be/bAkx5aHyDUI?list=RDbAkx5aHyDUI"
             model3d 
-                ""
+                "https://modelviewer.dev/shared-assets/models/Astronaut.glb"
 
         layoutBlock layout horizontal h-align start size h 5%
             css 

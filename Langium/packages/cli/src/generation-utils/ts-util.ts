@@ -1,4 +1,4 @@
-import { isCodeBlock, isMathBlock, Presentation, SlideOptions } from "slide-deck-ml-language";
+import { Content, isCodeBlock, isLayoutBlock, isMathBlock, isModel3D, Presentation, SlideOptions } from "slide-deck-ml-language";
 
 interface PluginConfig {
   name: string;
@@ -19,17 +19,13 @@ const plugins: PluginConfig[] = [
     name: "RevealHighlight",
     importPath: "reveal.js/plugin/highlight/highlight.js",
     css: ["reveal.js/plugin/highlight/monokai.css"],
-    check: pres => pres.slides.some(slide =>
-      slide.contents.some(c => isCodeBlock(c))
-    ),
+    check: pres => collectAllContents(pres).some(c => isCodeBlock(c)),
     defaultExport: true
   },
   {
     name: "RevealMath",
     importPath: "reveal.js/plugin/math/math.js",
-    check: pres => pres.slides.some(slide =>
-      slide.contents.some(c => isMathBlock(c))
-    ),
+    check: pres => collectAllContents(pres).some(c => isMathBlock(c)),
     defaultExport: true,
     pluginExpr: "RevealMath.KaTeX"
   },
@@ -37,7 +33,6 @@ const plugins: PluginConfig[] = [
 
 export function generateTs(presentation: Presentation): string {
   const activePlugins = getActivePlugins(presentation);
-  presentation.options?.options.forEach
   const imports = getPluginsImports(activePlugins);
 
   const pluginNames = getPluginsNames(activePlugins);
@@ -49,14 +44,16 @@ export function generateTs(presentation: Presentation): string {
   const katexConfig = mathEnabled
     ? `katex: {\n      version: "latest",\n      delimiters: [\n        { left: "$$", right: "$$", display: true },\n        { left: "$", right: "$", display: false },\n        { left: "\\\\(", right: "\\\\)", display: false },\n        { left: "\\\\[", right: "\\\\]", display: true },\n      ],\n      ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"],\n    },`
     : "";
+
+  const model3dEnabled = collectAllContents(presentation).some(c => isModel3D(c));
+  const modelViewerImport = model3dEnabled ? 'import "@google/model-viewer";\n' : '';
   
 
   return `
 import Reveal from "reveal.js";
 import "reveal.js/dist/reveal.css";
 import "reveal.js/dist/theme/white.css";
-import '@google/model-viewer';
-${imports}
+${modelViewerImport}${imports}
 
 Reveal.initialize({
     hash: true,
@@ -71,6 +68,27 @@ Reveal.initialize({
     ${pluginNames ? `plugins: [${pluginNames}],` : ""}
 });
 `;
+}
+
+function collectAllContents(presentation: Presentation): Content[] {
+  const result: Content[] = [];
+
+  const visit = (content: Content) => {
+    result.push(content);
+    if (isLayoutBlock(content)) {
+      for (const child of content.elements) {
+        visit(child);
+      }
+    }
+  };
+
+  for (const slide of presentation.slides) {
+    for (const content of slide.contents) {
+      visit(content);
+    }
+  }
+
+  return result;
 }
 
 function getActivePlugins(presentation: Presentation): PluginConfig[] {

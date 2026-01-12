@@ -1,4 +1,4 @@
-import { CodeBlock, Content, isCodeBlock, isFreeText, isHAlignOption, isImage, isLayoutBlock, isLayoutTypeOption, isMathBlock, isMediaBlock, isModel3D, isOrderedList, isRangeLineHighlight, isSimpleLineHighlight, isTextBlock, isUnorderedList, isVAlignOption, isVideo, LayoutStyle, MediaBlock, Presentation, Slide, TextBlock } from "slide-deck-ml-language";
+import { Animation, CodeBlock, Content, isCodeBlock, isFreeText, isHAlignOption, isImage, isLayoutBlock, isLayoutTypeOption, isMathBlock, isMediaBlock, isModel3D, isOrderedList, isRangeLineHighlight, isSimpleLineHighlight, isTextBlock, isUnorderedList, isVAlignOption, isVideo, LayoutStyle, MediaBlock, Presentation, Slide, TextBlock } from "slide-deck-ml-language";
 import { mediaSrc, renderVideo } from "./media-util.js";
 import { Prefixes } from "./prefix-registry-util.js";
 
@@ -32,66 +32,98 @@ function generateSlideHtml(slide: Slide, level: number): string {
 }
 
 function generateContentHtml(content: Content, level: number): string {
+    const fragment = getFragmentAttributes(content.animation);
     if(isMediaBlock(content)) {
-        return generateMedia(content, level);
+        return generateMedia(content, level, fragment);
     }
     if(isTextBlock(content)) {
-        return generateText(content, level);
+        return generateText(content, level, fragment);
     }
     if (isCodeBlock(content)) {
-        return generateCodeBlock(content, level);
+        return generateCodeBlock(content, level, fragment);
     }
     if (isLayoutBlock(content)) {
         const children = content.elements.map(e => generateContentHtml(e, level + 1)).join('\n');
 
-        return `${pad(level)}<div class="layout ${getClassesFromLayout(content.layout as LayoutStyle)} ${Prefixes.getPrefix(content)}">\n${children}\n${pad(level)}</div>`;
+        return `${pad(level)}<div class="layout ${getClassesFromLayout(content.layout as LayoutStyle)} ${Prefixes.getPrefix(content)}${fragment.className}"${fragment.attrs}>\n${children}\n${pad(level)}</div>`;
     }
     if(isMathBlock(content)) {
         const formula = content.content;
         const lines = formula.split('\n').map(line => pad(level + 1) + line).join('\n');
-        return `${pad(level)}<div class="math ${Prefixes.getPrefix(content)}">\n${pad(level + 1)}$$\n${lines}\n${pad(level + 1)}$$\n${pad(level)}</div>`;
+        return `${pad(level)}<div class="math ${Prefixes.getPrefix(content)}${fragment.className}"${fragment.attrs}>\n${pad(level + 1)}$$\n${lines}\n${pad(level + 1)}$$\n${pad(level)}</div>`;
     }
     return '';
 
 }
 
-function generateMedia(content: MediaBlock, level: number): string  {
+function generateMedia(content: MediaBlock, level: number, fragment: FragmentAttributes): string  {
     const src = mediaSrc(content);
     if(isVideo(content)) {
-        return `${pad(level)}${renderVideo(src,Prefixes.getPrefix(content))}`;
+        return `${pad(level)}${renderVideo(src, `${Prefixes.getPrefix(content)}${fragment.className}`.trim(), fragment.attrs.trim())}`;
     }
     if(isImage(content)) {
-        return `${pad(level)}<img class="${Prefixes.getPrefix(content)}" src="${src}" alt="" />`;
+        return `${pad(level)}<img class="${Prefixes.getPrefix(content)}${fragment.className}"${fragment.attrs} src="${src}" alt="" />`;
     }
     if(isModel3D(content)) {
-        return `${pad(level)}<model-viewer class="${Prefixes.getPrefix(content)}" src="${src}" alt="" camera-controls></model-viewer>`;
+        return `${pad(level)}<model-viewer class="${Prefixes.getPrefix(content)}${fragment.className}"${fragment.attrs} src="${src}" alt="" camera-controls></model-viewer>`;
     }
 
     return '';
 }
 
-function generateText(content: TextBlock, level: number): string  {
+function generateText(content: TextBlock, level: number, fragment: FragmentAttributes): string  {
     if (isFreeText(content)) {
         const text = content.inline ?? content.block ?? '';
         const lines = text.split('\n').map(line => pad(level + 1) + line).join('\n');
-        return `${pad(level)}<p class="${Prefixes.getPrefix(content)}">\n${lines}\n${pad(level)}</p>`;
+        return `${pad(level)}<p class="${Prefixes.getPrefix(content)}${fragment.className}"${fragment.attrs}>\n${lines}\n${pad(level)}</p>`;
     }
     if(isUnorderedList(content)) {
         const items = content.items.map(i => pad(level + 1) + `<li>${i.text}</li>`).join('\n');
-        return `${pad(level)}<ul class="${Prefixes.getPrefix(content)}">\n${items}\n${pad(level)}</ul>`;
+        return `${pad(level)}<ul class="${Prefixes.getPrefix(content)}${fragment.className}"${fragment.attrs}>\n${items}\n${pad(level)}</ul>`;
     }
     if(isOrderedList(content)) {
         const items = content.items.map(i => pad(level + 1) + `<li>${i.text}</li>`).join('\n');
-        return `${pad(level)}<ol class="${Prefixes.getPrefix(content)}">\n${items}\n${pad(level)}</ol>`;
+        return `${pad(level)}<ol class="${Prefixes.getPrefix(content)}${fragment.className}"${fragment.attrs}>\n${items}\n${pad(level)}</ol>`;
     }
     return '';
 }
 
-function generateCodeBlock(content: CodeBlock, level: number): string {
+function generateCodeBlock(content: CodeBlock, level: number, fragment: FragmentAttributes): string {
     const code = content.codeContent;
     const lines = code.split('\n').map((line: string) => pad(level + 1) + line).join('\n');
     const codeHighlight = getCodeHighlight(content);
-    return `${pad(level)}<pre><code data-trim ${codeHighlight??""} class="language-${content.language} ${Prefixes.getPrefix(content)}">\n${lines}\n${pad(level)}</code></pre>`;
+    return `${pad(level)}<pre class="${fragment.className.trim()}"${fragment.attrs}><code data-trim ${codeHighlight??""} class="language-${content.language} ${Prefixes.getPrefix(content)}">\n${lines}\n${pad(level)}</code></pre>`;
+}
+
+type FragmentAttributes = {
+    className: string;
+    attrs: string;
+};
+
+function getFragmentAttributes(animation: Animation | undefined): FragmentAttributes {
+    if (!animation) {
+        return { className: '', attrs: '' };
+    }
+
+    const effect = animation.effect;
+    const index = animation.index;
+    const durationMs = animation.durationMs;
+
+    const classParts = ['fragment'];
+    const normalizedEffect = (effect ?? '').trim();
+    if (normalizedEffect) classParts.push(normalizedEffect);
+
+    const attrs: string[] = [];
+    if (typeof index === 'number') attrs.push(`data-fragment-index="${index}"`);
+
+    const styleParts: string[] = [];
+    if (typeof durationMs === 'number') styleParts.push(`transition-duration: ${durationMs}ms`);
+    if (styleParts.length > 0) attrs.push(`style="${styleParts.join('; ')}"`);
+
+    return {
+        className: classParts.length ? ` ${classParts.join(' ')}` : '',
+        attrs: attrs.length ? ` ${attrs.join(' ')}` : ''
+    };
 }
 
 function getCodeHighlight(content: CodeBlock): string | undefined {

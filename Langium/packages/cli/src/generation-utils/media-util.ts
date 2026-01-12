@@ -21,7 +21,8 @@ function copyAssetToReveal(url: string, sourceDir: string, revealDir: string): v
     fs.copyFileSync(srcPath, destPath);
 }
 
-export function renderVideo(url: string, className:string): string {
+export function renderVideo(url: string, className: string, extraAttrs: string = ''): string {
+    const attrs = extraAttrs ? ` ${extraAttrs.trim()}` : '';
     if (url.includes('youtube.com/watch') || url.includes('youtu.be')) {
         let videoId: string;
         if (url.includes('youtu.be')) {
@@ -31,7 +32,7 @@ export function renderVideo(url: string, className:string): string {
             videoId = params.get('v')!;
         }
         const embedUrl = `https://www.youtube.com/embed/${videoId}`;
-        return `<iframe src="${embedUrl}" class=${className} frameborder="0" allowfullscreen></iframe>`;
+        return `<iframe src="${embedUrl}" class="${className}"${attrs} frameborder="0" allowfullscreen></iframe>`;
     }
-    return `<video src="${url}" class=${className} controls></video>`;
+    return `<video src="${url}" class="${className}"${attrs} controls></video>`;
 }

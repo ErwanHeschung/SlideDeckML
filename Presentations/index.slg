@@ -1,28 +1,92 @@
-presentation MyAwesomePres
+presentation MyAwesomePres with slideNumbers
     slide "Intro"
-        text "Welcome to my presentation!"
-        image "banner.png"
-        video "intro.mp4"
+        css 
+            ```
+            background: radial-gradient(circle,rgba(63, 94, 251, 1) 0%, rgba(252, 70, 107, 1) 100%);
+            background-color: #eaeaea;
+            ```
+        layoutBlock layout horizontal h-align start size h 10%
+            css 
+                ```
+                background-color: rgba(255, 255, 255, 0.5);
+                ```
+            image 
+                "https://www.polytech-reseau.org/wp-content/uploads/2021/03/cropped-logo_reseau_Polytech.png"
+            image 
+                "https://universites-marines.fr/sites/default/files/2022-08/Logo%20UCotedAzur-logo-haut.png"
+        layoutBlock layout vertical
+            css
+                ```
+                font-size: 5rem;
+                font-weight: bold;
+                color: white;
+                text-shadow: 1px 1px 2px #000000;
+                ```
+            text
+                "ejaaija!"
+            text
+                css 
+                    ```
+                    font-size: 2rem;
+                    ```
+                "Presented by John Doe"
+            video 
+                "https://youtu.be/bAkx5aHyDUI?list=RDbAkx5aHyDUI"
+            model3d 
+                ""
+
+        layoutBlock layout horizontal h-align start size h 5%
+            css 
+                ```
+                background-color: rgba(255, 255, 255, 0.5);
+                font-size: 0.5em;
+                ```
+            text
+                "An awesome presentation"
 
     slide "Features"
+        css 
+            ``` 
+            background-color:red;
+            ```
         text 
-        ```
-        Check out these features
-        Incredible and awesome!
-        What do you think?
-        ```
+            css 
+                ``` 
+                font-weight:bold;
+                ```
+            ```
+            Check out these features
+            Incredible and awesome!
+            What do you think?
+            ```
+
+        text 
+            ```
+            Check out these featu
+            res
+            Incredible and awesome!
+            What do you think?
+            ```
 
         ul
-        - "Feature 1"
-        - "Feature 2"
+            - "Feature 1"
+            - "Feature 2"
 
     slide "CodeExample"
-        text "Here's some code"
-        code python 
-        ```
-        print("Hello World")
-        print("Another line")
-        ```
+        text 
+            "Here's some code" 
 
+        code python
+            highlight
+                - 1 
+                - 2..3
+                - 4
+            ```
+            print("Hello World")
+            print("Another line")
+            if(g):
+                cat(4)
+            ```
     slide "Conclusion"
-        text "Thank you for watching!"
+        text 
+            "test!"

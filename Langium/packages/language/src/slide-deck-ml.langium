@@ -4,16 +4,16 @@ entry App:
     declaration=Declaration;
 
 Declaration:
-    Presentation;
+    Presentation | Template;
 
 Presentation:
-    'presentation' name=ID (options=SlideOptions)?
+    'presentation' name=ID (import=STRING)? (options=SlideOptions)?
     INDENT
         slides+=Slide+
     DEDENT;
 
 Slide:
-    'slide' name=STRING (layout=LayoutStyle)?
+    'slide' name=STRING (slideTemplateRef=[SlideTemplate])? (layout=LayoutStyle)?
     INDENT
         (css=CssBlock)?
         contents+=Content*
@@ -26,7 +26,7 @@ MediaBlock:
     Video | Image | Model3D;
 
 Video:
-    'video'
+    'video' (contentTemplateRef=[ContentPlaceholder])?
     (size=Size)?
     INDENT
         (css=CssBlock)?
@@ -35,7 +35,7 @@ Video:
     DEDENT;
 
 Model3D:
-    'model3d'
+    'model3d' (contentTemplateRef=[ContentPlaceholder])?
     (size=Size)?
     INDENT
         (css=CssBlock)?
@@ -44,7 +44,7 @@ Model3D:
     DEDENT;
 
 Image:
-    'image'
+    'image' (contentTemplateRef=[ContentPlaceholder])?
     (size=Size)?
     INDENT
         (css=CssBlock)?
@@ -59,19 +59,19 @@ List:
     UnorderedList | OrderedList;
 
 UnorderedList:
-    'ul'
+    'ul' (contentTemplateRef=[ContentPlaceholder])?
     (size=Size)?
     INDENT
         (css=CssBlock)?
         (animation=Animation)?
         items+=ListItem+
     DEDENT;
-    
+
 
 OrderedList:
-    'ol'
+    'ol' (contentTemplateRef=[ContentPlaceholder])?
     (size=Size)?
-    INDENT*
+    INDENT
         (css=CssBlock)?
         (animation=Animation)?
         items+=ListItem+
@@ -82,7 +82,7 @@ ListItem:
 
 //allow both inline and block text for flexibility
 FreeText:
-    'text'
+    'text' (contentTemplateRef=[ContentPlaceholder])?
     (size=Size)?
     INDENT
         (css=CssBlock)?
@@ -93,7 +93,7 @@ FreeText:
 //Code Block
 
 CodeBlock:
-    'code' language=ID
+    'code' (contentTemplateRef=[ContentPlaceholder])? language=ID
     (size=Size)?
     INDENT
         (css=CssBlock)?
@@ -121,7 +121,7 @@ RangeLineHighlight:
 //Math Block
 
 MathBlock:
-    'math'
+    'math' (contentTemplateRef=[ContentPlaceholder])?
     (size=Size)?
     INDENT
         (css=CssBlock)?
@@ -221,8 +221,50 @@ Layout returns string: 'vertical' | 'horizontal';
 
 Alignment returns string: 'start' | 'end' | 'center';
 
-//Terminal
+// templates 
+Template:
+    'template' font=ID fontColor=HEX displayPageNumber=Boolean
+    INDENT
+        slideTemplates+=SlideTemplate+
+    DEDENT;
 
+SlideTemplate:
+    'slide' name=ID
+    INDENT
+        (css=CssBlock)?
+        content+=ContentPlaceholder*
+    DEDENT;
+
+ContentPlaceholder: LayoutPlaceholder | MediaPlaceholder | TextPlaceholder | CodePlaceholder;
+
+LayoutPlaceholder:
+    'flow' name=ID layout=LayoutStyle
+    INDENT
+        (css=CssBlock)?
+        content+=ContentPlaceholder*
+    DEDENT;
+
+MediaPlaceholder:
+    'media' name=ID type=('image' | 'video' | 'model3d')
+    (INDENT
+        css=CssBlock
+    DEDENT)?;
+
+TextPlaceholder:
+    'text' name=ID type=('ul' | 'ol' | 'freetext')
+    (INDENT
+        css=CssBlock
+    DEDENT)?;
+
+CodePlaceholder:
+    'code' name=ID
+    (INDENT
+        css=CssBlock
+    DEDENT)?;
+
+Boolean returns string: 'true' | 'false';
+
+// terminal rules 
 terminal TEXT_BLOCK: /```\s+[\s\S]*?\s+```/;
 
 terminal INDENT: 'synthetic:indent';
@@ -232,6 +274,7 @@ terminal PERCENT: /[0-9]+%/;
 terminal ID: /[_a-zA-Z][\w_-]*/;
 terminal INT returns number: /[0-9]+/;
 terminal STRING: /"(\\.|[^"\\])*"|'(\\.|[^'\\])*'/;
+terminal HEX: /#[0-9a-fA-F]{6}/;
 
 hidden terminal WS: /[\t ]+/;
 hidden terminal NL: /[\r\n]+/;

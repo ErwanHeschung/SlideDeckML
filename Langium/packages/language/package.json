@@ -29,6 +29,7 @@
     "scripts": {
         "clean": "shx rm -fr *.tsbuildinfo out",
         "build": "echo 'No build step'",
+        "test": "NODE_OPTIONS=--experimental-vm-modules jest",
         "build:clean": "npm run clean && npm run build",
         "langium:generate": "langium generate",
         "langium:watch": "langium generate --watch"
@@ -39,7 +40,10 @@
         "vscode-languageserver-textdocument": "^1.0.12"
     },
     "devDependencies": {
-        "langium-cli": "~4.1.0"
+        "@types/jest": "^30.0.0",
+        "jest": "^30.2.0",
+        "langium-cli": "~4.1.0",
+        "ts-jest": "^29.4.6"
     },
     "volta": {
         "node": "20.19.2",

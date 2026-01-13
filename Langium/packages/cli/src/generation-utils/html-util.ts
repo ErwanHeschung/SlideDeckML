@@ -1,4 +1,4 @@
-import { Animation, CodeBlock, Content, isCodeBlock, isFreeText, isHAlignOption, isImage, isLayoutBlock, isLayoutTypeOption, isMathBlock, isMediaBlock, isModel3D, isMultiLineHighlight, isOrderedList, isRangeLineHighlight, isSimpleHighlight, isSimpleLineHighlight, isTextBlock, isUnorderedList, isVAlignOption, isVideo, isVisualHighlight, LayoutStyle, LineHighlight, MediaBlock, Presentation, Slide, TextBlock } from "slide-deck-ml-language";
+import { Animation, CodeBlock, Content, isCodeBlock, isFreeText, isHAlignOption, isImage, isLayoutBlock, isLayoutTypeOption, isMathBlock, isMediaBlock, isModel3D, isMultiLineHighlight, isOrderedList, isRangeLineHighlight, isSimpleHighlight, isSimpleLineHighlight, isTextBlock, isUnorderedList, isVAlignOption, isVideo, isVisualHighlight, LayoutStyle, LineHighlight, List, ListItem, MediaBlock, Presentation, Slide, TextBlock } from "slide-deck-ml-language";
 import { mediaSrc, renderVideo } from "./media-util.js";
 import { Prefixes } from "./prefix-registry-util.js";
 
@@ -87,16 +87,30 @@ function generateText(content: TextBlock, level: number): string {
 		return `${pad(level)}<p class="${Prefixes.getPrefix(content)}${fragment.classSuffix}"${fragment.attrs}>\n${lines}\n${pad(level)}</p>`;
 	}
 	if (isUnorderedList(content)) {
-		const items = content.items.map(i => pad(level + 1) + `<li>${i.text}</li>`).join('\n');
-		const fragment = getFragmentConfig(content);
-		return `${pad(level)}<ul class="${Prefixes.getPrefix(content)}${fragment.classSuffix}"${fragment.attrs}>\n${items}\n${pad(level)}</ul>`;
+		return renderList(content, 'ul', level);
 	}
 	if (isOrderedList(content)) {
-		const items = content.items.map(i => pad(level + 1) + `<li>${i.text}</li>`).join('\n');
-		const fragment = getFragmentConfig(content);
-		return `${pad(level)}<ol class="${Prefixes.getPrefix(content)}${fragment.classSuffix}"${fragment.attrs}>\n${items}\n${pad(level)}</ol>`;
+		return renderList(content, 'ol', level);
 	}
 	return '';
+}
+
+function renderList(list: List, tag: 'ul' | 'ol', level: number): string {
+	const fragment = getFragmentConfig(list);
+	const prefix = Prefixes.getPrefix(list as unknown as Content);
+	const items = list.items.map(item => renderListItem(item, level + 1)).join('\n');
+	return `${pad(level)}<${tag} class="${prefix}${fragment.classSuffix}"${fragment.attrs}>\n${items}\n${pad(level)}</${tag}>`;
+}
+
+function renderListItem(item: ListItem, level: number): string {
+	const text = item.text ?? '';
+	if (!item.nestedList) {
+		return `${pad(level)}<li>${text}</li>`;
+	}
+
+	const nestedTag = isUnorderedList(item.nestedList) ? 'ul' : 'ol';
+	const nestedHtml = renderList(item.nestedList, nestedTag, level + 1);
+	return `${pad(level)}<li>${text}\n${nestedHtml}\n${pad(level)}</li>`;
 }
 
 function generateCodeBlock(content: CodeBlock, level: number): string {

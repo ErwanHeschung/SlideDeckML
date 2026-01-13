@@ -78,7 +78,10 @@ OrderedList:
     DEDENT;
 
 ListItem:
-    '-' text=STRING;
+    '-' (text=STRING)?
+    (INDENT
+        nestedList=List
+    DEDENT)?;
 
 //allow both inline and block text for flexibility
 FreeText:

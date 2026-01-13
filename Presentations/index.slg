@@ -80,7 +80,40 @@ presentation MyAwesomePres with slideNumbers
         ul
             animation effect current-visible index 2 durationMs 600
             - "Feature 1"
+                ul
+                    animation effect fade-in index 0 durationMs 500
+                    - "Sub Feature 1.1"
+                    - "Sub Feature 1.2"
             - "Feature 2"
+                ol
+                    animation effect fade-up index 1 durationMs 500
+                    - "Sub Feature 2.1"
+                    - "Sub Feature 2.2"
+
+    slide "Nested Lists"
+        text
+            "Nested lists (ul/ol inside list items)"
+
+        ul
+            animation effect fade-in index 0 durationMs 600
+            - "Frontend"
+                ul
+                    animation effect fade-up index 1 durationMs 600
+                    - "React"
+                        ol
+                            animation effect fade-right index 2 durationMs 600
+                            - "Hooks"
+                            - "Context"
+                    - "Vue"
+            - "Backend"
+                ol
+                    animation effect fade-left index 3 durationMs 600
+                    - "Java"
+                        ul
+                            animation effect zoom-in index 4 durationMs 600
+                            - "Quarkus"
+                            - "Spring"
+                    - "Node"
 
     slide "CodeExample"
         text 

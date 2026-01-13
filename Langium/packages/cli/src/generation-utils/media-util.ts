@@ -1,9 +1,7 @@
-import { MediaBlock } from "slide-deck-ml-language";
 import fs from 'fs';
 import path from 'path';
 
-export function mediaSrc(node: MediaBlock): string {
-    const url = node.url;
+export function mediaSrc(url:string): string {
 
     if (url.startsWith('http://') || url.startsWith('https://')) {
         return url;

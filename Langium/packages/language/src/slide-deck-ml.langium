@@ -102,15 +102,38 @@ CodeBlock:
         codeContent=TEXT_BLOCK
     DEDENT;
 
-LinesHighlight:
-    'highlight'
+//Code Highlighting
+
+Highlight:
+    SimpleHighlight 
+    | VisualHighlight;
+
+SimpleHighlight:
+    'highlight' 
     INDENT
-        lines+= LineHighlight+
+        steps+=LineHighlight+
     DEDENT;
 
+VisualHighlight:
+    'visualHighlight'
+    INDENT
+        steps+=VisualLineHighlight+
+    DEDENT;
+
+VisualLineHighlight:
+    linehighlight=LineHighlight
+    (url=STRING)?;
+
 LineHighlight:
-    '-' (SimpleLineHighlight
-    | RangeLineHighlight);
+    '-' (AtomicLineHighlight
+    | MultiLineHighlight);
+
+AtomicLineHighlight:
+    SimpleLineHighlight 
+    | RangeLineHighlight;
+
+MultiLineHighlight:
+    lines+=AtomicLineHighlight (',' lines+=AtomicLineHighlight)*;
 
 SimpleLineHighlight:
     line=INT;

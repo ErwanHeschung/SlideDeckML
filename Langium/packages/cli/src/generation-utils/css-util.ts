@@ -15,10 +15,25 @@ html, body {
   --r-block-margin: 0;
 }
 
+.code-block {
+  height: 400px;
+  gap: 1rem;
+}
+
+.code-block img {
+  height: 100%;
+  object-fit: contain;
+}
+
 p{
   margin:0;
   padding: 0;
   line-height: 1;
+}
+
+img:not([src]),
+img[src=""] {
+  display: none;
 }
 
 section{

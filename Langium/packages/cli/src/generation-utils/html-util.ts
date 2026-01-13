@@ -1,4 +1,4 @@
-import { CodeBlock, Content, isCodeBlock, isFreeText, isHAlignOption, isImage, isLayoutBlock, isLayoutTypeOption, isMathBlock, isMediaBlock, isModel3D, isOrderedList, isRangeLineHighlight, isSimpleLineHighlight, isTextBlock, isUnorderedList, isVAlignOption, isVideo, LayoutStyle, MediaBlock, Presentation, Slide, TextBlock } from "slide-deck-ml-language";
+import { CodeBlock, Content, isCodeBlock, isFreeText, isHAlignOption, isImage, isLayoutBlock, isLayoutTypeOption, isMathBlock, isMediaBlock, isModel3D, isMultiLineHighlight, isOrderedList, isRangeLineHighlight, isSimpleHighlight, isSimpleLineHighlight, isTextBlock, isUnorderedList, isVAlignOption, isVideo, isVisualHighlight, LayoutStyle, LineHighlight, MediaBlock, Presentation, Slide, TextBlock } from "slide-deck-ml-language";
 import { mediaSrc, renderVideo } from "./media-util.js";
 import { Prefixes } from "./prefix-registry-util.js";
 
@@ -56,7 +56,7 @@ function generateContentHtml(content: Content, level: number): string {
 }
 
 function generateMedia(content: MediaBlock, level: number): string {
-	const src = mediaSrc(content);
+	const src = mediaSrc(content.url);
 	if (isVideo(content)) {
 		return `${pad(level)}${renderVideo(src, Prefixes.getPrefix(content))}`;
 	}
@@ -89,25 +89,58 @@ function generateText(content: TextBlock, level: number): string {
 
 function generateCodeBlock(content: CodeBlock, level: number): string {
 	const code = content.codeContent;
-	const lines = code.split('\n').map((line: string) => pad(level + 1) + line).join('\n');
-	const codeHighlight = getCodeHighlight(content);
-	return `${pad(level)}<pre><code data-trim ${codeHighlight ?? ""} class="language-${content.language} ${Prefixes.getPrefix(content)}">\n${lines}\n${pad(level)}</code></pre>`;
+	const lines = code.split('\n').map((line: string) => pad(level + 2) + line).join('\n');
+	const codeHighlight = content?.highlight ? generateCodeHighlight(content) : undefined;
+	return `
+${pad(level)}<div class="code-block ${Prefixes.getPrefix(content)} horizontal">
+${pad(level + 1)}<pre><code data-trim ${codeHighlight ?? ""} class="language-${content.language}">\n${lines}\n${pad(level)}
+${pad(level+1)}</code></pre>
+${pad(level+1)}${isVisualHighlight(content?.highlight) ? `<img alt="Legend for code highlighting" class="highlight-${Prefixes.getPrefix(content)}" />` : ''}
+${pad(level)}</div>`;
 }
 
-function getCodeHighlight(content: CodeBlock): string | undefined {
+function generateCodeHighlight(Codeblock: CodeBlock): string | undefined {
 	let linesHighlight = 'data-line-numbers="';
-	if (content.highlight) {
-		for (const line of content.highlight.lines) {
-			if (isSimpleLineHighlight(line)) {
-				linesHighlight += `${line.line}`;
-			} else if (isRangeLineHighlight(line)) {
-				linesHighlight += `${line.startLine}-${line.endLine}`;
-			}
-			linesHighlight += '|';
-		}
-		return linesHighlight + '"';
+
+	if (isSimpleHighlight(Codeblock.highlight)) {
+		return linesHighlight + getLineHighlight(Codeblock.highlight.steps) + '"';
+	}
+	else if (isVisualHighlight(Codeblock.highlight)) {
+		const imageTarget = ` data-target=".highlight-${Prefixes.getPrefix(Codeblock)}"`;
+		let lastUrl: string | undefined;
+
+		let imageSteps =
+			`data-image-steps="${Codeblock.highlight.steps
+				.map(step => {
+					if (step.url) {
+						lastUrl = step.url;
+						return mediaSrc(step.url);
+					}
+					return lastUrl;
+				})
+				.filter((url): url is string => !!url)
+				.join('|')}`;
+		imageSteps += '"';
+		
+		return linesHighlight + getLineHighlight(Codeblock.highlight.steps.flatMap(step => { return step.linehighlight; }))+'"'+ ' ' + imageTarget + ' ' + imageSteps;
 	}
 	return undefined;
+}
+
+function getLineHighlight(lines: LineHighlight[], separator: string = '|'): string {
+	let linesHighlight = '';
+	for (const line of lines) {
+		if (isSimpleLineHighlight(line)) {
+			linesHighlight += `${line.line}`;
+		} else if (isRangeLineHighlight(line)) {
+			linesHighlight += `${line.startLine}-${line.endLine}`;
+		} else if (isMultiLineHighlight(line)) {
+			linesHighlight += getLineHighlight(line.lines, ',');
+		}
+		linesHighlight += separator;
+	}
+	linesHighlight = linesHighlight.slice(0, -1); // Remove last separator
+	return linesHighlight;
 }
 
 function pad(level: number) {

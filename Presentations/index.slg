@@ -11,8 +11,10 @@ presentation MyAwesomePres with slideNumbers
                 background-color: rgba(255, 255, 255, 0.5);
                 ```
             image 
+                animation effect fade-in index 0 durationMs 600
                 "https://www.polytech-reseau.org/wp-content/uploads/2021/03/cropped-logo_reseau_Polytech.png"
             image 
+                animation effect fade-up index 1 durationMs 600
                 "https://universites-marines.fr/sites/default/files/2022-08/Logo%20UCotedAzur-logo-haut.png"
         layoutBlock layout vertical
             css
@@ -23,16 +25,20 @@ presentation MyAwesomePres with slideNumbers
                 text-shadow: 1px 1px 2px #000000;
                 ```
             text
+                animation effect fade-in index 0 durationMs 600
                 "ejaaija!"
             text
                 css 
                     ```
                     font-size: 2rem;
                     ```
+                animation effect fade-up index 1 durationMs 600
                 "Presented by John Doe"
             video 
+                animation effect fade-left index 2 durationMs 700
                 "https://youtu.be/bAkx5aHyDUI?list=RDbAkx5aHyDUI"
             model3d 
+                animation effect zoom-in index 3 durationMs 700
                 "https://modelviewer.dev/shared-assets/models/Astronaut.glb"
 
         layoutBlock layout horizontal h-align start size h 5%
@@ -42,6 +48,7 @@ presentation MyAwesomePres with slideNumbers
                 font-size: 0.5em;
                 ```
             text
+                animation effect semi-fade-out index 0 durationMs 800
                 "An awesome presentation"
 
     slide "Features"
@@ -54,6 +61,7 @@ presentation MyAwesomePres with slideNumbers
                 ``` 
                 font-weight:bold;
                 ```
+            animation effect fade-in index 0 durationMs 500
             ```
             Check out these features
             Incredible and awesome!
@@ -61,6 +69,7 @@ presentation MyAwesomePres with slideNumbers
             ```
 
         text 
+            animation effect fade-up index 1 durationMs 500
             ```
             Check out these featu
             res
@@ -69,14 +78,17 @@ presentation MyAwesomePres with slideNumbers
             ```
 
         ul
+            animation effect current-visible index 2 durationMs 600
             - "Feature 1"
             - "Feature 2"
 
     slide "CodeExample"
         text 
+            animation effect fade-in index 0 durationMs 500
             "Here's some code" 
 
         code python
+            animation effect zoom-in index 1 durationMs 600
             highlight
                 - 1 
                 - 2..3
@@ -89,4 +101,5 @@ presentation MyAwesomePres with slideNumbers
             ```
     slide "Conclusion"
         text 
+            animation effect fade-in index 0 durationMs 500
             "test!"

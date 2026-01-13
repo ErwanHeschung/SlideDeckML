@@ -125,15 +125,11 @@ VisualLineHighlight:
     (url=STRING)?;
 
 LineHighlight:
-    '-' (AtomicLineHighlight
-    | MultiLineHighlight);
+    '-' lines+=AtomicLineHighlight (',' lines+=AtomicLineHighlight)*;
 
 AtomicLineHighlight:
     SimpleLineHighlight 
     | RangeLineHighlight;
-
-MultiLineHighlight:
-    lines+=AtomicLineHighlight (',' lines+=AtomicLineHighlight)*;
 
 SimpleLineHighlight:
     line=INT;

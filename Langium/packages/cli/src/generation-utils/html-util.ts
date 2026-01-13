@@ -1,4 +1,4 @@
-import { Animation, CodeBlock, Content, isCodeBlock, isFreeText, isHAlignOption, isImage, isLayoutBlock, isLayoutTypeOption, isMathBlock, isMediaBlock, isModel3D, isMultiLineHighlight, isOrderedList, isRangeLineHighlight, isSimpleHighlight, isSimpleLineHighlight, isTextBlock, isUnorderedList, isVAlignOption, isVideo, isVisualHighlight, LayoutStyle, LineHighlight, MediaBlock, Presentation, Slide, TextBlock } from "slide-deck-ml-language";
+import { Animation, CodeBlock, Content, isCodeBlock, isFreeText, isHAlignOption, isImage, isLayoutBlock, isLayoutTypeOption, isMathBlock, isMediaBlock, isModel3D, isOrderedList, isRangeLineHighlight, isSimpleHighlight, isSimpleLineHighlight, isTextBlock, isUnorderedList, isVAlignOption, isVideo, isVisualHighlight, LayoutStyle, LineHighlight, MediaBlock, Presentation, Slide, TextBlock } from "slide-deck-ml-language";
 import { mediaSrc, renderVideo } from "./media-util.js";
 import { Prefixes } from "./prefix-registry-util.js";
 
@@ -168,19 +168,19 @@ function generateCodeHighlight(Codeblock: CodeBlock): string | undefined {
 }
 
 function getLineHighlight(lines: LineHighlight[], separator: string = '|'): string {
-	let linesHighlight = '';
-	for (const line of lines) {
-		if (isSimpleLineHighlight(line)) {
-			linesHighlight += `${line.line}`;
-		} else if (isRangeLineHighlight(line)) {
-			linesHighlight += `${line.startLine}-${line.endLine}`;
-		} else if (isMultiLineHighlight(line)) {
-			linesHighlight += getLineHighlight(line.lines, ',');
-		}
-		linesHighlight += separator;
-	}
-	linesHighlight = linesHighlight.slice(0, -1); // Remove last separator
-	return linesHighlight;
+    const processedSteps = lines.map(lineWrapper => {
+
+        const atomicParts = lineWrapper.lines.map(atomic => {
+            if (isSimpleLineHighlight(atomic)) {
+                return `${atomic.line}`;
+            } else if (isRangeLineHighlight(atomic)) {
+                return `${atomic.startLine}-${atomic.endLine}`;
+            }
+            return '';
+        });
+        return atomicParts.join(',');
+    });
+    return processedSteps.join(separator);
 }
 
 function pad(level: number) {

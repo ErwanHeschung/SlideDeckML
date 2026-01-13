@@ -1,4 +1,4 @@
-import { CodeBlock, Content, isCodeBlock, isFreeText, isHAlignOption, isImage, isLayoutBlock, isLayoutTypeOption, isMathBlock, isMediaBlock, isModel3D, isMultiLineHighlight, isOrderedList, isRangeLineHighlight, isSimpleHighlight, isSimpleLineHighlight, isTextBlock, isUnorderedList, isVAlignOption, isVideo, isVisualHighlight, LayoutStyle, LineHighlight, MediaBlock, Presentation, Slide, TextBlock } from "slide-deck-ml-language";
+import { Animation, CodeBlock, Content, isCodeBlock, isFreeText, isHAlignOption, isImage, isLayoutBlock, isLayoutTypeOption, isMathBlock, isMediaBlock, isModel3D, isMultiLineHighlight, isOrderedList, isRangeLineHighlight, isSimpleHighlight, isSimpleLineHighlight, isTextBlock, isUnorderedList, isVAlignOption, isVideo, isVisualHighlight, LayoutStyle, LineHighlight, MediaBlock, Presentation, Slide, TextBlock } from "slide-deck-ml-language";
 import { mediaSrc, renderVideo } from "./media-util.js";
 import { Prefixes } from "./prefix-registry-util.js";
 
@@ -43,13 +43,15 @@ function generateContentHtml(content: Content, level: number): string {
 	}
 	if (isLayoutBlock(content)) {
 		const children = content.elements.map(e => generateContentHtml(e, level + 1)).join('\n');
+		const fragment = getFragmentConfig(content);
 
-		return `${pad(level)}<div class="layout ${getClassesFromLayout(content.layout as LayoutStyle)} ${Prefixes.getPrefix(content)}">\n${children}\n${pad(level)}</div>`;
+		return `${pad(level)}<div class="layout ${getClassesFromLayout(content.layout as LayoutStyle)} ${Prefixes.getPrefix(content)}${fragment.classSuffix}"${fragment.attrs}>\n${children}\n${pad(level)}</div>`;
 	}
 	if (isMathBlock(content)) {
 		const formula = content.content;
 		const lines = formula.split('\n').map(line => pad(level + 1) + line).join('\n');
-		return `${pad(level)}<div class="math ${Prefixes.getPrefix(content)}">\n${pad(level + 1)}$$\n${lines}\n${pad(level + 1)}$$\n${pad(level)}</div>`;
+		const fragment = getFragmentConfig(content);
+		return `${pad(level)}<div class="math ${Prefixes.getPrefix(content)}${fragment.classSuffix}"${fragment.attrs}>\n${pad(level + 1)}$$\n${lines}\n${pad(level + 1)}$$\n${pad(level)}</div>`;
 	}
 	return '';
 
@@ -57,14 +59,21 @@ function generateContentHtml(content: Content, level: number): string {
 
 function generateMedia(content: MediaBlock, level: number): string {
 	const src = mediaSrc(content.url);
+	const fragment = getFragmentConfig(content);
+	const className = `${Prefixes.getPrefix(content)}${fragment.classSuffix}`;
+	const extraAttrs = fragment.attrs;
 	if (isVideo(content)) {
-		return `${pad(level)}${renderVideo(src, Prefixes.getPrefix(content))}`;
+		const html = renderVideo(src, className);
+		if (!extraAttrs) {
+			return `${pad(level)}${html}`;
+		}
+		return `${pad(level)}${injectAttrsIntoFirstTag(html, extraAttrs)}`;
 	}
 	if (isImage(content)) {
-		return `${pad(level)}<img class="${Prefixes.getPrefix(content)}" src="${src}" alt="" />`;
+		return `${pad(level)}<img class="${className}"${extraAttrs} src="${src}" alt="" />`;
 	}
 	if (isModel3D(content)) {
-		return `${pad(level)}<model-viewer class="${Prefixes.getPrefix(content)}" src="${src}" alt="" camera-controls></model-viewer>`;
+		return `${pad(level)}<model-viewer class="${className}"${extraAttrs} src="${src}" alt="" camera-controls></model-viewer>`;
 	}
 
 	return '';
@@ -74,15 +83,18 @@ function generateText(content: TextBlock, level: number): string {
 	if (isFreeText(content)) {
 		const text = content.inline ?? content.block ?? '';
 		const lines = text.split('\n').map(line => pad(level + 1) + line).join('\n');
-		return `${pad(level)}<p class="${Prefixes.getPrefix(content)}">\n${lines}\n${pad(level)}</p>`;
+		const fragment = getFragmentConfig(content);
+		return `${pad(level)}<p class="${Prefixes.getPrefix(content)}${fragment.classSuffix}"${fragment.attrs}>\n${lines}\n${pad(level)}</p>`;
 	}
 	if (isUnorderedList(content)) {
 		const items = content.items.map(i => pad(level + 1) + `<li>${i.text}</li>`).join('\n');
-		return `${pad(level)}<ul class="${Prefixes.getPrefix(content)}">\n${items}\n${pad(level)}</ul>`;
+		const fragment = getFragmentConfig(content);
+		return `${pad(level)}<ul class="${Prefixes.getPrefix(content)}${fragment.classSuffix}"${fragment.attrs}>\n${items}\n${pad(level)}</ul>`;
 	}
 	if (isOrderedList(content)) {
 		const items = content.items.map(i => pad(level + 1) + `<li>${i.text}</li>`).join('\n');
-		return `${pad(level)}<ol class="${Prefixes.getPrefix(content)}">\n${items}\n${pad(level)}</ol>`;
+		const fragment = getFragmentConfig(content);
+		return `${pad(level)}<ol class="${Prefixes.getPrefix(content)}${fragment.classSuffix}"${fragment.attrs}>\n${items}\n${pad(level)}</ol>`;
 	}
 	return '';
 }
@@ -91,12 +103,40 @@ function generateCodeBlock(content: CodeBlock, level: number): string {
 	const code = content.codeContent;
 	const lines = code.split('\n').map((line: string) => pad(level + 2) + line).join('\n');
 	const codeHighlight = content?.highlight ? generateCodeHighlight(content) : undefined;
+	const fragment = getFragmentConfig(content);
 	return `
 ${pad(level)}<div class="code-block ${Prefixes.getPrefix(content)} horizontal">
-${pad(level + 1)}<pre><code data-trim ${codeHighlight ?? ""} class="language-${content.language}">\n${lines}\n${pad(level)}
+${pad(level + 1)}<pre class="${fragment.classSuffix.trim()}"${fragment.attrs}><code data-trim ${codeHighlight ?? ""} class="language-${content.language}">\n${lines}\n${pad(level)}
 ${pad(level+1)}</code></pre>
 ${pad(level+1)}${isVisualHighlight(content?.highlight) ? `<img alt="Legend for code highlighting" class="highlight-${Prefixes.getPrefix(content)}" />` : ''}
 ${pad(level)}</div>`;
+}
+
+function getFragmentConfig(node: { animation?: Animation }): { classSuffix: string; attrs: string } {
+	const animation = node.animation;
+	if (!animation) {
+		return { classSuffix: '', attrs: '' };
+	}
+
+	const classSuffix = ` fragment ${animation.effect}`;
+	let attrs = '';
+
+	if (animation.index !== undefined) {
+		attrs += ` data-fragment-index="${animation.index}"`;
+	}
+	if (animation.durationMs !== undefined) {
+		attrs += ` style="transition-duration: ${animation.durationMs}ms"`;
+	}
+
+	return { classSuffix, attrs };
+}
+
+function injectAttrsIntoFirstTag(html: string, attrs: string): string {
+	const firstTagEnd = html.indexOf('>');
+	if (firstTagEnd === -1) {
+		return html;
+	}
+	return `${html.slice(0, firstTagEnd)}${attrs}${html.slice(firstTagEnd)}`;
 }
 
 function generateCodeHighlight(Codeblock: CodeBlock): string | undefined {

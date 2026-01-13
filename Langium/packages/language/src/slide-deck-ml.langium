@@ -30,6 +30,7 @@ Video:
     (size=Size)?
     INDENT
         (css=CssBlock)?
+        (animation=Animation)?
         url=STRING
     DEDENT;
 
@@ -38,6 +39,7 @@ Model3D:
     (size=Size)?
     INDENT
         (css=CssBlock)?
+        (animation=Animation)?
         url=STRING
     DEDENT;
 
@@ -46,6 +48,7 @@ Image:
     (size=Size)?
     INDENT
         (css=CssBlock)?
+        (animation=Animation)?
         url=STRING
     DEDENT;
 
@@ -60,6 +63,7 @@ UnorderedList:
     (size=Size)?
     INDENT
         (css=CssBlock)?
+        (animation=Animation)?
         items+=ListItem+
     DEDENT;
 
@@ -69,6 +73,7 @@ OrderedList:
     (size=Size)?
     INDENT
         (css=CssBlock)?
+        (animation=Animation)?
         items+=ListItem+
     DEDENT;
 
@@ -81,6 +86,7 @@ FreeText:
     (size=Size)?
     INDENT
         (css=CssBlock)?
+        (animation=Animation)?
         (inline=STRING | block=TEXT_BLOCK)
     DEDENT;
 
@@ -91,6 +97,7 @@ CodeBlock:
     (size=Size)?
     INDENT
         (css=CssBlock)?
+        (animation=Animation)?
         (highlight=Highlight)?
         codeContent=TEXT_BLOCK
     DEDENT;
@@ -141,6 +148,7 @@ MathBlock:
     (size=Size)?
     INDENT
         (css=CssBlock)?
+        (animation=Animation)?
         content=TEXT_BLOCK
     DEDENT;
 
@@ -151,6 +159,7 @@ LayoutBlock:
     (size=Size)?
     INDENT
         (css=CssBlock)?
+        (animation=Animation)?
         elements+=Content*
     DEDENT;
 
@@ -176,6 +185,28 @@ Width :
 
 Height :
     'h' height=PERCENT;
+
+
+AnimationEffect returns string:
+      'fade-in'
+    | 'fade-out'
+    | 'fade-up'
+    | 'fade-down'
+    | 'fade-left'
+    | 'fade-right'
+    | 'fade-in-then-out'
+    | 'semi-fade-out'
+    | 'current-visible'
+    | 'grow'
+    | 'shrink'
+    | 'zoom-in'
+    | 'zoom-out';
+
+Animation:
+    'animation'
+    ('effect' effect=AnimationEffect)
+    ('index' index=INT)?
+    ('durationMs' durationMs=INT)?;
 
 
 //Slide Options
@@ -263,7 +294,7 @@ terminal INDENT: 'synthetic:indent';
 terminal DEDENT: 'synthetic:dedent';
 
 terminal PERCENT: /[0-9]+%/;
-terminal ID: /[_a-zA-Z][\w_]*/;
+terminal ID: /[_a-zA-Z][\w_-]*/;
 terminal INT returns number: /[0-9]+/;
 terminal STRING: /"(\\.|[^"\\])*"|'(\\.|[^'\\])*'/;
 terminal HEX: /#[0-9a-fA-F]{6}/;

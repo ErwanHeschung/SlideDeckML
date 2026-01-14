@@ -189,19 +189,19 @@ function generateCodeHighlight(Codeblock: CodeBlock): string | undefined {
 }
 
 function getLineHighlight(lines: LineHighlight[], separator: string = '|'): string {
-	let linesHighlight = '';
-	for (const line of lines) {
-		if (isSimpleLineHighlight(line)) {
-			linesHighlight += `${line.line}`;
-		} else if (isRangeLineHighlight(line)) {
-			linesHighlight += `${line.startLine}-${line.endLine}`;
-		} else if (isMultiLineHighlight(line)) {
-			linesHighlight += getLineHighlight(line.lines, ',');
-		}
-		linesHighlight += separator;
-	}
-	linesHighlight = linesHighlight.slice(0, -1); // Remove last separator
-	return linesHighlight;
+    const processedSteps = lines.map(lineWrapper => {
+
+        const atomicParts = lineWrapper.lines.map(atomic => {
+            if (isSimpleLineHighlight(atomic)) {
+                return `${atomic.line}`;
+            } else if (isRangeLineHighlight(atomic)) {
+                return `${atomic.startLine}-${atomic.endLine}`;
+            }
+            return '';
+        });
+        return atomicParts.join(',');
+    });
+    return processedSteps.join(separator);
 }
 
 function pad(level: number) {

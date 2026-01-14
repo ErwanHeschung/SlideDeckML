@@ -17,6 +17,7 @@ html, body {
 
 .code-block {
   height: 400px;
+  min-width:600px;
   gap: 1rem;
 }
 

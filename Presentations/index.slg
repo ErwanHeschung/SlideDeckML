@@ -103,3 +103,15 @@ presentation MyAwesomePres with slideNumbers
         text 
             animation effect fade-in index 0 durationMs 500
             "test!"
+
+    slide "Object detection"
+        css
+            ```
+            color: #ff2d2d;
+            ```
+        image
+            "traffic.png"
+            annotate
+                rect x 5% y 47% w 20% h 20% label "Car" step 1
+                rect x 33% y 35% w 10% h 13% label "Tree" step 2
+                arrow x1 100% y1 48% x2 67% y2 47% label "Look here" step 3

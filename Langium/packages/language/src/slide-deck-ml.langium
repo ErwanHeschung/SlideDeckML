@@ -50,7 +50,35 @@ Image:
         (css=CssBlock)?
         (animation=Animation)?
         url=STRING
+        (annotations=AnnotationsBlock)?
     DEDENT;
+
+AnnotationsBlock:
+    'annotate'
+    INDENT
+        annotations+=Annotation+
+    DEDENT;
+
+Annotation:
+    RectAnnotation | ArrowAnnotation;
+
+RectAnnotation:
+    'rect'
+        'x' x=PERCENT
+        'y' y=PERCENT
+        'w' w=PERCENT
+        'h' h=PERCENT
+        ('label' label=STRING)?
+        ('step' step=INT)?;
+
+ArrowAnnotation:
+    'arrow'
+        'x1' x1=PERCENT
+        'y1' y1=PERCENT
+        'x2' x2=PERCENT
+        'y2' y2=PERCENT
+        ('label' label=STRING)?
+        ('step' step=INT)?;
 
 TextBlock:
     List | FreeText;

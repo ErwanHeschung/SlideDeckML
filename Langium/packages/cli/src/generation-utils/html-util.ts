@@ -1,4 +1,4 @@
-import { Animation, CodeBlock, Content, isCodeBlock, isFreeText, isHAlignOption, isImage, isLayoutBlock, isLayoutTypeOption, isMathBlock, isMediaBlock, isModel3D, isOrderedList, isRangeLineHighlight, isSimpleHighlight, isSimpleLineHighlight, isTextBlock, isUnorderedList, isVAlignOption, isVideo, isVisualHighlight, LayoutStyle, LineHighlight, MediaBlock, Presentation, Slide, TextBlock } from "slide-deck-ml-language";
+import { Animation, CodeBlock, Content, isCodeBlock, isFreeText, isHAlignOption, isImage, isLayoutBlock, isLayoutTypeOption, isMathBlock, isMediaBlock, isModel3D, isOrderedList, isRangeLineHighlight, isSimpleHighlight, isSimpleLineHighlight, isTextBlock, isUnorderedList, isVAlignOption, isVideo, isVisualHighlight, LayoutStyle, LineHighlight, MediaBlock, Presentation, Slide, TextBlock, isRectAnnotation, isArrowAnnotation } from "slide-deck-ml-language";
 import { mediaSrc, renderVideo } from "./media-util.js";
 import { Prefixes } from "./prefix-registry-util.js";
 
@@ -70,8 +70,17 @@ function generateMedia(content: MediaBlock, level: number): string {
 		return `${pad(level)}${injectAttrsIntoFirstTag(html, extraAttrs)}`;
 	}
 	if (isImage(content)) {
-		return `${pad(level)}<img class="${className}"${extraAttrs} src="${src}" alt="" />`;
-	}
+        const ann = (content as any).annotations?.annotations ?? [];
+
+        if (ann.length === 0) {
+            return `${pad(level)}<img class="${className}"${extraAttrs} src="${src}" alt="" />`;
+        }
+
+        return `${pad(level)}<div class="annotated-media ${className}"${extraAttrs}>\n` +
+            `${pad(level + 1)}<img class="${Prefixes.getPrefix(content)}" src="${src}" alt="" />\n` +
+            `${pad(level + 1)}${generateAnnotationsSvg(content)}\n` +
+            `${pad(level)}</div>`;
+    }
 	if (isModel3D(content)) {
 		return `${pad(level)}<model-viewer class="${className}"${extraAttrs} src="${src}" alt="" camera-controls></model-viewer>`;
 	}
@@ -213,4 +222,69 @@ function getClassesFromLayout(layout: LayoutStyle) {
 	}
 
 	return `${layoutType} v-align-${vertical} h-align-${horizontal}`;
+}
+
+function generateAnnotationsSvg(image: any): string {
+    const annotations = image.annotations?.annotations ?? [];
+    if (!annotations.length) return '';
+
+    const shapes: string[] = [];
+
+    for (const a of annotations) {
+        const frag = fragmentAttrsForStep(a.step);
+
+        if (isRectAnnotation(a)) {
+            const x = pct(a.x), y = pct(a.y), w = pct(a.w), h = pct(a.h);
+            shapes.push(`<rect class="anno-rect${frag.cls}"${frag.attrs} x="${x}" y="${y}" width="${w}" height="${h}" rx="1" ry="1" />`);
+            if (a.label) {
+                shapes.push(`<text class="anno-label${frag.cls}"${frag.attrs} x="${x}" y="${y}">${escapeXml(stripQuotes(a.label))}</text>`);
+            }
+        } else if (isArrowAnnotation(a)) {
+            const x1 = pct(a.x1), y1 = pct(a.y1), x2 = pct(a.x2), y2 = pct(a.y2);
+            shapes.push(`<line class="anno-arrow${frag.cls}"${frag.attrs} x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" marker-end="url(#arrowhead)" />`);
+            if (a.label) {
+                const mx = (x1 + x2) / 2;
+                const my = (y1 + y2) / 2;
+                shapes.push(`<text class="anno-label${frag.cls}"${frag.attrs} x="${mx}" y="${my}">${escapeXml(stripQuotes(a.label))}</text>`);
+            }
+        }
+    }
+
+    return `<svg class="annotation-layer" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+  <defs>
+    <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" class="anno-arrowhead" />
+    </marker>
+  </defs>
+  ${shapes.join("\n  ")}
+</svg>`;
+}
+
+function fragmentAttrsForStep(step?: number): { cls: string; attrs: string } {
+    if (typeof step !== 'number') return { cls: '', attrs: '' };
+    return { cls: ' fragment', attrs: ` data-fragment-index="${step}"` };
+}
+
+function pct(p: string): number {
+    return Number.parseFloat(p.replace('%', ''));
+}
+
+function escapeXml(s: string): string {
+    return s.replace(/[&<>"']/g, (ch) => {
+        switch (ch) {
+            case '&': return '&amp;';
+            case '<': return '&lt;';
+            case '>': return '&gt;';
+            case '"': return '&quot;';
+            case "'": return '&apos;';
+            default: return ch;
+        }
+    });
+}
+
+function stripQuotes(s: string): string {
+    if ((s.startsWith('"') && s.endsWith('"')) || (s.startsWith("'") && s.endsWith("'"))) {
+        return s.slice(1, -1);
+    }
+    return s;
 }

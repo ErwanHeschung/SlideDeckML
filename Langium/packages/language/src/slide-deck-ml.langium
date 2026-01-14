@@ -78,6 +78,9 @@ OrderedList:
     DEDENT;
 
 ListItem:
+    List | TextItem;
+
+TextItem: 
     '-' text=STRING;
 
 //allow both inline and block text for flexibility

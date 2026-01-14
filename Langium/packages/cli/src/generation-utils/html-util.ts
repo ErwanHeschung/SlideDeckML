@@ -1,4 +1,4 @@
-import { Animation, CodeBlock, Content, isCodeBlock, isFreeText, isHAlignOption, isImage, isLayoutBlock, isLayoutTypeOption, isMathBlock, isMediaBlock, isModel3D, isMultiLineHighlight, isOrderedList, isRangeLineHighlight, isSimpleHighlight, isSimpleLineHighlight, isTextBlock, isTextItem, isUnorderedList, isVAlignOption, isVideo, isVisualHighlight, LayoutStyle, LineHighlight, List, ListItem, MediaBlock, Presentation, Slide, TextBlock } from "slide-deck-ml-language";
+import { Animation, CodeBlock, Content, isCodeBlock, isFreeText, isHAlignOption, isImage, isLayoutBlock, isLayoutTypeOption, isMathBlock, isMediaBlock, isModel3D, isOrderedList, isRangeLineHighlight, isSimpleHighlight, isSimpleLineHighlight, isTextBlock, isTextItem, isUnorderedList, isVAlignOption, isVideo, isVisualHighlight, LayoutStyle, LineHighlight, List, ListItem, MediaBlock, Presentation, Slide, TextBlock } from "slide-deck-ml-language";
 import { mediaSrc, renderVideo } from "./media-util.js";
 import { Prefixes } from "./prefix-registry-util.js";
 

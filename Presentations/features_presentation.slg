@@ -109,14 +109,39 @@ presentation FeatureHighlights import FeaturesTemplate from "features_template.s
             animation effect zoom-in index 1 durationMs 500
             code javascript
                 visualHighlight
-                    - 1 "https://www.svgrepo.com/show/433961/waving-hand.svg"
-                    -2..3 "https://staging.svgrepo.com/show/41427/tools.svg"
-                    - 4 "https://www.svgrepo.com/show/511163/terminal.svg"
+                    - 1 "waving-hand.svg"
+                    -2..3 "tools.svg"
+                    - 4 "terminal.svg"
                 ```
                 function greet(name) {
                     return `Hello, ${name}!`;
                 }
                 console.log(greet('World'));
+                ```
+
+    slide "Math Blocks" as FeaturePresentationSlide
+        text as title
+            animation effect zoom-in index 0 durationMs 600
+            "Math Blocks"
+        text as subtitle
+            animation effect fade-in index 1 durationMs 500
+            "Write LaTeX-style formulas; rendered with KaTeX in Reveal.js"
+        layoutBlock as content
+            text
+                animation effect fade-up index 2 durationMs 500
+                "Inline math works too: \\(a^2 + b^2 = c^2\\)"
+            math size h 55%
+                animation effect zoom-in index 3 durationMs 500
+                ```
+                E = mc^2
+
+                \int_{0}^{\infty} e^{-x^2}\,dx = \frac{\sqrt{\pi}}{2}
+
+                \mathbf{x} = \begin{bmatrix}
+                  x_1 \\
+                  x_2 \\
+                  x_3
+                \end{bmatrix}
                 ```
     slide "Animations" as FeaturePresentationSlide
         text as title

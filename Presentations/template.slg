@@ -1,0 +1,291 @@
+template Inter #2d3748 true
+    slide TitleSlide
+        css
+            ```
+            background-color: #1a365d;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            ```
+        text title freetext
+            css
+                ```
+                font-size: 3.5rem;
+                font-weight: 600;
+                color: white;
+                margin-bottom: 1rem;
+                ```
+        text subtitle freetext
+            css
+                ```
+                font-size: 1.5rem;
+                color: #a0aec0;
+                font-weight: 400;
+                ```
+        media logo image
+            css
+                ```
+                position: absolute;
+                bottom: 2rem;
+                right: 2rem;
+                max-width: 100px;
+                ```
+
+    slide SectionSlide
+        css
+            ```
+            background-color: #2d3748;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            ```
+        text sectionTitle freetext
+            css
+                ```
+                font-size: 3rem;
+                font-weight: 600;
+                color: white;
+                ```
+
+    slide ContentSlide
+        css
+            ```
+            background-color: #ffffff;
+            padding: 3rem 4rem;
+            ```
+        text heading freetext
+            css
+                ```
+                font-size: 2.2rem;
+                font-weight: 600;
+                color: #1a365d;
+                margin-bottom: 2rem;
+                ```
+        text body freetext
+            css
+                ```
+                font-size: 1.3rem;
+                line-height: 1.8;
+                color: #4a5568;
+                ```
+
+    slide TwoColumnSlide
+        css
+            ```
+            background-color: #ffffff;
+            padding: 3rem 4rem;
+            ```
+        text heading freetext
+            css
+                ```
+                font-size: 2.2rem;
+                font-weight: 600;
+                color: #1a365d;
+                margin-bottom: 2rem;
+                ```
+        flow columns layout horizontal
+            css
+                ```
+                gap: 4rem;
+                ```
+            text leftColumn freetext
+                css
+                    ```
+                    flex: 1;
+                    font-size: 1.2rem;
+                    line-height: 1.7;
+                    color: #4a5568;
+                    ```
+            text rightColumn freetext
+                css
+                    ```
+                    flex: 1;
+                    font-size: 1.2rem;
+                    line-height: 1.7;
+                    color: #4a5568;
+                    ```
+
+    slide ImageSlide
+        css
+            ```
+            background-color: #f7fafc;
+            padding: 2rem;
+            ```
+        text caption freetext
+            css
+                ```
+                font-size: 1.8rem;
+                font-weight: 600;
+                color: #1a365d;
+                margin-bottom: 1.5rem;
+                ```
+        media mainImage image
+            css
+                ```
+                max-width: 75%;
+                max-height: 65vh;
+                border: 1px solid #e2e8f0;
+                ```
+
+    slide BulletSlide
+        css
+            ```
+            background-color: #ffffff;
+            padding: 3rem 5rem;
+            ```
+        text heading freetext
+            css
+                ```
+                font-size: 2.2rem;
+                font-weight: 600;
+                color: #1a365d;
+                margin-bottom: 2rem;
+                ```
+        text bullets ul
+            css
+                ```
+                font-size: 1.4rem;
+                line-height: 2.2;
+                color: #4a5568;
+                ```
+
+    slide CodeSlide
+        css
+            ```
+            background-color: #f7fafc;
+            padding: 2rem 3rem;
+            ```
+        text codeTitle freetext
+            css
+                ```
+                font-size: 1.8rem;
+                font-weight: 600;
+                color: #1a365d;
+                margin-bottom: 1.5rem;
+                ```
+        code codeBlock
+            css
+                ```
+                font-size: 1rem;
+                border: 1px solid #e2e8f0;
+                ```
+
+    slide ComparisonSlide
+        css
+            ```
+            background-color: #ffffff;
+            padding: 2rem 3rem;
+            ```
+        text heading freetext
+            css
+                ```
+                font-size: 2.2rem;
+                font-weight: 600;
+                color: #1a365d;
+                margin-bottom: 2rem;
+                text-align: center;
+                ```
+        flow comparison layout horizontal
+            css
+                ```
+                gap: 3rem;
+                ```
+            flow leftSide layout vertical
+                css
+                    ```
+                    flex: 1;
+                    background-color: #fff5f5;
+                    border: 1px solid #feb2b2;
+                    padding: 1.5rem;
+                    ```
+                text leftTitle freetext
+                    css
+                        ```
+                        font-size: 1.5rem;
+                        font-weight: 600;
+                        color: #c53030;
+                        margin-bottom: 1rem;
+                        ```
+                text leftContent ul
+                    css
+                        ```
+                        color: #742a2a;
+                        font-size: 1.1rem;
+                        ```
+            flow rightSide layout vertical
+                css
+                    ```
+                    flex: 1;
+                    background-color: #f0fff4;
+                    border: 1px solid #9ae6b4;
+                    padding: 1.5rem;
+                    ```
+                text rightTitle freetext
+                    css
+                        ```
+                        font-size: 1.5rem;
+                        font-weight: 600;
+                        color: #276749;
+                        margin-bottom: 1rem;
+                        ```
+                text rightContent ul
+                    css
+                        ```
+                        color: #22543d;
+                        font-size: 1.1rem;
+                        ```
+
+    slide QuoteSlide
+        css
+            ```
+            background-color: #f7fafc;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem;
+            ```
+        text quote freetext
+            css
+                ```
+                font-size: 1.8rem;
+                font-style: italic;
+                color: #2d3748;
+                text-align: center;
+                line-height: 1.6;
+                max-width: 80%;
+                border-left: 4px solid #1a365d;
+                padding-left: 2rem;
+                ```
+        text author freetext
+            css
+                ```
+                font-size: 1.2rem;
+                color: #718096;
+                margin-top: 2rem;
+                ```
+
+    slide EndSlide
+        css
+            ```
+            background-color: #1a365d;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            ```
+        text thankYou freetext
+            css
+                ```
+                font-size: 3rem;
+                font-weight: 600;
+                color: white;
+                margin-bottom: 1rem;
+                ```
+        text contact freetext
+            css
+                ```
+                font-size: 1.3rem;
+                color: #a0aec0;
+                ```

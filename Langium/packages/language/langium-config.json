@@ -6,7 +6,10 @@
             "grammar": "src/slide-deck-ml.langium",
             "fileExtensions": [
                 "slg"
-            ]
+            ],
+            "textMate": {
+                "out":"syntaxes/slide-deck-ml.tmLanguage.json"
+            }
         }
     ],
     "out": "src/generated"

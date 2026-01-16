@@ -1,4 +1,4 @@
-import { Animation, CodeBlock, Content, isCodeBlock, isFreeText, isHAlignOption, isImage, isLayoutBlock, isLayoutTypeOption, isMathBlock, isMediaBlock, isModel3D, isOrderedList, isRangeLineHighlight, isSimpleHighlight, isSimpleLineHighlight, isTextBlock, isTextItem, isUnorderedList, isVAlignOption, isVideo, isVisualHighlight, LayoutStyle, LineHighlight, List, ListItem, MediaBlock, Presentation, Slide, TextBlock, isRectAnnotation, isArrowAnnotation } from "slide-deck-ml-language";
+import { Animation, CodeBlock, Content, isCodeBlock, isFreeText, isHAlignOption, isImage, isLayoutBlock, isLayoutTypeOption, isMathBlock, isMediaBlock, isModel3D, isOrderedList, isRangeLineHighlight, isSimpleHighlight, isSimpleLineHighlight, isTextBlock, isTextItem, isUnorderedList, isVAlignOption, isVideo, isVisualHighlight, LayoutStyle, LineHighlight, List, ListItem, MediaBlock, Presentation, Slide, TextBlock, isRectAnnotation, isArrowAnnotation, Image } from "slide-deck-ml-language";
 
 import { mediaSrc, renderVideo } from "./media-util.js";
 import { Prefixes } from "./prefix-registry-util.js";
@@ -71,14 +71,14 @@ function generateMedia(content: MediaBlock, level: number): string {
 		return `${pad(level)}${injectAttrsIntoFirstTag(html, extraAttrs)}`;
 	}
 	if (isImage(content)) {
-        const ann = (content as any).annotations?.annotations ?? [];
+        const ann = content.annotation?.annotations ?? [];
 
         if (ann.length === 0) {
             return `${pad(level)}<img class="${className}"${extraAttrs} src="${src}" alt="" />`;
         }
 
-        return `${pad(level)}<div class="annotated-media ${className}"${extraAttrs}>\n` +
-            `${pad(level + 1)}<img class="${Prefixes.getPrefix(content)}" src="${src}" alt="" />\n` +
+		return `${pad(level)}<div class="annotated-media ${className}"${extraAttrs}>\n` +
+            `${pad(level + 1)}<img src="${src}" alt="" />\n` +
             `${pad(level + 1)}${generateAnnotationsSvg(content)}\n` +
             `${pad(level)}</div>`;
     }
@@ -246,8 +246,8 @@ function getClassesFromLayout(layout: LayoutStyle) {
 	return `${layoutType} v-align-${vertical} h-align-${horizontal}`;
 }
 
-function generateAnnotationsSvg(image: any): string {
-    const annotations = image.annotations?.annotations ?? [];
+function generateAnnotationsSvg(image: Image): string {
+    const annotations = image.annotation?.annotations ?? [];
     if (!annotations.length) return '';
 
     const shapes: string[] = [];

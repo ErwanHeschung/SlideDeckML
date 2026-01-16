@@ -50,7 +50,7 @@ Image:
         (css=CssBlock)?
         (animation=Animation)?
         url=STRING
-        (annotations=AnnotationsBlock)?
+        (annotation=AnnotationsBlock)?
     DEDENT;
 
 AnnotationsBlock:

@@ -89,7 +89,7 @@ section{
 }
 
 /* Image annotations */
-.annotated-media { position: relative; display: inline-block; }
+.annotated-media { max-height:100%; position: relative; display: inline-block; }
 .annotated-media > img { display: block; position: relative; z-index: 1; }
 
 .annotation-layer {

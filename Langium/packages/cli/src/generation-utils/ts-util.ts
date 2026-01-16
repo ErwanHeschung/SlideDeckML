@@ -54,7 +54,7 @@ export function generateTs(presentation: Presentation): string {
     },`
     : "";
 
-  const customListener = analysis.hasCode ? addBlockListener() : "";
+  const customListener = analysis.hasCode ? addCodeBlockListener() : "";
 
   return `
 import Reveal from "reveal.js";
@@ -132,7 +132,7 @@ function generatePluginImports(plugins: PluginConfig[]): string {
     .join("\n");
 }
 
-function addBlockListener() {
+function addCodeBlockListener() {
   return `
 // Custom Listener for syncing Images with Code Steps
 Reveal.on('slidechanged', updateSpecificImage);

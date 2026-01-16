@@ -1,12 +1,8 @@
 template Inter #2d3748 true
-    slide TitleSlide
+    slide TitleSlide layout vertical v-align center h-align center
         css
             ```
             background-color: #1a365d;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             ```
         text title freetext
             css
@@ -32,13 +28,10 @@ template Inter #2d3748 true
                 max-width: 100px;
                 ```
 
-    slide SectionSlide
+    slide SectionSlide layout vertical v-align center h-align center
         css
             ```
             background-color: #2d3748;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             ```
         text sectionTitle freetext
             css
@@ -48,7 +41,7 @@ template Inter #2d3748 true
                 color: white;
                 ```
 
-    slide ContentSlide
+    slide ContentSlide layout vertical v-align start h-align start
         css
             ```
             background-color: #ffffff;
@@ -70,7 +63,7 @@ template Inter #2d3748 true
                 color: #4a5568;
                 ```
 
-    slide TwoColumnSlide
+    slide TwoColumnSlide layout vertical v-align start h-align start
         css
             ```
             background-color: #ffffff;
@@ -106,7 +99,7 @@ template Inter #2d3748 true
                     color: #4a5568;
                     ```
 
-    slide ImageSlide
+    slide ImageSlide layout vertical v-align center h-align center
         css
             ```
             background-color: #f7fafc;
@@ -128,7 +121,7 @@ template Inter #2d3748 true
                 border: 1px solid #e2e8f0;
                 ```
 
-    slide BulletSlide
+    slide BulletSlide layout vertical v-align start h-align start
         css
             ```
             background-color: #ffffff;
@@ -150,7 +143,7 @@ template Inter #2d3748 true
                 color: #4a5568;
                 ```
 
-    slide CodeSlide
+    slide CodeSlide layout vertical v-align start h-align start
         css
             ```
             background-color: #f7fafc;
@@ -171,7 +164,7 @@ template Inter #2d3748 true
                 border: 1px solid #e2e8f0;
                 ```
 
-    slide ComparisonSlide
+    slide ComparisonSlide layout vertical v-align start h-align center
         css
             ```
             background-color: #ffffff;
@@ -236,14 +229,10 @@ template Inter #2d3748 true
                         font-size: 1.1rem;
                         ```
 
-    slide QuoteSlide
+    slide QuoteSlide layout vertical v-align center h-align center
         css
             ```
             background-color: #f7fafc;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             padding: 4rem;
             ```
         text quote freetext
@@ -266,14 +255,10 @@ template Inter #2d3748 true
                 margin-top: 2rem;
                 ```
 
-    slide EndSlide
+    slide EndSlide layout vertical v-align center h-align center
         css
             ```
             background-color: #1a365d;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             ```
         text thankYou freetext
             css

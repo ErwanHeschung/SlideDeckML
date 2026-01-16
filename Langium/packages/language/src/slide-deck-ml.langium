@@ -279,7 +279,7 @@ Template:
     DEDENT;
 
 SlideTemplate:
-    'slide' name=ID
+    'slide' name=ID (layout=LayoutStyle)?
     INDENT
         (css=CssBlock)?
         content+=ContentPlaceholder*

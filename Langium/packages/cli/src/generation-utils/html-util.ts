@@ -1,4 +1,4 @@
-import { Animation, CodeBlock, Content, isCodeBlock, isFreeText, isHAlignOption, isImage, isLayoutBlock, isLayoutTypeOption, isMathBlock, isMediaBlock, isModel3D, isOrderedList, isRangeLineHighlight, isSimpleHighlight, isSimpleLineHighlight, isTextBlock, isTextItem, isUnorderedList, isVAlignOption, isVideo, isVisualHighlight, LayoutStyle, LineHighlight, List, ListItem, MediaBlock, Presentation, Slide, TextBlock, isRectAnnotation, isArrowAnnotation, Image } from "slide-deck-ml-language";
+import { Animation, CodeBlock, Content, isCodeBlock, isFreeText, isHAlignOption, isImage, isLayoutBlock, isLayoutPlaceholder, isLayoutTypeOption, isMathBlock, isMediaBlock, isModel3D, isOrderedList, isRangeLineHighlight, isSimpleHighlight, isSimpleLineHighlight, isTextBlock, isTextItem, isUnorderedList, isVAlignOption, isVideo, isVisualHighlight, LayoutBlock, LayoutStyle, LineHighlight, List, ListItem, MediaBlock, Presentation, Slide, TextBlock, isRectAnnotation, isArrowAnnotation, Image, isSlideTemplate } from "slide-deck-ml-language";
 
 import { mediaSrc, renderVideo } from "./media-util.js";
 import { Prefixes } from "./prefix-registry-util.js";
@@ -29,7 +29,8 @@ ${slidesHtml}
 
 function generateSlideHtml(slide: Slide, level: number): string {
 	const contentHtml = slide.contents.map(c => generateContentHtml(c, level + 1)).join('\n');
-	return `${pad(level)}<section class="${getClassesFromLayout(slide.layout as LayoutStyle)} ${Prefixes.getPrefix(slide)}">\n${contentHtml}\n${pad(level)}</section>`;
+	const layout = getLayoutForSlide(slide);
+	return `${pad(level)}<section class="${getClassesFromLayout(layout)} ${Prefixes.getPrefix(slide)}">\n${contentHtml}\n${pad(level)}</section>`;
 }
 
 function generateContentHtml(content: Content, level: number): string {
@@ -45,8 +46,9 @@ function generateContentHtml(content: Content, level: number): string {
 	if (isLayoutBlock(content)) {
 		const children = content.elements.map(e => generateContentHtml(e, level + 1)).join('\n');
 		const fragment = getFragmentConfig(content);
+		const layout = getLayoutForBlock(content);
 
-		return `${pad(level)}<div class="layout ${getClassesFromLayout(content.layout as LayoutStyle)} ${Prefixes.getPrefix(content)}${fragment.classSuffix}"${fragment.attrs}>\n${children}\n${pad(level)}</div>`;
+		return `${pad(level)}<div class="layout ${getClassesFromLayout(layout)} ${Prefixes.getPrefix(content)}${fragment.classSuffix}"${fragment.attrs}>\n${children}\n${pad(level)}</div>`;
 	}
 	if (isMathBlock(content)) {
 		const formula = content.content;
@@ -218,7 +220,29 @@ function pad(level: number) {
 	return '\t'.repeat(level);
 }
 
-function getClassesFromLayout(layout: LayoutStyle) {
+function getLayoutForSlide(slide: Slide): LayoutStyle | undefined {
+	if (slide.layout) {
+		return slide.layout;
+	}
+	const templateRef = slide.slideTemplateRef?.ref;
+	if (templateRef && isSlideTemplate(templateRef) && templateRef.layout) {
+		return templateRef.layout;
+	}
+	return undefined;
+}
+
+function getLayoutForBlock(block: LayoutBlock): LayoutStyle | undefined {
+	if (block.layout) {
+		return block.layout;
+	}
+	const templateRef = block.contentTemplateRef?.ref;
+	if (templateRef && isLayoutPlaceholder(templateRef)) {
+		return templateRef.layout;
+	}
+	return undefined;
+}
+
+function getClassesFromLayout(layout: LayoutStyle | undefined) {
 	if (!layout || !layout.options || layout.options.length === 0) {
 		return `${DEFAULT_LAYOUT} v-align-${DEFAULT_V_ALIGNMENT} h-align-${DEFAULT_H_ALIGNMENT}`;
 	}

@@ -7,7 +7,7 @@ Declaration:
     Presentation | Template;
 
 Presentation:
-    'presentation' name=ID (import=STRING)? (options=SlideOptions)?
+    'presentation' name=ID (import=STRING templateRef=[Template])? (options=SlideOptions)?
     INDENT
         slides+=Slide+
     DEDENT;
@@ -273,7 +273,7 @@ Alignment returns string: 'start' | 'end' | 'center';
 
 // templates 
 Template:
-    'template' font=ID fontColor=HEX displayPageNumber=Boolean
+    'template' name=STRING font=ID fontColor=HEX (options=SlideOptions)?
     INDENT
         slideTemplates+=SlideTemplate+
     DEDENT;

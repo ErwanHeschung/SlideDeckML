@@ -94,6 +94,15 @@ function analyzePresentation(pres: Presentation): AnalysisResult {
     }
   }
 
+  if (!result.slideNumber || !result.progress){
+    if (pres.templateRef?.ref?.options) {
+      for (const opt of pres.templateRef?.ref.options.options) {
+        if (opt.value === 'slideNumbers') result.slideNumber = true;
+        if (opt.value === 'progressBar') result.progress = true;
+      }
+    }
+  }
+
   for (const slide of pres.slides) {
     checkContentRecursive(slide.contents, result);
     if (result.hasCode && result.hasMath) break;

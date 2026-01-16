@@ -1,7 +1,10 @@
-import { Content, isHeight, isLayoutBlock, isWidth, Presentation, Slide } from "slide-deck-ml-language";
+import { Content, isHeight, isLayoutBlock, isWidth, Presentation, Slide, Template } from "slide-deck-ml-language";
 import { Prefixes } from "./prefix-registry-util.js";
 
 export function generateCss(presentation: Presentation): string {
+  const template: Template | undefined = presentation.templateRef?.ref; 
+  const font = template?.font;
+  const fontColor = template?.fontColor;
 	const slidesCSS = presentation.slides.map(slide => generateSlideCSS(slide)).join('');
 	return `
 html, body {
@@ -45,6 +48,9 @@ section{
 * {
   /* include padding in size (avoid calc) */
   box-sizing: border-box;
+  /* custom font */
+  ${font ? `font-family: ${font} !important;` : ''}
+  ${fontColor ? `color: ${fontColor} !important;` : ''}
 }
 
 .layout {

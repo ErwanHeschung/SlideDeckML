@@ -16,6 +16,15 @@ export class TemplateScopeProvider implements ScopeProvider {
 		const templateApp = this.loadTemplateFile(presentation.import);
 		if (!templateApp) return EMPTY_SCOPE;
 
+		if (isPresentation(context.container) && context.property === "templateRef") {
+			if (isTemplate(templateApp.declaration)) {
+				const descriptions = [
+					this.services.workspace.AstNodeDescriptionProvider.createDescription(templateApp.declaration, templateApp.declaration.name)
+				];
+				return new MapScope(descriptions);
+			}
+		}
+
 		if (isSlide(context.container) && context.property === "slideTemplateRef") {
 			if (isTemplate(templateApp.declaration)) {
 				const slideTemplates = templateApp.declaration.slideTemplates;

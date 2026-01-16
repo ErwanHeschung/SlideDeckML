@@ -1,0 +1,62 @@
+{
+  "name": "slide-deck-ml",
+  "scopeName": "source.slide-deck-ml",
+  "fileTypes": [
+    "slg"
+  ],
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "name": "meta.embedded.block.css",
+      "begin": "^\\s*(css)\\s*$",
+      "beginCaptures": {
+        "1": { "name": "keyword.control.style" }
+      },
+      "end": "(?<=```)",
+      "applyEndPatternLast": 1,
+      "patterns": [
+        {
+          "begin": "^\\s*```",
+          "end": "```",
+          "patterns": [
+            {
+              "include": "source.css#rule-list-innards"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "keyword.control.slide-deck-ml",
+      "match": "\\b(animation|annotate|arrow|center|code|css|current-visible|durationMs|effect|end|fade-down|fade-in|fade-in-then-out|fade-left|fade-out|fade-right|fade-up|flow|freetext|grow|h|h-align|highlight|horizontal|image|index|label|layout|layoutBlock|math|media|model3d|ol|presentation|progressBar|rect|semi-fade-out|shrink|size|slide|slideNumbers|start|step|template|text|ul|v-align|vertical|video|visualHighlight|w|with|x|x1|x2|y|y1|y2|zoom-in|zoom-out)\\b"
+    },
+    {
+      "name": "string.quoted.double.slide-deck-ml",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "include": "#string-character-escape"
+        }
+      ]
+    },
+    {
+      "name": "string.quoted.single.slide-deck-ml",
+      "begin": "'",
+      "end": "'",
+      "patterns": [
+        {
+          "include": "#string-character-escape"
+        }
+      ]
+    }
+  ],
+  "repository": {
+    "string-character-escape": {
+      "name": "constant.character.escape.slide-deck-ml",
+      "match": "\\\\(x[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4}|u\\{[0-9A-Fa-f]+\\}|[0-2][0-7]{0,2}|3[0-6][0-7]?|37[0-7]?|[4-7][0-7]?|.|$)"
+    }
+  }
+}

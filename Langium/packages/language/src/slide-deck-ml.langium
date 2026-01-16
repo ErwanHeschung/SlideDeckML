@@ -280,15 +280,17 @@ Template:
 
 SlideTemplate:
     'slide' name=ID (layout=LayoutStyle)?
+    (size=Size)?
     INDENT
         (css=CssBlock)?
         content+=ContentPlaceholder*
     DEDENT;
 
-ContentPlaceholder: LayoutPlaceholder | MediaPlaceholder | TextPlaceholder | CodePlaceholder;
+ContentPlaceholder: LayoutPlaceholder | MediaPlaceholder | TextPlaceholder | CodePlaceholder | MathPlaceholder;
 
 LayoutPlaceholder:
     'flow' name=ID layout=LayoutStyle
+    (size=Size)?
     INDENT
         (css=CssBlock)?
         content+=ContentPlaceholder*
@@ -296,18 +298,28 @@ LayoutPlaceholder:
 
 MediaPlaceholder:
     'media' name=ID type=('image' | 'video' | 'model3d')
+    (size=Size)?
     (INDENT
         css=CssBlock
     DEDENT)?;
 
 TextPlaceholder:
     'text' name=ID type=('ul' | 'ol' | 'freetext')
+    (size=Size)?
     (INDENT
         css=CssBlock
     DEDENT)?;
 
 CodePlaceholder:
     'code' name=ID
+    (size=Size)?
+    (INDENT
+        css=CssBlock
+    DEDENT)?;
+
+MathPlaceholder:
+    'math' name=ID
+    (size=Size)?
     (INDENT
         css=CssBlock
     DEDENT)?;

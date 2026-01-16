@@ -151,7 +151,8 @@ ${contentCSS}
 }
 
 function generateContentCSS(content: Content): string {
-	let size_css = getSizeFromContent(content);
+  let size_css = getSizeFromContent(content);
+  
 
 	const templateCSS = getTemplateCSSFromContent(content);
 	let custom_css = getCSSFromBlock(content);
@@ -189,15 +190,33 @@ function getCSSFromBlock(content: Slide | Content): string {
 }
 
 function getSizeFromContent(content: Content): string {
-	let cssProperties: string = '';
+  let cssProperties: string = '';
+  let hasWidth = false;
+  let hasHeight = false;
 	for (const sizeOption of content.size?.properties ?? []) {
 		if (isWidth(sizeOption)) {
-			cssProperties += `width: ${sizeOption.width};`;
+      cssProperties += `width: ${sizeOption.width};`;
+      hasWidth = true;
 		}
 		else if (isHeight(sizeOption)) {
-			cssProperties += `height: ${sizeOption.height};`;
+      cssProperties += `height: ${sizeOption.height};`;
+      hasHeight = true;
 		}
-	}
+  }
+  
+  if ((!hasHeight || !hasWidth) && content.contentTemplateRef?.ref?.size?.properties) {
+    for (const sizeOption of content.contentTemplateRef?.ref.size.properties ?? []) {
+      if (isWidth(sizeOption) && !hasWidth) {
+        cssProperties += `width: ${sizeOption.width};`;
+        hasWidth = true;
+      }
+      else if (isHeight(sizeOption) && !hasHeight) {
+        cssProperties += `height: ${sizeOption.height};`;
+        hasHeight = true;
+      }
+    }
+  }
+
 	return cssProperties ? '.' + Prefixes.getPrefix(content) + `{
   ${cssProperties}}` : '';
 }

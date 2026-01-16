@@ -6,6 +6,5 @@ node_modules/
 dist/
 out/
 **/src/generated
-syntaxes/
 *.tsbuildinfo
 *.vsix

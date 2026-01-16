@@ -44,9 +44,9 @@ presentation TechTalk "template.slg" with slideNumbers progressBar
         text heading
             animation effect fade-in index 0 durationMs 400
             "Traditional vs SlideDeckML"
-        layoutBlock comparison layout horizontal
+        layoutBlock comparison
             animation effect fade-up index 1 durationMs 500
-            layoutBlock leftSide layout vertical
+            layoutBlock leftSide
                 text leftTitle
                     css 
                         ```
@@ -57,7 +57,7 @@ presentation TechTalk "template.slg" with slideNumbers progressBar
                     - "Verbose markup"
                     - "Manual styling"
                     - "No templates"
-            layoutBlock rightSide layout vertical
+            layoutBlock rightSide
                 text rightTitle
                     "SlideDeckML"
                 ul rightContent
@@ -83,7 +83,7 @@ presentation TechTalk "template.slg" with slideNumbers progressBar
         text heading
             animation effect fade-in index 0 durationMs 400
             "How It Works"
-        layoutBlock columns layout horizontal
+        layoutBlock columns 
             animation effect fade-up index 1 durationMs 500
             text leftColumn
                 ```

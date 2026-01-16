@@ -1,0 +1,245 @@
+template FeaturesTemplate font Helvetica color #1f4e91 with slideNumbers progressBar
+    slide TitleSlide
+        css 
+            ```
+            background: linear-gradient(
+                180deg,
+                #eef3fb 0%,
+                #6a9cff 100%
+            );
+            ```
+        text title type freetext
+            css
+                ```
+                font-size: 7rem;
+                font-weight: bold;
+                ```
+        text subtitle type freetext
+            css
+                ```
+                font-size: 1.5rem;
+                ```
+        media logo type image size h 20%
+
+    slide ContentSlide
+        css 
+            ```
+            background: linear-gradient(
+                180deg,
+                #eef3fb 0%,
+                #72f7fe 100%
+            );
+            ```
+        layoutBlock header layout horizontal h-align end size h 10% 
+            media companyLogo type image 
+            media toolLogo type image
+        layoutBlock content size h 80%
+        
+        
+
+    slide FeaturePresentationSlide
+        css 
+            ```
+            background: linear-gradient(
+                180deg,
+                #eef3fb 0%,
+                #72f7fe 100%
+            );
+            ```
+        layoutBlock header layout horizontal h-align end size h 10% 
+            media companyLogo type image 
+            media toolLogo type image
+        
+        text title type freetext
+            css 
+                ```
+                font-weight: bold;
+                font-size:5rem;
+                ```
+        text subtitle type freetext size w 80%
+            css 
+                ```
+                font-size:2rem;
+                color:gray;
+                ```
+        layoutBlock content layout horizontal
+            css 
+                ```
+                gap: 3rem;
+                ```
+
+    slide TwoColumnSlide
+        css 
+            ```
+            background: linear-gradient(
+                180deg,
+                #eef3fb 0%,
+                #72f7fe 100%
+            );
+            ```
+        layoutBlock header layout horizontal h-align end size h 10% 
+            media companyLogo type image 
+            media toolLogo type image
+        
+        text title type freetext
+            css 
+                ```
+                font-weight: bold;
+                font-size:5rem;
+                ```
+        text subtitle type freetext size w 80%
+            css 
+                ```
+                font-size:2rem;
+                color:gray;
+                ```
+        layoutBlock content layout horizontal
+            css 
+                ```
+                gap: 3rem;
+                ```
+            layoutBlock leftColumn
+                css 
+                    ```
+                    background:lightblue;
+                    ```
+            layoutBlock rightColumn
+                css 
+                    ```
+                    background:lightcoral;
+                    ```
+                text cell1 type freetext
+                    css 
+                        ```
+                        background:lightyellow;
+                        ```
+                text cell2 type freetext
+                    css 
+                        ```
+                        background:lightseagreen;
+                        ```
+
+    slide ThankYouSlide
+        css
+            ```
+            background: linear-gradient(
+                180deg,
+                #eef3fb 0%,
+                #6a9cff 100%
+            );
+            ```
+
+        text title type freetext
+            css
+                ```
+                font-size: 6rem;
+                font-weight: bold;
+                ```
+
+        text subtitle type freetext size w 70%
+            css
+                ```
+                font-size: 1.6rem;
+                color: #2f2f2f;
+                ```
+
+    slide ThreeCardsSlide
+        css
+            ```
+            background: linear-gradient(
+                180deg,
+                #eef3fb 0%,
+                #72f7fe 100%
+            );
+            ```
+
+        text title type freetext
+            css
+                ```
+                font-size: 5rem;
+                font-weight: bold;
+                margin-bottom: 2rem;
+                ```
+
+        layoutBlock cards layout horizontal h-align center v-align center
+        size h 60%
+            css
+                ```
+                gap: 3rem;
+                padding: 0 4rem;
+                ```
+
+            layoutBlock card1
+                css
+                    ```
+                    background: white;
+                    border-radius: 16px;
+                    padding: 2.5rem;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+                    flex: 1;
+                    ```
+
+                text card1Title type freetext
+                    css
+                        ```
+                        font-size: 2rem;
+                        font-weight: bold;
+                        margin-bottom: 1rem;
+                        ```
+
+                text card1Content type freetext
+                    css
+                        ```
+                        font-size: 1.3rem;
+                        line-height: 1.6;
+                        ```
+
+            layoutBlock card2
+                css
+                    ```
+                    background: white;
+                    border-radius: 16px;
+                    padding: 2.5rem;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+                    flex: 1;
+                    ```
+
+                text card2Title type freetext
+                    css
+                        ```
+                        font-size: 2rem;
+                        font-weight: bold;
+                        margin-bottom: 1rem;
+                        ```
+
+                text card2Content type freetext
+                    css
+                        ```
+                        font-size: 1.3rem;
+                        line-height: 1.6;
+                        ```
+
+            layoutBlock card3
+                css
+                    ```
+                    background: white;
+                    border-radius: 16px;
+                    padding: 2.5rem;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+                    flex: 1;
+                    ```
+
+                text card3Title type freetext
+                    css
+                        ```
+                        font-size: 2rem;
+                        font-weight: bold;
+                        margin-bottom: 1rem;
+                        ```
+
+                text card3Content type freetext
+                    css
+                        ```
+                        font-size: 1.3rem;
+                        line-height: 1.6;
+                        ```

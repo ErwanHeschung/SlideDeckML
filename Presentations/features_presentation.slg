@@ -1,0 +1,206 @@
+presentation FeatureHighlights import FeaturesTemplate from "features_template.slg"
+
+    slide "Feature Highlights" as TitleSlide
+        text as title
+            animation effect fade-in index 0 durationMs 600
+            "Feature Highlights"
+        text as subtitle
+            animation effect fade-up index 1 durationMs 500
+            "A concise tour of SlideDeckML capabilities"
+        image as logo
+            animation effect fade-in index 2 durationMs 400
+            "https://www.polytech-reseau.org/wp-content/uploads/2021/03/cropped-logo_reseau_Polytech.png"
+
+    slide "Text Content" as FeaturePresentationSlide
+        text as title
+            animation effect fade-in index 0 durationMs 600
+            "Text Content"
+        text as subtitle
+            animation effect fade-in index 0 durationMs 600
+            "You can choose either freeText or order/unordered list, nested if you want!"
+        layoutBlock as content
+            ul 
+                animation effect fade-up index 1 durationMs 500
+                - "Free text paragraphs"
+                - "Unordered & ordered lists"
+                - "Inline & block formatting"
+                - "Custom CSS per element"
+                ol 
+                    - "Nested list"
+
+            ol
+                animation effect fade-up index 2 durationMs 500
+                - "Write content lines"
+                - "Use list items"
+                - "Style with CSS"
+                ol 
+                    - "Nested list"
+
+    slide "Media annotations" as FeaturePresentationSlide
+        text as title
+            animation effect zoom-in index 0 durationMs 600
+            "Image annotations"
+        text as subtitle
+            animation effect zoom-in index 0 durationMs 600
+            "You can annotate your image as you wish"
+        layoutBlock as content size h 80%
+        
+            image size h 100%
+                "traffic.png"
+                annotate
+                    rect x 5% y 47% w 20% h 20% label "Car" step 1
+                    rect x 33% y 35% w 10% h 13% label "Tree" step 2
+                    arrow x1 100% y1 48% x2 67% y2 47% label "Look here" step 3
+                
+    slide "Images & Media" as FeaturePresentationSlide
+        text as title
+            animation effect zoom-in index 0 durationMs 600
+            "Images & Media"
+        text as subtitle
+            animation effect zoom-in index 0 durationMs 600
+            "Supports Images, Video (even youtube) and 3D models. They can even be hosted, just provide us the link!"
+        layoutBlock as content
+            animation effect zoom-in index 1 durationMs 500
+            image size w 30%
+                "langium.png"
+            video size w 30% h 50%
+                "https://youtu.be/bAkx5aHyDUI?list=RDbAkx5aHyDUI"
+            model3d size w 30%
+                "https://modelviewer.dev/shared-assets/models/Astronaut.glb"
+
+
+    slide "Code Blocks" as FeaturePresentationSlide
+        text as title
+            animation effect zoom-in index 0 durationMs 600
+            "Code Blocks"
+        text as subtitle
+            animation effect zoom-in index 0 durationMs 600
+            "Syntax-highlighted code snippets with optional line highlights, line per line, multiple adjacents lines or even both at once!"
+        layoutBlock as content
+            animation effect zoom-in index 1 durationMs 500
+            code javascript size h 45%
+                animation effect fade-up index 2 durationMs 500
+
+                ```
+                function greet(name) {
+                    return `Hello, ${name}!`;
+                }
+                console.log(greet('World'));
+            ```
+            code javascript size h 45%
+                animation effect fade-up index 2 durationMs 500
+                highlight
+                    - 1
+                    -2..3
+                    - 4
+                ```
+                function greet(name) {
+                    return `Hello, ${name}!`;
+                }
+                console.log(greet('World'));
+                ```
+
+    slide "Code Blocks 2" as FeaturePresentationSlide
+        text as title
+            "Code Blocks"
+        text as subtitle
+            "Syntax-highlighted code snippets with optional line highlights, line per line, multiple adjacents lines or even both at once!"
+        layoutBlock as content
+            animation effect zoom-in index 1 durationMs 500
+            code javascript
+                visualHighlight
+                    - 1 "https://www.svgrepo.com/show/433961/waving-hand.svg"
+                    -2..3 "https://staging.svgrepo.com/show/41427/tools.svg"
+                    - 4 "https://www.svgrepo.com/show/511163/terminal.svg"
+                ```
+                function greet(name) {
+                    return `Hello, ${name}!`;
+                }
+                console.log(greet('World'));
+                ```
+    slide "Animations" as FeaturePresentationSlide
+        text as title
+            animation effect fade-in index 0 durationMs 600
+            "Animations"
+        text as subtitle
+            animation effect fade-in index 0 durationMs 600
+            "Multiple animation effects and sequencing with `index` and `durationMs"
+        layoutBlock as content
+            ul
+                animation effect fade-up index 1 durationMs 500
+                - "fade-in / fade-up / fade-right"
+                - "zoom-in / grow"
+                - "Sequenced appearances"
+            text
+                animation effect zoom-in index 2 durationMs 500
+                "This element zoomed in!"
+
+    slide "Layouts & Responsiveness" as TwoColumnSlide
+        text as title
+            animation effect fade-in index 0 durationMs 600
+            "Layouts"
+        layoutBlock as content
+            layoutBlock as leftColumn
+                animation effect fade-left index 1 durationMs 500
+                text
+                    "Key layout features"
+                ul 
+                    css
+                        ```
+                        font-size:2rem;
+                        ```
+                    - "Vertical and horizontal layouts"
+                    - "Percentage-based sizing"
+                    - "Nested layout blocks"
+            layoutBlock as rightColumn
+                animation effect fade-right index 2 durationMs 500
+                text as cell1
+                    "Cell A"
+                text as cell2
+                    "Cell B"
+
+    slide "Templates & Reusability" as FeaturePresentationSlide
+        text as title
+            animation effect fade-in index 0 durationMs 600
+            "Templates & Reuse"
+        text as subtitle
+            animation effect fade-in index 0 durationMs 600
+            "Create and import templates to keep consistent styling"
+        layoutBlock as content
+            animation effect fade-up index 1 durationMs 500
+            ul
+                - "Define reusable slide types"
+                - "Placeholders and imports"
+                - "Reduce duplication across decks"
+
+    slide "Features" as ThreeCardsSlide
+        text as title
+            "Why this tool?"
+
+        layoutBlock as cards
+            layoutBlock as card1
+                text as card1Title
+                    "Live reloading"
+                text as card1Content
+                    "Instant reload when you're editing a presentation."
+
+            layoutBlock as card2
+                text as card2Title
+                    "CSS support"
+                text as card2Content
+                    "Supports CSS and its autocomplete and highlighting."
+
+            layoutBlock as card3
+                text as card3Title
+                    "Offline-ready and Hosting ready"
+                text as card3Content
+                    "Fully usable without any server. 
+                    but you can host the slides after building the presentation if you want!"
+
+    slide "Thank You" as TitleSlide
+        text as title
+            animation effect fade-in index 0 durationMs 600
+            "Thank You"
+        text as subtitle
+            animation effect fade-up index 1 durationMs 500
+            "Try: npm run dev features_presentation.slg"

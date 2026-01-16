@@ -106,9 +106,11 @@ section{
   height: 100%;
   z-index: 2;
   pointer-events: none;
+  color:red;
 }
 
 .anno-rect, .anno-arrow {
+  color:red;
   fill: none;
   stroke: currentColor;
   stroke-width: 2;
@@ -118,6 +120,7 @@ section{
 .anno-arrowhead { fill: currentColor; }
 
 .anno-label {
+  color:red;
   fill: currentColor;
   font-size: 4px;
   dominant-baseline: hanging;

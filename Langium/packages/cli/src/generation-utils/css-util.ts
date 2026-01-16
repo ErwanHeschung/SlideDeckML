@@ -50,8 +50,8 @@ section{
   /* include padding in size (avoid calc) */
   box-sizing: border-box;
   /* custom font */
-  ${font ? `font-family: ${font} !important;` : ''}
-  ${fontColor ? `color: ${fontColor} !important;` : ''}
+  ${font ? `font-family: ${font};` : ''}
+  ${fontColor ? `color: ${fontColor};` : ''}
 }
 
 .layout {

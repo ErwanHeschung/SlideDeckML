@@ -8,24 +8,24 @@ test("should correctly resolve cross references", async () => {
 	const parse = parseHelper<App>(services.SlideDeckMl);
 
 	const templateDoc = await parse(`
-template Arial #000000 false
+template TestTemplate font Arial color #000000
     slide TitleSlide
         css
             \`\`\`
             background: lightblue;
             \`\`\`
-        text title freetext
+        text title type freetext
             css
                 \`\`\`
                 color: blue;
                 \`\`\`
-        media logo image
+        media logo type image
 `, { documentUri: "file:///template.slg" });
 
 	const presentationDoc = await parse(`
-presentation MyPres "template.slg"
-    slide "Intro" TitleSlide
-        text title
+presentation MyPres import TestTemplate from "template.slg"
+    slide "Intro" as TitleSlide
+        text as title
             css
                 \`\`\`
                 font-size: 24px
@@ -53,20 +53,20 @@ test("should resolve nested content placeholders in LayoutPlaceholder", async ()
 	const parse = parseHelper<App>(services.SlideDeckMl);
 
 	const templateDoc = await parse(`
-template Arial #000000 false
+template NestedTemplate font Arial color #000000
     slide ContentSlide
-        flow mainLayout layout horizontal
-            text leftText freetext
-            media rightImage image
+        layout mainLayout layout horizontal
+            text leftText type freetext
+            media rightImage type image
 `, { documentUri: "file:///template-nested.slg" });
 
 	const presentationDoc = await parse(`
-presentation MyPres "template-nested.slg"
-    slide "Content" ContentSlide
-        layoutBlock mainLayout layout horizontal
-            text leftText
+presentation MyPres import NestedTemplate from "template-nested.slg"
+    slide "Content" as ContentSlide
+        layoutBlock as mainLayout layout horizontal
+            text as leftText
                 "Left content"
-            image rightImage
+            image as rightImage
                 "https://example.com/image.png"
 `, { documentUri: "file:///presentation-nested.slg" });
 
@@ -99,20 +99,20 @@ test("should scope content placeholders to the referenced slide template", async
 	const parse = parseHelper<App>(services.SlideDeckMl);
 
 	const templateDoc = await parse(`
-template Arial #000000 false
+template ScopedTemplate font Arial color #000000
     slide TitleSlide
-        text title freetext
+        text title type freetext
     slide ContentSlide
-        text body freetext
+        text body type freetext
 `, { documentUri: "file:///template-scoped.slg" });
 
 	const presentationDoc = await parse(`
-presentation MyPres "template-scoped.slg"
-    slide "Title" TitleSlide
-        text title
+presentation MyPres import ScopedTemplate from "template-scoped.slg"
+    slide "Title" as TitleSlide
+        text as title
             "Hello"
-    slide "Content" ContentSlide
-        text body
+    slide "Content" as ContentSlide
+        text as body
             "World"
 `, { documentUri: "file:///presentation-scoped.slg" });
 

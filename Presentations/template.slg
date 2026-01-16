@@ -1,10 +1,10 @@
-template Inter #2d3748 true
+template TechTemplate font Inter color #2d3748
     slide TitleSlide layout vertical v-align center h-align center
         css
             ```
             background-color: #1a365d;
             ```
-        text title freetext
+        text title type freetext
             css
                 ```
                 font-size: 3.5rem;
@@ -12,14 +12,14 @@ template Inter #2d3748 true
                 color: white;
                 margin-bottom: 1rem;
                 ```
-        text subtitle freetext
+        text subtitle type freetext
             css
                 ```
                 font-size: 1.5rem;
                 color: #a0aec0;
                 font-weight: 400;
                 ```
-        media logo image
+        media logo type image
             css
                 ```
                 position: absolute;
@@ -33,7 +33,7 @@ template Inter #2d3748 true
             ```
             background-color: #2d3748;
             ```
-        text sectionTitle freetext
+        text sectionTitle type freetext
             css
                 ```
                 font-size: 3rem;
@@ -47,7 +47,7 @@ template Inter #2d3748 true
             background-color: #ffffff;
             padding: 3rem 4rem;
             ```
-        text heading freetext
+        text heading type freetext
             css
                 ```
                 font-size: 2.2rem;
@@ -55,7 +55,7 @@ template Inter #2d3748 true
                 color: #1a365d;
                 margin-bottom: 2rem;
                 ```
-        text body freetext
+        text body type freetext
             css
                 ```
                 font-size: 1.3rem;
@@ -69,7 +69,7 @@ template Inter #2d3748 true
             background-color: #ffffff;
             padding: 3rem 4rem;
             ```
-        text heading freetext
+        text heading type freetext
             css
                 ```
                 font-size: 2.2rem;
@@ -77,12 +77,12 @@ template Inter #2d3748 true
                 color: #1a365d;
                 margin-bottom: 2rem;
                 ```
-        flow columns layout horizontal
+        layout columns layout horizontal
             css
                 ```
                 gap: 4rem;
                 ```
-            text leftColumn freetext
+            text leftColumn type freetext
                 css
                     ```
                     flex: 1;
@@ -90,7 +90,7 @@ template Inter #2d3748 true
                     line-height: 1.7;
                     color: #4a5568;
                     ```
-            text rightColumn freetext
+            text rightColumn type freetext
                 css
                     ```
                     flex: 1;
@@ -105,7 +105,7 @@ template Inter #2d3748 true
             background-color: #f7fafc;
             padding: 2rem;
             ```
-        text caption freetext
+        text caption type freetext
             css
                 ```
                 font-size: 1.8rem;
@@ -113,7 +113,7 @@ template Inter #2d3748 true
                 color: #1a365d;
                 margin-bottom: 1.5rem;
                 ```
-        media mainImage image
+        media mainImage type image
             css
                 ```
                 max-width: 75%;
@@ -127,7 +127,7 @@ template Inter #2d3748 true
             background-color: #ffffff;
             padding: 3rem 5rem;
             ```
-        text heading freetext
+        text heading type freetext
             css
                 ```
                 font-size: 2.2rem;
@@ -135,7 +135,7 @@ template Inter #2d3748 true
                 color: #1a365d;
                 margin-bottom: 2rem;
                 ```
-        text bullets ul
+        text bullets type ul
             css
                 ```
                 font-size: 1.4rem;
@@ -149,7 +149,7 @@ template Inter #2d3748 true
             background-color: #f7fafc;
             padding: 2rem 3rem;
             ```
-        text codeTitle freetext
+        text codeTitle type freetext
             css
                 ```
                 font-size: 1.8rem;
@@ -170,7 +170,7 @@ template Inter #2d3748 true
             background-color: #ffffff;
             padding: 2rem 3rem;
             ```
-        text heading freetext
+        text heading type freetext
             css
                 ```
                 font-size: 2.2rem;
@@ -179,12 +179,12 @@ template Inter #2d3748 true
                 margin-bottom: 2rem;
                 text-align: center;
                 ```
-        flow comparison layout horizontal
+        layout comparison layout horizontal
             css
                 ```
                 gap: 3rem;
                 ```
-            flow leftSide layout vertical
+            layout leftSide layout vertical
                 css
                     ```
                     flex: 1;
@@ -192,7 +192,7 @@ template Inter #2d3748 true
                     border: 1px solid #feb2b2;
                     padding: 1.5rem;
                     ```
-                text leftTitle freetext
+                text leftTitle type freetext
                     css
                         ```
                         font-size: 1.5rem;
@@ -200,13 +200,13 @@ template Inter #2d3748 true
                         color: #c53030;
                         margin-bottom: 1rem;
                         ```
-                text leftContent ul
+                text leftContent type ul
                     css
                         ```
                         color: #742a2a;
                         font-size: 1.1rem;
                         ```
-            flow rightSide layout vertical
+            layout rightSide layout vertical
                 css
                     ```
                     flex: 1;
@@ -214,7 +214,7 @@ template Inter #2d3748 true
                     border: 1px solid #9ae6b4;
                     padding: 1.5rem;
                     ```
-                text rightTitle freetext
+                text rightTitle type freetext
                     css
                         ```
                         font-size: 1.5rem;
@@ -222,7 +222,7 @@ template Inter #2d3748 true
                         color: #276749;
                         margin-bottom: 1rem;
                         ```
-                text rightContent ul
+                text rightContent type ul
                     css
                         ```
                         color: #22543d;
@@ -235,7 +235,7 @@ template Inter #2d3748 true
             background-color: #f7fafc;
             padding: 4rem;
             ```
-        text quote freetext
+        text quote type freetext
             css
                 ```
                 font-size: 1.8rem;
@@ -247,7 +247,7 @@ template Inter #2d3748 true
                 border-left: 4px solid #1a365d;
                 padding-left: 2rem;
                 ```
-        text author freetext
+        text author type freetext
             css
                 ```
                 font-size: 1.2rem;
@@ -260,7 +260,7 @@ template Inter #2d3748 true
             ```
             background-color: #1a365d;
             ```
-        text thankYou freetext
+        text thankYou type freetext
             css
                 ```
                 font-size: 3rem;
@@ -268,7 +268,7 @@ template Inter #2d3748 true
                 color: white;
                 margin-bottom: 1rem;
                 ```
-        text contact freetext
+        text contact type freetext
             css
                 ```
                 font-size: 1.3rem;

@@ -20,7 +20,7 @@ export async function extractDocument(fileName: string, services: LangiumCoreSer
 
 	// Check if this is a presentation with an import, and load the template file too
 	const content = fs.readFileSync(fileName, 'utf-8');
-	const importMatch = content.match(/presentation\s+\w+\s+"([^"]+)"/);
+	const importMatch = content.match(/presentation\s+\w+\s+import\s+\w+\s+from\s+"([^"]+)"/);
 	if (importMatch) {
 		const templateFileName = importMatch[1];
 		const templatePath = path.resolve(path.dirname(fileName), templateFileName);

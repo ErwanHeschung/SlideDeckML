@@ -7,13 +7,13 @@ Declaration:
     Presentation | Template;
 
 Presentation:
-    'presentation' name=ID (import=STRING templateRef=[Template])? (options=SlideOptions)?
+    'presentation' name=ID ('import' templateRef=[Template] 'from' import=STRING)? (options=SlideOptions)?
     INDENT
         slides+=Slide+
     DEDENT;
 
 Slide:
-    'slide' name=STRING (slideTemplateRef=[SlideTemplate])? (layout=LayoutStyle)?
+    'slide' name=STRING ('as' slideTemplateRef=[SlideTemplate])? (layout=LayoutStyle)?
     INDENT
         (css=CssBlock)?
         contents+=Content*
@@ -26,7 +26,7 @@ MediaBlock:
     Video | Image | Model3D;
 
 Video:
-    'video' (contentTemplateRef=[ContentPlaceholder])?
+    'video' ('as' contentTemplateRef=[ContentPlaceholder])?
     (size=Size)?
     INDENT
         (css=CssBlock)?
@@ -35,7 +35,7 @@ Video:
     DEDENT;
 
 Model3D:
-    'model3d' (contentTemplateRef=[ContentPlaceholder])?
+    'model3d' ('as' contentTemplateRef=[ContentPlaceholder])?
     (size=Size)?
     INDENT
         (css=CssBlock)?
@@ -44,7 +44,7 @@ Model3D:
     DEDENT;
 
 Image:
-    'image' (contentTemplateRef=[ContentPlaceholder])?
+    'image' ('as' contentTemplateRef=[ContentPlaceholder])?
     (size=Size)?
     INDENT
         (css=CssBlock)?
@@ -87,7 +87,7 @@ List:
     UnorderedList | OrderedList;
 
 UnorderedList:
-    'ul' (contentTemplateRef=[ContentPlaceholder])?
+    'ul' ('as' contentTemplateRef=[ContentPlaceholder])?
     (size=Size)?
     INDENT
         (css=CssBlock)?
@@ -97,7 +97,7 @@ UnorderedList:
 
 
 OrderedList:
-    'ol' (contentTemplateRef=[ContentPlaceholder])?
+    'ol' ('as' contentTemplateRef=[ContentPlaceholder])?
     (size=Size)?
     INDENT
         (css=CssBlock)?
@@ -113,7 +113,7 @@ TextItem:
 
 //allow both inline and block text for flexibility
 FreeText:
-    'text' (contentTemplateRef=[ContentPlaceholder])?
+    'text' ('as' contentTemplateRef=[ContentPlaceholder])?
     (size=Size)?
     INDENT
         (css=CssBlock)?
@@ -124,7 +124,7 @@ FreeText:
 //Code Block
 
 CodeBlock:
-    'code' (contentTemplateRef=[ContentPlaceholder])? language=ID
+    'code' ('as' contentTemplateRef=[ContentPlaceholder])? language=ID
     (size=Size)?
     INDENT
         (css=CssBlock)?
@@ -171,7 +171,7 @@ RangeLineHighlight:
 //Math Block
 
 MathBlock:
-    'math' (contentTemplateRef=[ContentPlaceholder])?
+    'math' ('as' contentTemplateRef=[ContentPlaceholder])?
     (size=Size)?
     INDENT
         (css=CssBlock)?
@@ -182,7 +182,7 @@ MathBlock:
 //Layout Block
 
 LayoutBlock:
-    'layoutBlock' (contentTemplateRef=[ContentPlaceholder])? (layout=LayoutStyle)?
+    'layoutBlock' ('as' contentTemplateRef=[ContentPlaceholder])? (layout=LayoutStyle)?
     (size=Size)?
     INDENT
         (css=CssBlock)?
@@ -273,7 +273,7 @@ Alignment returns string: 'start' | 'end' | 'center';
 
 // templates 
 Template:
-    'template' name=STRING font=ID fontColor=HEX (options=SlideOptions)?
+    'template' name=ID 'font' font=ID 'color' fontColor=HEX (options=SlideOptions)?
     INDENT
         slideTemplates+=SlideTemplate+
     DEDENT;
@@ -297,14 +297,14 @@ LayoutPlaceholder:
     DEDENT;
 
 MediaPlaceholder:
-    'media' name=ID type=('image' | 'video' | 'model3d')
+    'media' name=ID 'type' type=('image' | 'video' | 'model3d')
     (size=Size)?
     (INDENT
         css=CssBlock
     DEDENT)?;
 
 TextPlaceholder:
-    'text' name=ID type=('ul' | 'ol' | 'freetext')
+    'text' name=ID 'type' type=('ul' | 'ol' | 'freetext')
     (size=Size)?
     (INDENT
         css=CssBlock

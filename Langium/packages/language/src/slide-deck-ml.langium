@@ -289,7 +289,7 @@ SlideTemplate:
 ContentPlaceholder: LayoutPlaceholder | MediaPlaceholder | TextPlaceholder | CodePlaceholder | MathPlaceholder;
 
 LayoutPlaceholder:
-    'flow' name=ID layout=LayoutStyle
+    'layout' name=ID (layout=LayoutStyle)?
     (size=Size)?
     INDENT
         (css=CssBlock)?

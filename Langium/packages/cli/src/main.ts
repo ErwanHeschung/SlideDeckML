@@ -18,6 +18,21 @@ const repoRoot = path.resolve(__dirname, '../../../..');
 const srcFolder = path.join(repoRoot, 'Presentations');
 const destination = path.join(repoRoot, 'Reveal');
 
+// Helper function to extract imported template path from presentation file
+async function getImportedTemplatePath(presentationPath: string): Promise<string | null> {
+    try {
+        const content = await fs.readFile(presentationPath, 'utf-8');
+        const importMatch = content.match(/presentation\s+\w+\s+"([^"]+)"/);
+        if (importMatch) {
+            const templateFileName = importMatch[1];
+            const templatePath = path.resolve(path.dirname(presentationPath), templateFileName);
+            return templatePath;
+        }
+    } catch {
+        // Ignore errors
+    }
+    return null;
+}
 
 export const generateAction = async (source: string): Promise<void> => {
     try {
@@ -48,24 +63,30 @@ export default function(): void {
     
     program
         .command('watch <filename>')
-        .description('Watch a single .slg file in Presentations for changes')
-        .action((filename: string) => {
+        .description('Watch a single .slg file in Presentations for changes (including imported templates)')
+        .action(async (filename: string) => {
             const fileToWatch = path.join(srcFolder, filename);
+            const filesToWatch = [fileToWatch];
 
-            const watcher = chokidar.watch(fileToWatch, {
+            const templatePath = await getImportedTemplatePath(fileToWatch);
+            if (templatePath) {
+                filesToWatch.push(templatePath);
+            }
+
+            const watcher = chokidar.watch(filesToWatch, {
                 persistent: true,
                 ignoreInitial: false
             });
 
             watcher.on('add', async (p) => {
-                if (p === fileToWatch) await generateAction(p);
+                await generateAction(fileToWatch);
             });
 
             watcher.on('change', async (p) => {
-                if (p === fileToWatch) await generateAction(p);
+                await generateAction(fileToWatch);
             });
 
-            console.log(chalk.blue(`Watching Presentations/${filename} for changes...`));
+            console.log(chalk.blue(`Watching Presentations/${filename}${templatePath ? ' and ' + path.basename(templatePath) : ''} for changes...`));
         });
 
 

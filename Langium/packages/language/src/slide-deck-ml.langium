@@ -182,7 +182,7 @@ MathBlock:
 //Layout Block
 
 LayoutBlock:
-    'layoutBlock' (layout=LayoutStyle)?
+    'layoutBlock' (contentTemplateRef=[ContentPlaceholder])? (layout=LayoutStyle)?
     (size=Size)?
     INDENT
         (css=CssBlock)?

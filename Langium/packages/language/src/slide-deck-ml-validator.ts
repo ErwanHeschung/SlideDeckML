@@ -1,14 +1,22 @@
 import type { ValidationAcceptor, ValidationChecks } from 'langium';
-import { CssBlock, LayoutStyle, Size, type SlideDeckMlAstType, type SlideOptions } from './generated/ast.js';
+import { 
+    Content, 
+    CssBlock, 
+    isCodePlaceholder, 
+    isLayoutPlaceholder, 
+    isMediaPlaceholder, 
+    isTextPlaceholder, 
+    LayoutStyle, 
+    Size, 
+    type SlideDeckMlAstType, 
+    type SlideOptions 
+} from './generated/ast.js';
 import type { SlideDeckMlServices } from './slide-deck-ml-module.js';
 import cssLanguageService from 'vscode-css-languageservice';
 import { createVirtualCssDocument } from './css-util.js';
 
 const { getCSSLanguageService, DiagnosticSeverity } = cssLanguageService;
 
-/**
- * Register custom validation checks.
- */
 export function registerValidationChecks(services: SlideDeckMlServices) {
     const registry = services.validation.ValidationRegistry;
     const validator = services.validation.SlideDeckMlValidator;
@@ -17,13 +25,11 @@ export function registerValidationChecks(services: SlideDeckMlServices) {
         Size: validator.checkNoDuplicateSize,
         LayoutStyle: validator.checkNoDuplicateLayoutOptions,
         CssBlock: validator.checkCssBlock,
+        Content: validator.checkContentPlaceholderTypeMatch,
     };
     registry.register(checks, validator);
 }
 
-/**
- * Implementation of custom validations.
- */
 export class SlideDeckMlValidator {
     checkNoDuplicateSlideOptions(slideOptions: SlideOptions, accept: ValidationAcceptor): void {
         const seen = new Set<string>();
@@ -86,6 +92,66 @@ export class SlideDeckMlValidator {
             accept(severity, diag.message, {
                 node: cssBlock
             });
+        }
+    }
+
+    checkContentPlaceholderTypeMatch(content: Content, accept: ValidationAcceptor): void {
+        const ref = content.contentTemplateRef?.ref;
+        if (!ref) return;
+
+        const contentType = content.$type;
+
+        if (contentType === 'FreeText' || contentType === 'UnorderedList' || contentType === 'OrderedList') {
+            if (!isTextPlaceholder(ref)) {
+                accept('error', `'${contentType}' must reference a TextPlaceholder, but '${ref.name}' is a ${ref.$type}`, { 
+                    node: content, 
+                    property: 'contentTemplateRef' 
+                });
+            } else {
+                const expectedType = contentType === 'FreeText' ? 'freetext' : 
+                                     contentType === 'UnorderedList' ? 'ul' : 'ol';
+                if (ref.type !== expectedType) {
+                    accept('warning', `Text type mismatch: '${contentType}' references placeholder '${ref.name}' with type '${ref.type}', expected '${expectedType}'`, { 
+                        node: content, 
+                        property: 'contentTemplateRef' 
+                    });
+                }
+            }
+        }
+
+        if (contentType === 'Image' || contentType === 'Video' || contentType === 'Model3D') {
+            if (!isMediaPlaceholder(ref)) {
+                accept('error', `'${contentType}' must reference a MediaPlaceholder, but '${ref.name}' is a ${ref.$type}`, { 
+                    node: content, 
+                    property: 'contentTemplateRef' 
+                });
+            } else {
+                const expectedType = contentType.toLowerCase() as 'image' | 'video' | 'model3d';
+                if (ref.type !== expectedType) {
+                    accept('warning', `Media type mismatch: '${contentType}' references placeholder '${ref.name}' with type '${ref.type}', expected '${expectedType}'`, { 
+                        node: content, 
+                        property: 'contentTemplateRef' 
+                    });
+                }
+            }
+        }
+
+        if (contentType === 'CodeBlock') {
+            if (!isCodePlaceholder(ref)) {
+                accept('error', `'CodeBlock' must reference a CodePlaceholder, but '${ref.name}' is a ${ref.$type}`, { 
+                    node: content, 
+                    property: 'contentTemplateRef' 
+                });
+            }
+        }
+
+        if (contentType === 'LayoutBlock') {
+            if (!isLayoutPlaceholder(ref)) {
+                accept('error', `'LayoutBlock' must reference a LayoutPlaceholder, but '${ref.name}' is a ${ref.$type}`, { 
+                    node: content, 
+                    property: 'contentTemplateRef' 
+                });
+            }
         }
     }
 }

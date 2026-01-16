@@ -1,0 +1,129 @@
+presentation TechTalk "template.slg" with slideNumbers progressBar
+    slide "Welcome" TitleSlide
+        text title
+            animation effect fade-in index 0 durationMs 600
+            "SlideDeckML"
+        text subtitle
+            animation effect fade-up index 1 durationMs 500
+            "A Domain-Specific Language for Presentations"
+        image logo
+            animation effect fade-in index 2 durationMs 400
+            "https://www.polytech-reseau.org/wp-content/uploads/2021/03/cropped-logo_reseau_Polytech.png"
+
+    slide "Introduction" SectionSlide
+        text sectionTitle
+            animation effect fade-in index 0 durationMs 500
+            "Introduction"
+
+    slide "What is SlideDeckML?" ContentSlide
+        text heading
+            animation effect fade-in index 0 durationMs 400
+            "What is SlideDeckML?"
+        text body
+            animation effect fade-up index 1 durationMs 500
+            ```
+            SlideDeckML is a domain-specific language designed to create 
+            presentations with minimal effort. It combines the power of 
+            Reveal.js with a clean, declarative syntax.
+            ```
+
+    slide "Key Features" BulletSlide
+        text heading
+            animation effect fade-in index 0 durationMs 400
+            "Key Features"
+        ul bullets
+            animation effect fade-up index 1 durationMs 500
+            - "Clean, readable syntax"
+            - "Template-based design system"
+            - "Built-in animations"
+            - "Code highlighting support"
+            - "Media embedding"
+            - "Live preview"
+
+    slide "Comparison" ComparisonSlide
+        text heading
+            animation effect fade-in index 0 durationMs 400
+            "Traditional vs SlideDeckML"
+        layoutBlock comparison layout horizontal
+            animation effect fade-up index 1 durationMs 500
+            layoutBlock leftSide layout vertical
+                text leftTitle
+                    css 
+                        ```
+                        color: red
+                        ```
+                    "Traditional HTML"
+                ul leftContent
+                    - "Verbose markup"
+                    - "Manual styling"
+                    - "No templates"
+            layoutBlock rightSide layout vertical
+                text rightTitle
+                    "SlideDeckML"
+                ul rightContent
+                    - "Clean DSL syntax"
+                    - "Reusable templates"
+                    - "Built-in themes"
+
+    slide "Code Example" CodeSlide
+        text codeTitle
+            animation effect fade-in index 0 durationMs 400
+            "Simple Slide Definition"
+        code codeBlock slg
+            animation effect fade-up index 1 durationMs 500
+            ```
+            slide "Hello World" TitleSlide
+                text title
+                    "Welcome!"
+                text subtitle
+                    "Your first presentation"
+            ```
+
+    slide "Architecture" TwoColumnSlide
+        text heading
+            animation effect fade-in index 0 durationMs 400
+            "How It Works"
+        layoutBlock columns layout horizontal
+            animation effect fade-up index 1 durationMs 500
+            text leftColumn
+                ```
+                Built with Langium:
+                
+                • Syntax highlighting
+                • Auto-completion
+                • Error checking
+                • Live validation
+                ```
+            text rightColumn
+                ```
+                Outputs to Reveal.js:
+                
+                • Smooth transitions
+                • Speaker notes
+                • PDF export
+                • Mobile support
+                ```
+
+    slide "Demo" ImageSlide
+        text caption
+            animation effect fade-in index 0 durationMs 400
+            "Live Demo"
+        image mainImage
+            animation effect fade-up index 1 durationMs 500
+            "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=1200"
+
+    slide "Quote" QuoteSlide
+        text quote
+            animation effect fade-in index 0 durationMs 600
+            "The best way to predict the future is to create it."
+        text author
+            animation effect fade-up index 1 durationMs 500
+            "— Peter Drucker"
+
+    slide "Thank You" EndSlide
+        text thankYou
+            animation effect fade-in index 0 durationMs 500
+            "Thank You"
+        text contact
+            animation effect fade-up index 1 durationMs 400
+            "Questions? → github.com/slideckml"

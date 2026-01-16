@@ -1,276 +1,36 @@
-template TechTemplate font Inter color #2d3748
-    slide TitleSlide layout vertical v-align center h-align center
-        css
+template DemoTemplate font Helvetica color #1f4e91 with slideNumbers progressBar
+    slide TitleSlide
+        css 
             ```
-            background-color: #1a365d;
+            background: linear-gradient(
+                180deg,
+                #eef3fb 0%,
+                #6a9cff 100%
+            );
             ```
         text title type freetext
             css
                 ```
                 font-size: 3.5rem;
-                font-weight: 600;
-                color: white;
-                margin-bottom: 1rem;
                 ```
         text subtitle type freetext
             css
                 ```
                 font-size: 1.5rem;
-                color: #a0aec0;
-                font-weight: 400;
                 ```
-        media logo type image
-            css
-                ```
-                position: absolute;
-                bottom: 2rem;
-                right: 2rem;
-                max-width: 100px;
-                ```
+        media logo type image size h 20%
 
-    slide SectionSlide layout vertical v-align center h-align center
-        css
+    slide ContentSlide
+        css 
             ```
-            background-color: #2d3748;
+            background: linear-gradient(
+                180deg,
+                #eef3fb 0%,
+                #6a9cff 100%
+            );
             ```
-        text sectionTitle type freetext
-            css
-                ```
-                font-size: 3rem;
-                font-weight: 600;
-                color: white;
-                ```
-
-    slide ContentSlide layout vertical v-align start h-align start
-        css
-            ```
-            background-color: #ffffff;
-            padding: 3rem 4rem;
-            ```
-        text heading type freetext
-            css
-                ```
-                font-size: 2.2rem;
-                font-weight: 600;
-                color: #1a365d;
-                margin-bottom: 2rem;
-                ```
-        text body type freetext
-            css
-                ```
-                font-size: 1.3rem;
-                line-height: 1.8;
-                color: #4a5568;
-                ```
-
-    slide TwoColumnSlide layout vertical v-align start h-align start
-        css
-            ```
-            background-color: #ffffff;
-            padding: 3rem 4rem;
-            ```
-        text heading type freetext
-            css
-                ```
-                font-size: 2.2rem;
-                font-weight: 600;
-                color: #1a365d;
-                margin-bottom: 2rem;
-                ```
-        layout columns layout horizontal
-            css
-                ```
-                gap: 4rem;
-                ```
-            text leftColumn type freetext
-                css
-                    ```
-                    flex: 1;
-                    font-size: 1.2rem;
-                    line-height: 1.7;
-                    color: #4a5568;
-                    ```
-            text rightColumn type freetext
-                css
-                    ```
-                    flex: 1;
-                    font-size: 1.2rem;
-                    line-height: 1.7;
-                    color: #4a5568;
-                    ```
-
-    slide ImageSlide layout vertical v-align center h-align center
-        css
-            ```
-            background-color: #f7fafc;
-            padding: 2rem;
-            ```
-        text caption type freetext
-            css
-                ```
-                font-size: 1.8rem;
-                font-weight: 600;
-                color: #1a365d;
-                margin-bottom: 1.5rem;
-                ```
-        media mainImage type image
-            css
-                ```
-                max-width: 75%;
-                max-height: 65vh;
-                border: 1px solid #e2e8f0;
-                ```
-
-    slide BulletSlide layout vertical v-align start h-align start
-        css
-            ```
-            background-color: #ffffff;
-            padding: 3rem 5rem;
-            ```
-        text heading type freetext
-            css
-                ```
-                font-size: 2.2rem;
-                font-weight: 600;
-                color: #1a365d;
-                margin-bottom: 2rem;
-                ```
-        text bullets type ul
-            css
-                ```
-                font-size: 1.4rem;
-                line-height: 2.2;
-                color: #4a5568;
-                ```
-
-    slide CodeSlide layout vertical v-align start h-align start
-        css
-            ```
-            background-color: #f7fafc;
-            padding: 2rem 3rem;
-            ```
-        text codeTitle type freetext
-            css
-                ```
-                font-size: 1.8rem;
-                font-weight: 600;
-                color: #1a365d;
-                margin-bottom: 1.5rem;
-                ```
-        code codeBlock
-            css
-                ```
-                font-size: 1rem;
-                border: 1px solid #e2e8f0;
-                ```
-
-    slide ComparisonSlide layout vertical v-align start h-align center
-        css
-            ```
-            background-color: #ffffff;
-            padding: 2rem 3rem;
-            ```
-        text heading type freetext
-            css
-                ```
-                font-size: 2.2rem;
-                font-weight: 600;
-                color: #1a365d;
-                margin-bottom: 2rem;
-                text-align: center;
-                ```
-        layout comparison layout horizontal
-            css
-                ```
-                gap: 3rem;
-                ```
-            layout leftSide layout vertical
-                css
-                    ```
-                    flex: 1;
-                    background-color: #fff5f5;
-                    border: 1px solid #feb2b2;
-                    padding: 1.5rem;
-                    ```
-                text leftTitle type freetext
-                    css
-                        ```
-                        font-size: 1.5rem;
-                        font-weight: 600;
-                        color: #c53030;
-                        margin-bottom: 1rem;
-                        ```
-                text leftContent type ul
-                    css
-                        ```
-                        color: #742a2a;
-                        font-size: 1.1rem;
-                        ```
-            layout rightSide layout vertical
-                css
-                    ```
-                    flex: 1;
-                    background-color: #f0fff4;
-                    border: 1px solid #9ae6b4;
-                    padding: 1.5rem;
-                    ```
-                text rightTitle type freetext
-                    css
-                        ```
-                        font-size: 1.5rem;
-                        font-weight: 600;
-                        color: #276749;
-                        margin-bottom: 1rem;
-                        ```
-                text rightContent type ul
-                    css
-                        ```
-                        color: #22543d;
-                        font-size: 1.1rem;
-                        ```
-
-    slide QuoteSlide layout vertical v-align center h-align center
-        css
-            ```
-            background-color: #f7fafc;
-            padding: 4rem;
-            ```
-        text quote type freetext
-            css
-                ```
-                font-size: 1.8rem;
-                font-style: italic;
-                color: #2d3748;
-                text-align: center;
-                line-height: 1.6;
-                max-width: 80%;
-                border-left: 4px solid #1a365d;
-                padding-left: 2rem;
-                ```
-        text author type freetext
-            css
-                ```
-                font-size: 1.2rem;
-                color: #718096;
-                margin-top: 2rem;
-                ```
-
-    slide EndSlide layout vertical v-align center h-align center
-        css
-            ```
-            background-color: #1a365d;
-            ```
-        text thankYou type freetext
-            css
-                ```
-                font-size: 3rem;
-                font-weight: 600;
-                color: white;
-                margin-bottom: 1rem;
-                ```
-        text contact type freetext
-            css
-                ```
-                font-size: 1.3rem;
-                color: #a0aec0;
-                ```
+        layoutBlock header layout h-align end size h 10% 
+            media companyLogo type image
+            media toolLogo type image
+        layoutBlock content
+        media logo type image size h 20%

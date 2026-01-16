@@ -22,7 +22,7 @@ const destination = path.join(repoRoot, 'Reveal');
 async function getImportedTemplatePath(presentationPath: string): Promise<string | null> {
     try {
         const content = await fs.readFile(presentationPath, 'utf-8');
-        const importMatch = content.match(/presentation\s+\w+\s+"([^"]+)"/);
+        const importMatch = content.match(/presentation\s+\w+\s+import\s+\w+\s+from\s+"([^"]+)"/);
         if (importMatch) {
             const templateFileName = importMatch[1];
             const templatePath = path.resolve(path.dirname(presentationPath), templateFileName);

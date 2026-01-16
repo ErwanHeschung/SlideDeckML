@@ -1,4 +1,4 @@
-presentation TechTalk import TechTemplate from "template.slg" with slideNumbers progressBar
+presentation Demo import DemoTemplate from "template.slg"
     slide "Welcome" as TitleSlide
         text as title
             animation effect fade-in index 0 durationMs 600
@@ -9,121 +9,13 @@ presentation TechTalk import TechTemplate from "template.slg" with slideNumbers 
         image as logo
             animation effect fade-in index 2 durationMs 400
             "https://www.polytech-reseau.org/wp-content/uploads/2021/03/cropped-logo_reseau_Polytech.png"
-
-    slide "Introduction" as SectionSlide
-        text as sectionTitle
-            animation effect fade-in index 0 durationMs 500
-            "Introduction"
-
-    slide "What is SlideDeckML?" as ContentSlide
-        text as heading
-            animation effect fade-in index 0 durationMs 400
-            "What is SlideDeckML?"
-        text as body
-            animation effect fade-up index 1 durationMs 500
-            ```
-            SlideDeckML is a domain-specific language designed to create 
-            presentations with minimal effort. It combines the power of 
-            Reveal.js with a clean, declarative syntax.
-            ```
-
-    slide "Key Features" as BulletSlide
-        text as heading
-            animation effect fade-in index 0 durationMs 400
-            "Key Features"
-        ul as bullets
-            animation effect fade-up index 1 durationMs 500
-            - "Clean, readable syntax"
-            - "Template-based design system"
-            - "Built-in animations"
-            - "Code highlighting support"
-            - "Media embedding"
-            - "Live preview"
-
-    slide "Comparison" as ComparisonSlide
-        text as heading
-            animation effect fade-in index 0 durationMs 400
-            "Traditional vs SlideDeckML"
-        layoutBlock as comparison
-            animation effect fade-up index 1 durationMs 500
-            layoutBlock as leftSide
-                text as leftTitle
-                    css 
-                        ```
-                        color: red
-                        ```
-                    "Traditional HTML"
-                ul as leftContent
-                    - "Verbose markup"
-                    - "Manual styling"
-                    - "No templates"
-            layoutBlock as rightSide
-                text as rightTitle
-                    "SlideDeckML"
-                ul as rightContent
-                    - "Clean DSL syntax"
-                    - "Reusable templates"
-                    - "Built-in themes"
-
-    slide "Code Example" as CodeSlide
-        text as codeTitle
-            animation effect fade-in index 0 durationMs 400
-            "Simple Slide Definition"
-        code as codeBlock slg
-            animation effect fade-up index 1 durationMs 500
-            ```
-            slide "Hello World" as TitleSlide
-                text as title
-                    "Welcome!"
-                text as subtitle
-                    "Your first presentation"
-            ```
-
-    slide "Architecture" as TwoColumnSlide
-        text as heading
-            animation effect fade-in index 0 durationMs 400
-            "How It Works"
-        layoutBlock as columns 
-            animation effect fade-up index 1 durationMs 500
-            text as leftColumn
-                ```
-                Built with Langium:
-                
-                • Syntax highlighting
-                • Auto-completion
-                • Error checking
-                • Live validation
-                ```
-            text as rightColumn
-                ```
-                Outputs to Reveal.js:
-                
-                • Smooth transitions
-                • Speaker notes
-                • PDF export
-                • Mobile support
-                ```
-
-    slide "Demo" as ImageSlide
-        text as caption
-            animation effect fade-in index 0 durationMs 400
-            "Live Demo"
-        image as mainImage
-            animation effect fade-up index 1 durationMs 500
-            "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=1200"
-
-    slide "Quote" as QuoteSlide
-        text as quote
+    slide "Welcome" as TitleSlide
+        text as title
             animation effect fade-in index 0 durationMs 600
-            "The best way to predict the future is to create it."
-        text as author
+            "SlideDeckML"
+        text as subtitle
             animation effect fade-up index 1 durationMs 500
-            "— Peter Drucker"
-
-    slide "Thank You" as EndSlide
-        text as thankYou
-            animation effect fade-in index 0 durationMs 500
-            "Thank You"
-        text as contact
-            animation effect fade-up index 1 durationMs 400
-            "Questions? → github.com/slideckml"
+            "A Domain-Specific Language for Presentations"
+        image as logo
+            animation effect fade-in index 2 durationMs 400
+            "https://www.polytech-reseau.org/wp-content/uploads/2021/03/cropped-logo_reseau_Polytech.png"

@@ -187,7 +187,7 @@ LayoutBlock:
     INDENT
         (css=CssBlock)?
         (animation=Animation)?
-        elements+=Content*
+        elements+=Content+
     DEDENT;
 
 //CSS Block
@@ -291,10 +291,10 @@ ContentPlaceholder: LayoutPlaceholder | MediaPlaceholder | TextPlaceholder | Cod
 LayoutPlaceholder:
     'layoutBlock' name=ID (layout=LayoutStyle)?
     (size=Size)?
-    INDENT
+    (INDENT
         (css=CssBlock)?
         content+=ContentPlaceholder*
-    DEDENT;
+    DEDENT)?;
 
 MediaPlaceholder:
     'media' name=ID 'type' type=('image' | 'video' | 'model3d')

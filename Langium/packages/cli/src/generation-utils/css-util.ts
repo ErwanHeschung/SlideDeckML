@@ -88,6 +88,41 @@ section{
   justify-content: flex-end;
 }
 
+/* Image annotations */
+.annotated-media { position: relative; display: inline-block; }
+.annotated-media > img { display: block; position: relative; z-index: 1; }
+
+.annotation-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.anno-rect, .anno-arrow {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.anno-arrowhead { fill: currentColor; }
+
+.anno-label {
+  fill: currentColor;
+  font-size: 4px;
+  dominant-baseline: hanging;
+  paint-order: stroke;
+  stroke: rgba(0,0,0,0.35);
+  stroke-width: 0.6;
+}
+
+/* Steps (Reveal fragments inside SVG) */
+.annotation-layer .fragment { opacity: 0; }
+.annotation-layer .fragment.visible { opacity: 1; }
+
 ${slidesCSS}
   `;
 }

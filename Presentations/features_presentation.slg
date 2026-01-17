@@ -67,17 +67,16 @@ presentation FeatureHighlights import FeaturesTemplate from "features_template.s
                 ```
             text
                 animation effect fade-up index 2 durationMs 500
-                "To enable live slide annotations, include the liveAnnotations option in your presentation header, e.g: presentation MyDeck with liveAnnotations"
+                "To enable live slide annotations, include the liveAnnotations option in your presentation header. e.g: presentation MyDeck with liveAnnotations"
             ul
                 animation effect fade-up index 3 durationMs 500
-                - "D: toggle drawing mode"
-                - "H: highlighter  |  E: eraser"
-                - "1..5: colors"
-                - "X: clear current step (memory)"
-                - "S: save current step  |  L: load saved step"
+                - "A floating menu appears in the top-right corner with:"
+                - "Pen, Highlighter, Eraser tools"
+                - "Color palette to choose your annotation color"
+                - "Clear, Save & Load buttons to manage your annotations"
             text
                 animation effect fade-in index 4 durationMs 500
-                "Tip: annotations are stored per slide + step, so they appear only on the step where you draw them."
+                "Toggle annotations with the ON/OFF button and draw directly on your slides!"
                 
     slide "Images & Media" as FeaturePresentationSlide
         text as title

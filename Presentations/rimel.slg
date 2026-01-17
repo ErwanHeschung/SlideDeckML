@@ -1,0 +1,705 @@
+presentation rimel import rimelTemplate from "rimelTemplate.slg"
+	slide "TitleSlide" as TitleSlide
+		text as titleTextTemplate
+			animation effect zoom-in
+			"Rétro-ingénierie, maintenance et évol."
+		text as authorTextTemplate
+			animation effect fade-up
+			"ABI HABIB Jim - AL MOUNAYAR Mouhamad - BRUNET Logan - QUELIS Leo"
+	
+	slide "Sommaire" as ContentSlide
+		text as titleTextTemplate
+			"Sommaire"
+		layoutBlock as contentBlockLayout
+			css
+				```
+				gap: 2.5rem;
+				```
+			ul
+				animation effect fade-in
+				- "Contexte & problématique"
+				- "Questions & hypothèses"
+				- "Dataset & méthodologie"
+				- "Métriques (structurelles & syntaxiques)"
+				- "Résultats & retour sur les hypothèses"
+				- "Annexes (détails + visualisations)"
+	
+	slide "Contexte" as ContentSlide
+		text as titleTextTemplate
+			"Contexte"
+		
+		layoutBlock as contentBlockLayout	
+			css
+				```
+					gap: 15rem;
+				```
+			ul	
+				animation effect fade-in
+				- "Kubernetes est devenu le standard pour l'orchestration de conteneurs, mais sa configuration repose sur des fichiers YAML verbeux et répétitifs."
+				- "Kubernetes nécessite des fichiers YAML volumineux et répétitifs. Une application simple peut nécessiter 500+ lignes de configuration avec beaucoup de duplication."
+				- "Helm propose de résoudre ce problème via des templates réutilisables et des valeurs paramétrables. Les helpers permettent de factoriser le code commun."	
+
+			layoutBlock	layout vertical h-align center v-align start
+				text
+					css
+						```
+						font-weight: bold;
+						```
+					animation effect fade-in
+					"Question principale"
+
+				text
+					css
+						```
+						text-decoration: underline;
+						font-style: italic;
+						```
+					animation effect fade-in
+					"Quelle est la complexité réelle des Helm charts en pratique, du point de vue structurel et syntaxique ?"	
+						
+	slide "Sous Questions" as ContentSlide
+		text as titleTextTemplate
+			"Sous Questions"
+		layoutBlock as contentBlockLayout
+			css
+				```
+				display: flex;
+				flex-direction: column;
+				gap: 4rem;
+				```
+			text
+				css
+					```
+					text-align: justify;
+					```
+				animation effect fade-up
+				"SQ1: Dans quelle mesure un chart Helm est-il facile à comprendre pour un développeur qui le découvre pour la première fois ?"
+			text
+				css
+					```
+					text-align: justify;
+					```
+				animation effect fade-up
+				"SQ2: Dans quelle mesure peut-on ajouter une nouvelle ressource à un chart Helm sans devoir comprendre l'ensemble du chart ni introduire d'effets de bord ?"
+			text
+				css
+					```
+					text-align: justify;
+					```
+				animation effect fade-up
+				"SQ3: Dans quelle mesure la structure d'un chart Helm facilite ou complique l'identification de l'origine d'une erreur et de sa propagation ?"
+			text
+				css
+					```
+					text-align: justify;
+					```
+				animation effect fade-up
+				"SQ4: Dans quelle mesure un chart Helm permet à plusieurs développeurs de travailler simultanément sans conflits ?"
+			text
+				css
+					```
+					text-align: justify;
+					```
+				animation effect fade-up
+				"SQ5: Dans quelle mesure les fichiers d'un chart helm respecte-t-il les bonnes pratiques syntaxique de helm ?"
+	
+	slide "Hypothèses" as ContentSlide
+		text as titleTextTemplate
+			"Hypothèses"
+		layoutBlock as contentBlockLayout
+			css
+				```
+				display: flex;
+				flex-direction: column;
+				gap: 4rem;
+				```
+			text
+				css
+					```
+					text-align: justify;
+					```
+				animation effect fade-up
+				"H1: Les Helm charts sont navigables de manière incrémentale, un développeur peut comprendre une ressource sans devoir appréhender l'ensemble du chart au préalable."
+			text
+				css
+					```
+					text-align: justify;
+					```
+				animation effect fade-up
+				"H2: L'ajout d'une ressource à un chart existant peut se faire de manière isolée, sans introduire de couplage ni d'effets de bord."
+			text
+				css
+					```
+					text-align: justify;
+					```
+				animation effect fade-up
+				"H3: La structure des Helm charts complique systématiquement le débogage en dispersant les causes d'erreurs à travers de nombreux fichiers."
+			text
+				css
+					```
+					text-align: justify;
+					```
+				animation effect fade-up
+				"H4: La structure des Helm charts décourage le travail parallèle car plusieurs développeurs travaillant sur des ressources différentes toucheront inévitablement aux mêmes fichiers partagés."
+			text
+				css
+					```
+					text-align: justify;
+					```
+				animation effect fade-up
+				"H5: Les Helm charts respectent globalement les bonnes pratiques syntaxiques recommandées par la documentation officielle."
+
+	slide "Collecte Des Donnees" as ContentSlide
+		text as titleTextTemplate
+			"Le Dataset"
+		text 
+			animation effect grow
+			"Analyse sur 78 charts"
+	
+	slide "Méthodologie" as ContentSlide
+		text as titleTextTemplate
+			"Méthodologie"
+		layoutBlock as contentBlockLayout
+			css
+				```
+				gap: 5rem;
+				```
+			text
+				animation effect fade-in
+				"Notre approche représente chaque Helm chart comme un graphe orienté organisé en trois couches : "
+							
+			ul
+				animation effect fade-in
+				- "Values : les paramètres de configuration"
+				- "Helpers : les fonctions de template"
+				- "Resources : les ressources Kubernetes générées"
+
+			text
+				animation effect fade-in
+				"Pour mener cette analyse, nous avons développé : "
+			ul
+				animation effect fade-in
+				- "Un moteur d'analyse en Rust qui collecte les charts, construit les graphes de dépendances et calcule l'ensemble des métriques."
+				- "Un module Python dédié à la génération des visualisations statistiques."
+				- "Une interface Angular permettant d'explorer interactivement le graphe de chaque chart et de situer ses métriques dans la distribution globale."
+
+	slide "Métriques Structurelles" as ContentSlide
+		text as titleTextTemplate
+			"Métriques Structurelles (Graphe)"
+		layoutBlock as contentBlockLayout
+			css
+				```
+				display: flex;
+				flex-direction: column;
+				gap: 1.5rem;
+				font-size: 0.85em;
+				```
+			text
+				css
+					```
+					font-weight: bold;
+					```
+				"Size"
+			layoutBlock layout horizontal
+				math
+					```
+					|V|
+					```
+				text
+					"Nombre total de nœuds dans le graphe (Resources + Helpers + Values)"
+			
+			text
+				css
+					```
+					font-weight: bold;
+					```
+				"Comprehension Scope"
+			layoutBlock layout horizontal
+				math
+					```
+					\frac{1}{|R|} \sum_{r \in R} \frac{|ancestors(r)|}{|V|}
+					```
+				text
+					"Fraction moyenne du graphe nécessaire pour comprendre une ressource"
+
+			text
+				css
+					```
+					font-weight: bold;
+					```
+				"Cognitive Diameter"
+			layoutBlock layout horizontal
+				math
+					```
+					\max_{r_1, r_2 \in R} shortest\_path(r_1, r_2)
+					```
+				text
+					"Distance maximale entre deux ressources dans le graphe"
+
+	slide "Métriques Structurelles 2" as ContentSlide
+		text as titleTextTemplate
+			"Métriques Structurelles (Graphe)"
+		layoutBlock as contentBlockLayout
+			css
+				```
+				display: flex;
+				flex-direction: column;
+				gap: 1.5rem;
+				font-size: 0.85em;
+				```
+			text
+				css
+					```
+					font-weight: bold;
+					```
+				"Hub Dominance"
+			layoutBlock layout horizontal
+				math
+					```
+					\frac{\sum_{h \in top_k} degree(h)}{\sum_{v \in V} degree(v)}
+					```
+				text
+					"Proportion des edges passant par les k nœuds les plus connectés"
+
+			text
+				css
+					```
+					font-weight: bold;
+					```
+				"Modification Isolation"
+			layoutBlock layout horizontal
+				math
+					```
+					\frac{1}{|R|} \sum_{r \in R} \left(1 - \frac{|shared\_deps(r)|}{|deps(r)|}\right)
+					```
+				text
+					"Proportion moyenne de dépendances non partagées par ressource"
+
+			text
+				css
+					```
+					font-weight: bold;
+					```
+				"Helper Justification"
+			layoutBlock layout horizontal
+				math
+					```
+					\frac{|\{h \in H : fan\_in(h) \geq 2\}|}{|H|}
+					```
+				text
+					"Proportion de helpers utilisés plus d'une fois"
+
+			text
+				css
+					```
+					font-weight: bold;
+					```
+				"Blast Radius Variance"
+			layoutBlock layout horizontal
+				math
+					```
+					\sigma^2\left(\{|reachable(v)| : v \in V_{values}\}\right)
+					```
+				text
+					"Variance du nombre de nœuds affectés par chaque value"
+
+	slide "Métriques Syntaxiques" as ContentSlide
+		text as titleTextTemplate
+			"Métriques Syntaxiques (Linting)"
+		layoutBlock as contentBlockLayout
+			css
+				```
+				display: flex;
+				flex-direction: column;
+				gap: 1.2rem;
+				font-size: 0.8em;
+				```
+			text
+				css
+					```
+					font-weight: bold;
+					```
+				"Max Nesting Depth"
+			layoutBlock layout horizontal
+				math
+					```
+					\max_{t \in templates} nesting\_depth(t)
+					```
+				text
+					"Profondeur maximale d'imbrication des if/range/with"
+
+			text
+				css
+					```
+					font-weight: bold;
+					```
+				"Unguarded Nested Access"
+			layoutBlock layout horizontal
+				math
+					```
+					\sum_{t \in templates} count(\texttt{.Values.a.b} \ without \ guard)
+					```
+				text
+					"Nombre d'accès à des propriétés imbriquées sans vérification nil"
+
+			text
+				css
+					```
+					font-weight: bold;
+					```
+				"Array Config Count"
+			layoutBlock layout horizontal
+				math
+					```
+					\sum_{v \in values} \mathbb{1}[type(v) = array]
+					```
+				text
+					"Nombre de configurations de type liste dans values"
+
+			text
+				css
+					```
+					font-weight: bold;
+					```
+				"Hardcoded Images"
+			layoutBlock layout horizontal
+				math
+					```
+					\sum_{t \in templates} count(image \ without \ \texttt{.Values})
+					```
+				text
+					"Nombre d'images Docker non paramétrées"
+
+	slide "Métriques Syntaxiques 2" as ContentSlide
+		text as titleTextTemplate
+			"Métriques Syntaxiques (Linting)"
+		layoutBlock as contentBlockLayout
+			css
+				```
+				display: flex;
+				flex-direction: column;
+				gap: 1.2rem;
+				font-size: 0.8em;
+				```
+			text
+				css
+					```
+					font-weight: bold;
+					```
+				"Multi-Resource Files"
+			layoutBlock layout horizontal
+				math
+					```
+					|\{f : resource\_count(f) > 1\}|
+					```
+				text
+					"Nombre de fichiers contenant plusieurs ressources K8s"
+
+			text
+				css
+					```
+					font-weight: bold;
+					```
+				"Unquoted Strings"
+			layoutBlock layout horizontal
+				math
+					```
+					\sum_{t \in templates} count(unquoted\_risky\_strings)
+					```
+				text
+					"Nombre de chaînes pouvant être mal interprétées par YAML"
+
+			text
+				css
+					```
+					font-weight: bold;
+					```
+				"Floating Image Tags"
+			layoutBlock layout horizontal
+				math
+					```
+					\sum_{t \in templates} count(image \ without \ tag)
+					```
+				text
+					"Nombre d'images sans tag de version explicite"
+
+			text
+				css
+					```
+					font-weight: bold;
+					```
+				"Mutable Selector Labels"
+			layoutBlock layout horizontal
+				math
+					```
+					\sum_{r \in R} count(selector \ using \ mutable \ value)
+					```
+				text
+					"Nombre de selectors utilisant des values changeantes"
+
+			text
+				css
+					```
+					font-weight: bold;
+					```
+				"Missing Pod Selectors"
+			layoutBlock layout horizontal
+				math
+					```
+					\sum_{r \in R} \mathbb{1}[needs\_selector(r) \land \neg has\_selector(r)]
+					```
+				text
+					"Nombre de Services/NetworkPolicies sans selector"
+				
+	slide "Le Chart Moyen" 
+		text as titleTextTemplate
+			"Le Chart Moyen"
+
+	slide "Retours aux Hypothèses" as ContentSlide
+		text as titleTextTemplate
+			"Retours aux Hypothèses"
+		layoutBlock as contentBlockLayout layout vertical h-align start v-align start
+			css
+				```
+					text-align: justify;
+					gap: 5rem;
+				```
+			text
+				animation effect fade-left
+				"H1 Confirmée : Les charts ont un Scope faible (0.13) et un Diameter court (2.83), permettant une navigation incrémentale efficace."
+			text
+				animation effect fade-left
+				"H2 Infirmée : L'Isolation moyenne (0.29) et la Hub Dominance élevée (0.48) montrent que les composants sont interdépendants via des hubs centraux."
+			text
+				animation effect fade-left
+				"H3 Partielle : Les hubs facilitent la localisation des erreurs, mais les accès non protégés aux valeurs créent des erreurs silencieuses difficiles à déboguer."
+			text
+				animation effect fade-left
+				"H4 Confirmée : La faible Isolation (0.29) et les dépendances partagées via hubs découragent le travail parallèle sur différents composants."
+			text
+				animation effect fade-left
+				"H5 Partielle : Les images sont correctement référencées, mais les accès aux valeurs et les strings ne sont pas systématiquement protégés."
+
+	slide "Annexes" as ContentSlide
+		text as titleTextTemplate
+			animation effect zoom-in
+			"Annexes - Détails des métriques"
+
+	slide "Annexe - Vue d'ensemble" as ContentSlide
+		text as titleTextTemplate
+			"Vue d'ensemble"
+		layoutBlock as contentBlockLayout
+			image
+				animation effect fade-in
+				"plots/all_metrics_combined.png"
+
+	slide "Annexe - Size" as ContentSlide
+		text as titleTextTemplate
+			"Size"
+		layoutBlock as contentBlockLayout
+			css
+				```
+				display: flex;
+				gap: 2rem;
+				align-items: center;
+				```
+			image
+				animation effect fade-right
+				"plots/size_histogram.png"
+			text
+				css
+					```
+					font-size: 0.9em;
+					```
+				animation effect fade-left
+				"Moyenne: 47.68 - Dépasse la mémoire de travail (~7 éléments)"
+
+	slide "Annexe - Comprehension Scope" as ContentSlide
+		text as titleTextTemplate
+			"Comprehension Scope"
+		layoutBlock as contentBlockLayout
+			css
+				```
+				display: flex;
+				gap: 2rem;
+				align-items: center;
+				```
+			image
+				animation effect fade-right
+				"plots/comprehension_scope_histogram.png"
+			text
+				css
+					```
+					font-size: 0.9em;
+					```
+				animation effect fade-left
+				"Moyenne: 0.13 - Seulement 13% du chart nécessaire par ressource"
+	
+
+	slide "Annexe - Cognitive Diameter" as ContentSlide
+		text as titleTextTemplate
+			"Cognitive Diameter"
+		layoutBlock as contentBlockLayout
+			css
+				```
+				display: flex;
+				gap: 2rem;
+				align-items: center;
+				```
+			image
+				animation effect fade-right
+				"plots/cognitive_diameter_histogram.png"
+			text
+				css
+					```
+					font-size: 0.9em;
+					```
+				animation effect fade-left
+				"Moyenne: 2.83 - Ressources à ~3 hops, structurellement proches"
+
+	slide "Annexe - Hub Dominance" as ContentSlide
+		text as titleTextTemplate
+			"Hub Dominance"
+		layoutBlock as contentBlockLayout
+			css
+				```
+				display: flex;
+				gap: 2rem;
+				align-items: center;
+				```
+			image
+				animation effect fade-right
+				"plots/hub_dominance_histogram.png"
+			text
+				css
+					```
+					font-size: 0.9em;
+					```
+				animation effect fade-left
+				"Moyenne: 0.48 - 48% des dépendances via quelques noeuds"
+
+	slide "Annexe - Modification Isolation" as ContentSlide
+		text as titleTextTemplate
+			"Modification Isolation"
+		layoutBlock as contentBlockLayout
+			css
+				```
+				display: flex;
+				gap: 2rem;
+				align-items: center;
+				```
+			image
+				animation effect fade-right
+				"plots/modification_isolation_histogram.png"
+			text
+				css
+					```
+					font-size: 0.9em;
+					```
+				animation effect fade-left
+				"Moyenne: 0.29 - 71% de dépendances partagées"
+
+	slide "Annexe - Helper Justification" as ContentSlide
+		text as titleTextTemplate
+			"Helper Justification"
+		layoutBlock as contentBlockLayout
+			css
+				```
+				display: flex;
+				gap: 2rem;
+				align-items: center;
+				```
+			image
+				animation effect fade-right
+				"plots/helper_justification_ratio_histogram.png"
+			text
+				css
+					```
+					font-size: 0.9em;
+					```
+				animation effect fade-left
+				"Moyenne: 0.36 - 64% des helpers utilisés une seule fois"
+
+	slide "Annexe - Blast Radius Variance" as ContentSlide
+		text as titleTextTemplate
+			"Blast Radius Variance"
+		layoutBlock as contentBlockLayout
+			css
+				```
+				display: flex;
+				gap: 2rem;
+				align-items: center;
+				```
+			image
+				animation effect fade-right
+				"plots/blast_radius_variance_histogram.png"
+			text
+				css
+					```
+					font-size: 0.9em;
+					```
+				animation effect fade-left
+				"Moyenne: 7.58 - Impact modérément imprévisible"
+
+	slide "Annexe - Unguarded Nested Access" as ContentSlide
+		text as titleTextTemplate
+			"Unguarded Nested Access"
+		layoutBlock as contentBlockLayout
+			css
+				```
+				display: flex;
+				gap: 2rem;
+				align-items: center;
+				```
+			image
+				animation effect fade-right
+				"plots/unguarded_nested_access_histogram.png"
+			text
+				css
+					```
+					font-size: 0.9em;
+					```
+				animation effect fade-left
+				"Moyenne: 21.94 - ~22 accès risqués par chart"
+
+	slide "Annexe - Unquoted Strings" as ContentSlide
+		text as titleTextTemplate
+			"Unquoted Strings"
+		layoutBlock as contentBlockLayout
+			css
+				```
+				display: flex;
+				gap: 2rem;
+				align-items: center;
+				```
+			image
+				animation effect fade-right
+				"plots/unquoted_string_count_histogram.png"
+			text
+				css
+					```
+					font-size: 0.9em;
+					```
+				animation effect fade-left
+				"Moyenne: 28.77 - ~29 bugs silencieux potentiels"
+
+	slide "Annexe - Max Nesting Depth" as ContentSlide
+		text as titleTextTemplate
+			"Max Nesting Depth"
+		layoutBlock as contentBlockLayout
+			css
+				```
+				display: flex;
+				gap: 2rem;
+				align-items: center;
+				```
+			image
+				animation effect fade-right
+				"plots/max_nesting_depth_histogram.png"
+			text
+				css
+					```
+					font-size: 0.9em;
+					```
+				animation effect fade-left
+				"Moyenne: 2.87 - Acceptable mais limite"

@@ -1,0 +1,249 @@
+presentation python_basics_single with slideNumbers progressBar
+	slide "Python Basics" layout vertical h-align center v-align center
+		css
+			```
+			padding: 2.5rem;
+			```
+		text
+			css
+				```
+				font-size: 6rem;
+				font-weight: 800;
+				```
+			"Python Basics"
+		text
+			css
+				```
+				font-size: 2.5rem;
+				color: #4b5563;
+				```
+			"Variables • Control flow • Functions • Collections • Exceptions"
+
+	slide "1) Variables & types" layout vertical h-align start v-align start
+		css
+			```
+			padding: 2.5rem;
+			gap: 1.5rem;
+			```
+		text
+			css
+				```
+				font-size: 4rem;
+				font-weight: 800;
+				```
+			"1) Variables & types"
+		text
+			css
+				```
+				font-size: 2.4rem;
+				```
+			"Python est dynamiquement typé : le type est porté par la valeur."
+		code python
+			css
+				```
+				width: 100%;
+				height: 520px;
+				min-width: 900px;
+				```
+			highlight
+				- 1
+				- 2..3
+				- 5
+				- 6..8
+			```
+			x = 42
+			pi = 3.14
+			name = "Ada"
+			
+			print(type(x))
+			print(name.upper())
+			is_ok = True
+			items = [1, 2, 3]
+			```
+
+	slide "2) Contrôle de flux" layout vertical h-align start v-align start
+		css
+			```
+			padding: 2.5rem;
+			gap: 1.5rem;
+			```
+		text
+			css
+				```
+				font-size: 4rem;
+				font-weight: 800;
+				```
+			"2) Contrôle de flux"
+		text
+			css
+				```
+				font-size: 2.4rem;
+				```
+			"Highlighting par plages (ranges)"
+		code python
+			css
+				```
+				width: 100%;
+				height: 520px;
+				min-width: 900px;
+				```
+			highlight
+				- 1..4
+				- 6..8
+				- 10..12
+			```
+			n = 7
+			if n % 2 == 0:
+			    print("even")
+			else:
+			    print("odd")
+			
+			for i in range(3):
+			    print(i)
+			
+			count = 0
+			for j in range(2):
+			    count += 1
+			```
+
+	slide "3) Fonctions & f-strings" layout vertical h-align start v-align start
+		css
+			```
+			padding: 2.5rem;
+			gap: 1.5rem;
+			```
+		text
+			css
+				```
+				font-size: 4rem;
+				font-weight: 800;
+				```
+			"3) Fonctions & f-strings"
+		text
+			css
+				```
+				font-size: 2.4rem;
+				```
+			"Étapes: définition → appel → affichage."
+		code python
+			css
+				```
+				width: 100%;
+				height: 520px;
+				min-width: 900px;
+				```
+			highlight
+				- 1..4
+				- 6..7
+				- 8
+			```
+			def greet(name: str) -> str:
+			    # type hints (optionnels, utiles)
+			    return f"Hello, {name}!"
+			
+			user = "Rimel"
+			msg = greet(user)
+			print(msg)
+			```
+
+	slide "4) Collections (list/dict)" layout vertical h-align start v-align start
+		css
+			```
+			padding: 2.5rem;
+			gap: 1.5rem;
+			```
+		text
+			css
+				```
+				font-size: 4rem;
+				font-weight: 800;
+				```
+			"4) Collections (list/dict)"
+		text
+			css
+				```
+				font-size: 2.4rem;
+				```
+			"VisualHighlight: mêmes étapes que le code + images synchronisées."
+		code python
+			css
+				```
+				width: 100%;
+				height: 520px;
+				min-width: 900px;
+				```
+			visualHighlight
+				- 1..3 "waving-hand.svg"
+				- 5..6 "tools.svg"
+				- 8..9 "terminal.svg"
+			```
+			names = ["Ada", "Linus", "Guido"]
+			names.append("Grace")
+			first = names[0]
+			
+			ages = {"Ada": 36, "Linus": 54}
+			ages["Guido"] = 67
+			
+			for who, age in ages.items():
+			    print(who, age)
+			```
+
+	slide "5) Exceptions" layout vertical h-align start v-align start
+		css
+			```
+			padding: 2.5rem;
+			gap: 1.5rem;
+			```
+		text
+			css
+				```
+				font-size: 4rem;
+				font-weight: 800;
+				```
+			"5) Exceptions"
+		text
+			css
+				```
+				font-size: 2.4rem;
+				```
+			"Bon réflexe : attraper l’exception attendue, et gérer l’erreur."
+		code python
+			css
+				```
+				width: 100%;
+				height: 520px;
+				min-width: 900px;
+				```
+			highlight
+				- 1..2
+				- 4..5
+				- 7
+			```
+			try:
+			    value = int("not-a-number")
+			except ValueError as e:
+			    print("Conversion impossible")
+			    print(e)
+			
+			print("Fin du programme")
+			```
+
+	slide "Ressource vidéo (EN)" layout vertical h-align start v-align start
+		css
+			```
+			padding: 2.5rem;
+			gap: 1.5rem;
+			```
+		text
+			css
+				```
+				font-size: 4rem;
+				font-weight: 800;
+				```
+			"Tutoriel Python (anglais)"
+		video size w 100% h 70%
+			css
+				```
+				border: none;
+				```
+			"https://www.youtube.com/watch?v=K5KVEU3aaeQ"

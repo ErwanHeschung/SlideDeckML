@@ -1,0 +1,29 @@
+template rimelTemplate font Helvetica color #000000 with slideNumbers
+	slide TitleSlide layout vertical h-align center v-align center	
+		text titleTextTemplate type freetext
+			css
+				```
+				font-size: 6rem;
+				font-weight: bolder;
+				```
+		text authorTextTemplate type freetext
+			css
+				```
+				font-size: 4rem;
+				```	
+	slide ContentSlide layout vertical h-align start v-align start
+		css
+			```
+			padding: 2%;
+			```
+		text titleTextTemplate type freetext
+			css
+				```
+				font-size: 4rem;
+				font-weight: bold;
+				```	
+		layoutBlock contentBlockLayout layout vertical h-align start v-align start
+			css
+				```
+				font-size: 3rem;
+				```	

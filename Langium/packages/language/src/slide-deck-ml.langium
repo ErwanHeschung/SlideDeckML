@@ -246,7 +246,7 @@ SlideOption:
 
 
 SlideOptionValue returns string: 
-    'slideNumbers' | 'progressBar';
+    'slideNumbers' | 'progressBar' | 'liveAnnotations';
 
 //Layout Style
 

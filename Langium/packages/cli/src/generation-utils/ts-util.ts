@@ -28,6 +28,7 @@ interface AnalysisResult {
   hasMath: boolean;
   slideNumber: boolean;
   progress: boolean;
+  liveAnnotations: boolean;
 }
 
 
@@ -55,7 +56,7 @@ export function generateTs(presentation: Presentation): string {
     : "";
 
   const customListener = analysis.hasCode ? addCodeBlockListener() : "";
-  const liveAnnotations = addSlideAnnotationRuntime();
+  const liveAnnotations = analysis.liveAnnotations ? addSlideAnnotationRuntime() : "";
 
 
   return `
@@ -87,21 +88,24 @@ function analyzePresentation(pres: Presentation): AnalysisResult {
     hasCode: false,
     hasMath: false,
     slideNumber: false,
-    progress: false
+    progress: false,
+    liveAnnotations: false
   };
 
   if (pres.options?.options) {
     for (const opt of pres.options.options) {
       if (opt.value === 'slideNumbers') result.slideNumber = true;
       if (opt.value === 'progressBar') result.progress = true;
+      if (opt.value === 'liveAnnotations') result.liveAnnotations = true;
     }
   }
 
-  if (!result.slideNumber || !result.progress){
+  if (!result.slideNumber || !result.progress || !result.liveAnnotations){
     if (pres.templateRef?.ref?.options) {
       for (const opt of pres.templateRef?.ref.options.options) {
         if (opt.value === 'slideNumbers') result.slideNumber = true;
         if (opt.value === 'progressBar') result.progress = true;
+        if (opt.value === 'liveAnnotations') result.liveAnnotations = true;
       }
     }
   }

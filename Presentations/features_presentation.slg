@@ -59,7 +59,7 @@ presentation FeatureHighlights import FeaturesTemplate from "features_template.s
         text as subtitle
             animation effect fade-up index 1 durationMs 500
             "Draw during the presentation (temporary by default), and optionally save per step."
-        layoutBlock as content
+        layoutBlock as content size w 90%
             css
                 ```
                 font-size: 1.6rem;

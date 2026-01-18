@@ -76,7 +76,7 @@ presentation FeatureHighlights import FeaturesTemplate from "features_template.s
                 - "Clear, Save & Load buttons to manage your annotations"
             text
                 animation effect fade-in index 4 durationMs 500
-                "Toggle annotations with the ON/OFF button and draw directly on your slides!"
+                "Toggle annotations with the ON/OFF button (Press D) and draw directly on your slides!"
                 
     slide "Images & Media" as FeaturePresentationSlide
         text as title

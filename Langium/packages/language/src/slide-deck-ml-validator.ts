@@ -4,6 +4,7 @@ import {
     CssBlock, 
     isCodePlaceholder, 
     isLayoutPlaceholder, 
+    isMathPlaceholder, 
     isMediaPlaceholder, 
     isTextPlaceholder, 
     LayoutStyle, 
@@ -155,7 +156,7 @@ export class SlideDeckMlValidator {
         }
 
         if (contentType === 'MathBlock') {
-            if (!isCodePlaceholder(ref)) {
+            if (!isMathPlaceholder(ref)) {
                 accept('error', `'MathBlock' must reference a MathPlaceholder, but '${ref.name}' is a ${ref.$type}`, {
                     node: content,
                     property: 'contentTemplateRef'

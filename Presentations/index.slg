@@ -1,4 +1,4 @@
- presentation MyAwesomePres with slideNumbers
+presentation MyAwesomePres with slideNumbers
     slide "Intro"
         css 
             ```

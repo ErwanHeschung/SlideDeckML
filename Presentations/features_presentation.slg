@@ -70,7 +70,7 @@ presentation FeatureHighlights import FeaturesTemplate from "features_template.s
                 "To enable live slide annotations, include the liveAnnotations option in your presentation header. e.g: presentation MyDeck with liveAnnotations"
             ul
                 animation effect fade-up index 3 durationMs 500
-                - "A floating menu appears in the top-right corner with:"
+                - "A floating menu appears in the bottom-left corner with:"
                 - "Pen, Highlighter, Eraser tools"
                 - "Color palette to choose your annotation color"
                 - "Clear, Save & Load buttons to manage your annotations"

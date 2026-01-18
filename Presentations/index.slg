@@ -1,4 +1,4 @@
-presentation MyAwesomePres with slideNumbers
+ presentation MyAwesomePres with slideNumbers
     slide "Intro"
         css 
             ```
@@ -26,7 +26,7 @@ presentation MyAwesomePres with slideNumbers
                 ```
             text
                 animation effect fade-in index 0 durationMs 600
-                "ejaaija!"
+                "A test présentation!"
             text
                 css 
                     ```

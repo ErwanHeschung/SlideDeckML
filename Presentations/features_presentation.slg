@@ -1,4 +1,4 @@
-presentation FeatureHighlights import FeaturesTemplate from "features_template.slg"
+presentation FeatureHighlights import FeaturesTemplate from "features_template.slg" with liveAnnotations
 
     slide "Feature Highlights" as TitleSlide
         text as title
@@ -51,6 +51,32 @@ presentation FeatureHighlights import FeaturesTemplate from "features_template.s
                     rect x 5% y 47% w 20% h 20% label "Car" step 1
                     rect x 33% y 35% w 10% h 13% label "Tree" step 2
                     arrow x1 100% y1 48% x2 67% y2 47% label "Look here" step 3
+
+    slide "Live slide annotations" as FeaturePresentationSlide
+        text as title
+            animation effect zoom-in index 0 durationMs 600
+            "Live slide annotations"
+        text as subtitle
+            animation effect fade-up index 1 durationMs 500
+            "Draw during the presentation (temporary by default), and optionally save per step."
+        layoutBlock as content size w 90%
+            css
+                ```
+                font-size: 1.6rem;
+                line-height: 1.25;
+                ```
+            text
+                animation effect fade-up index 2 durationMs 500
+                "To enable live slide annotations, include the liveAnnotations option in your presentation header. e.g: presentation MyDeck with liveAnnotations"
+            ul
+                animation effect fade-up index 3 durationMs 500
+                - "A floating menu appears in the bottom-left corner with:"
+                - "Pen, Highlighter, Eraser tools"
+                - "Color palette to choose your annotation color"
+                - "Clear, Save & Load buttons to manage your annotations"
+            text
+                animation effect fade-in index 4 durationMs 500
+                "Toggle annotations with the ON/OFF button (Press D) and draw directly on your slides!"
                 
     slide "Images & Media" as FeaturePresentationSlide
         text as title
